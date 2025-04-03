@@ -1,17 +1,16 @@
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
+//#include <iostream>
+//#include <functional>
+#include "UserProfileUI.hpp"
 #include <iostream>
 
-struct UserInfo
-{
-	std::wstring id;
-	std::wstring nickname;
-	std::wstring rank;
-	std::wstring maxTpm;
-	std::wstring maxWpm;
-	std::wstring playTime;
-	std::wstring point;
 
-};
+// 나중에 추가
+//// 버튼 담을 구조체 
+//struct Button {
+//	sf::RectangleShape shape;
+//	std::function<void()> onClick;  // 클릭 시 실행할 동작
+//};
 
 // 결과창을 윈도우 비율에 맞게 만들기 위한 함수
 sf::RectangleShape makeRectangle(sf::RenderWindow& window, float widthRatio, float heightRatio)
@@ -74,13 +73,13 @@ sf::Vector2f getCenterXPosition(sf::Vector2f targetSize,
 }
 
 // 왼쪽 정렬
-sf::Vector2f LeftInnerAlign(sf::FloatRect& refBounds, float x_margin = 0.f)
+sf::Vector2f LeftInnerAlign(sf::FloatRect& refBounds, float x_margin)
 {
 	return { refBounds.position.x + x_margin, refBounds.position.y };
 }
 
 // 오른쪽 정렬
-sf::Vector2f RightInnerAlign(sf::Vector2f targetSize, sf::FloatRect& refBounds, float x_margin = 0.f)
+sf::Vector2f RightInnerAlign(sf::Vector2f targetSize, sf::FloatRect& refBounds, float x_margin)
 {
 	return { refBounds.position.x + refBounds.size.x - targetSize.x - x_margin, refBounds.position.y };
 }
@@ -98,7 +97,7 @@ sf::Image loadImg(std::wstring path)
 }
 
 // 이미지 리사이즈
-sf::Image resizeImageKeepAspect(const sf::Image& src, sf::Vector2u targetSize, sf::Color paddingColor = sf::Color::Transparent)
+sf::Image resizeImageKeepAspect(const sf::Image& src, sf::Vector2u targetSize, sf::Color paddingColor)
 {
 	sf::Vector2u srcSize = src.getSize();
 	float srcAspect = static_cast<float>(srcSize.x) / srcSize.y;
@@ -153,10 +152,10 @@ sf::Image resizeImageKeepAspect(const sf::Image& src, sf::Vector2u targetSize, s
 
 
 void initUI(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profileImg, UserInfo info,
-	std::vector<std::shared_ptr<sf::Drawable>>& drawables, std::vector<sf::Text>& profileTexts)
+	std::vector<std::shared_ptr<sf::Drawable>>& drawables, std::vector<sf::Text>& profileTexts, sf::FloatRect& loadButtonBound)
 {
 
-	// 윈도우 생성
+	// 사용자 프로필 창 생성
 	sf::RectangleShape profileBox_Frame = makeRectangle(window, 0.5f, 0.5f);
 
 	// 기준 객체 (프로필 배경창)
@@ -211,7 +210,7 @@ void initUI(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profileImg, Us
 
 
 	// 버튼 텍스트
-	sf::Text loadButtonText(font, L"프로필 이미지 선택", 18);
+	sf::Text loadButtonText(font, L"프로필 이미지 선택", 20);
 
 	// 프로필 위치 설정
 	center = profileBox_Image.getPosition();
@@ -226,6 +225,9 @@ void initUI(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profileImg, Us
 	box = loadButton.getGlobalBounds();
 	bounds = loadButtonText.getGlobalBounds();
 	loadButtonText.setPosition(getCenterPosition(bounds.size, box));
+	bounds = loadButton.getGlobalBounds();
+	loadButtonBound = bounds;
+
 
 	// 사용자 정보 텍스트
 	std::vector<std::pair<std::wstring, std::wstring>> profileStats = {
@@ -295,65 +297,66 @@ void initUI(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profileImg, Us
 
 
 
-int main()
-{
-	// 윈도우 생성
-	sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "My window");
-
-	// 폰트 설정
-	sf::Font font;
-	if (!font.openFromFile("assets/fonts/D2Coding.ttf")) {
-		std::wcerr << L"[ERROR] 폰트 로드 실패!" << std::endl;
-		return 1;
-	}
-
-	// 사용자 정보 받아옴 처음 한 번만
-	UserInfo info;
-	info.id = L"gimddanggu";
-	info.nickname = L"김땡구";
-	info.rank = L"1";
-	info.maxTpm = L"450";
-	info.maxWpm = L"30.4";
-	info.playTime = L"35";
-	info.point = L"230";
-
-	// 이것도 init에 넣고 싶었는데 잘 안됨..
-	std::vector<sf::Text> labelTexts;
-	std::vector<sf::Text> colonTexts;
-	std::vector<sf::Text> valueTexts;
-
-	// 기본 프로필 설정
-	std::wstring imgPath = L"assets/profile_img/default_avatar.png";
-	sf::Image profile = loadImg(imgPath);
-	sf::Image resizeProfileImage = resizeImageKeepAspect(profile, {200, 200});
-	sf::Texture texture(resizeProfileImage);
-	sf::Sprite imgSprite(texture);
-
-	std::vector<std::shared_ptr<sf::Drawable>> drawables;
-	std::vector<sf::Text> profileTexts;
-
-	initContainer(window, font, imgSprite, info, drawables, profileTexts);
-
-	while (window.isOpen())
-	{
-		while (const std::optional event = window.pollEvent())
-		{
-			// "close requested" event: we close the window
-			if (event->is<sf::Event::Closed>())
-				window.close();
-		}
-
-		window.clear();
-
-		// drawables 루프 돌면서 draw
-		for (auto& d : drawables)
-			window.draw(*d);
-
-		for (auto& text : profileTexts)
-			window.draw(text);
-
-		window.display();
-	}
-
-	return 0;
-}
+//int main()
+//{
+//	// 윈도우 생성
+//	sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "My window");
+//
+//	 //폰트 설정
+//	sf::Font font;
+//	if (!font.openFromFile("assets/fonts/D2Coding.ttf")) {
+//		std::wcerr << L"[ERROR] 폰트 로드 실패!" << std::endl;
+//		return 1;
+//	}
+//
+//	// 사용자 정보 받아옴 처음 한 번만
+//	UserInfo info;
+//	info.id = L"gimddanggu";
+//	info.nickname = L"김땡구";
+//	info.rank = L"1";
+//	info.maxTpm = L"450";
+//	info.maxWpm = L"30.4";
+//	info.playTime = L"35";
+//	info.point = L"230";
+//
+//
+//	// 기본 프로필 설정
+//	std::wstring imgPath = L"assets/profile_img/default_avatar.png";
+//	sf::Image profile = loadImg(imgPath);
+//	sf::Image resizeProfileImage = resizeImageKeepAspect(profile, {200, 200});
+//	sf::Texture texture(resizeProfileImage);
+//	sf::Sprite imgSprite(texture);
+//
+//	std::vector<std::shared_ptr<sf::Drawable>> drawables;
+//	std::vector<sf::Text> profileTexts;
+//	sf::FloatRect loadButtonBound;
+//	initUI(window, font, imgSprite, info, drawables, profileTexts, loadButtonBound);
+//
+//	while (window.isOpen())
+//	{
+//		while (const std::optional event = window.pollEvent())
+//		{
+//			// "close requested" event: we close the window
+//			if (event->is<sf::Event::Closed>())
+//				window.close();
+//
+//
+//			// 파일 불러오기 버튼 이벤트
+//
+//
+//		}
+//
+//		window.clear();
+//
+//		// drawables 루프 돌면서 draw
+//		for (auto& d : drawables)
+//			window.draw(*d);
+//
+//		for (auto& text : profileTexts)
+//			window.draw(text);
+//
+//		window.display();
+//	}
+//
+//	return 0;
+//}
