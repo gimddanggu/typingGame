@@ -152,10 +152,8 @@ sf::Image resizeImageKeepAspect(const sf::Image& src, sf::Vector2u targetSize, s
 
 
 
-void initContainer(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profileImg, UserInfo info,
-	std::vector<std::shared_ptr<sf::Drawable>>& drawables, std::vector<sf::Text>& labelTexts,
-	std::vector<sf::Text>& colonTexts,
-	std::vector<sf::Text>& valueTexts)
+void initUI(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profileImg, UserInfo info,
+	std::vector<std::shared_ptr<sf::Drawable>>& drawables, std::vector<sf::Text>& profileTexts)
 {
 
 	// 윈도우 생성
@@ -273,9 +271,9 @@ void initContainer(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profile
 		valueText.setFillColor(sf::Color::Black);
 		valueText.setPosition({ labelX + maxLabelWidth + gap * 2 + colonText.getGlobalBounds().size.x, y });
 
-		labelTexts.push_back(labelText);
-		colonTexts.push_back(colonText);
-		valueTexts.push_back(valueText);
+		profileTexts.push_back(labelText);
+		profileTexts.push_back(colonText);
+		profileTexts.push_back(valueText);
 	}
 
 
@@ -332,8 +330,9 @@ int main()
 	sf::Sprite imgSprite(texture);
 
 	std::vector<std::shared_ptr<sf::Drawable>> drawables;
-	initContainer(window, font, imgSprite, info, drawables,
-		labelTexts, colonTexts, valueTexts);
+	std::vector<sf::Text> profileTexts;
+
+	initContainer(window, font, imgSprite, info, drawables, profileTexts);
 
 	while (window.isOpen())
 	{
@@ -350,9 +349,8 @@ int main()
 		for (auto& d : drawables)
 			window.draw(*d);
 
-		for (const auto& text : labelTexts) window.draw(text);
-		for (const auto& text : colonTexts) window.draw(text);
-		for (const auto& text : valueTexts) window.draw(text);
+		for (auto& text : profileTexts)
+			window.draw(text);
 
 		window.display();
 	}
