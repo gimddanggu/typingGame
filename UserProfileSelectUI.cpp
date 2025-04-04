@@ -1,3 +1,4 @@
+#include "DrawUI.hpp"
 #include "UserProfileUI.hpp"
 #include "UserProfileSelectUI.hpp"
 #include <windows.h>

@@ -15,19 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="testui.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="UserProfileUI.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectImg.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="UserProfileSelectUI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ProfileUI.cpp">
+    <ClCompile Include="DrawUI.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="drawUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="mainLogic.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
