@@ -1,5 +1,4 @@
 #pragma once
-
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <memory>
@@ -35,6 +34,7 @@ sf::Image loadImg(std::wstring path);
 sf::Image resizeImageKeepAspect(const sf::Image& src, sf::Vector2u targetSize = {200, 200}, sf::Color paddingColor = sf::Color::Transparent);
 
 // UI 초기화 함수
-void initUI(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profileImg, UserInfo info,
+void initProfileUI(sf::RenderWindow& window, sf::Font& font,
+	sf::Sprite& profileImg, UserInfo info,
 	std::vector<std::shared_ptr<sf::Drawable>>& drawables,
-	std::vector<sf::Text>& profileTexts);
+	std::vector<sf::Text>& profileTexts,sf::FloatRect& loadButtonBound);

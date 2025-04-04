@@ -1,16 +1,7 @@
-//#include <SFML/Graphics.hpp>
-//#include <iostream>
-//#include <functional>
 #include "UserProfileUI.hpp"
+#include <SFML/Graphics.hpp>
 #include <iostream>
 
-
-// 나중에 추가
-//// 버튼 담을 구조체 
-//struct Button {
-//	sf::RectangleShape shape;
-//	std::function<void()> onClick;  // 클릭 시 실행할 동작
-//};
 
 // 결과창을 윈도우 비율에 맞게 만들기 위한 함수
 sf::RectangleShape makeRectangle(sf::RenderWindow& window, float widthRatio, float heightRatio)
@@ -88,11 +79,19 @@ sf::Vector2f RightInnerAlign(sf::Vector2f targetSize, sf::FloatRect& refBounds, 
 sf::Image loadImg(std::wstring path)
 {
 	sf::Image image;
-	if (!image.loadFromFile(path)) {
+	std::filesystem::path absPath = std::filesystem::absolute(path);
+
+	if (!image.loadFromFile(absPath.wstring())) {
+		std::wcerr << L"이미지 로드 실패!" << std::endl;
+		std::wcerr << L"입력된 경로: " << path << std::endl;
+		std::wcerr << L"절대 경로: " << absPath.wstring() << std::endl;
+		std::exit(EXIT_FAILURE);
+	}
+	/*if (!image.loadFromFile(path)) {
 		std::wcerr << L"이미지 로드 실패!" << std::endl;
 
 		std::exit(EXIT_FAILURE);
-	}
+	}*/
 	return image;
 }
 
@@ -151,11 +150,13 @@ sf::Image resizeImageKeepAspect(const sf::Image& src, sf::Vector2u targetSize, s
 
 
 
-void initUI(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profileImg, UserInfo info,
-	std::vector<std::shared_ptr<sf::Drawable>>& drawables, std::vector<sf::Text>& profileTexts, sf::FloatRect& loadButtonBound)
+void initProfileUI(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profileImg, UserInfo info,
+	std::vector<std::shared_ptr<sf::Drawable>>& drawables, 
+	std::vector<sf::Text>& profileTexts, 
+	sf::FloatRect& loadButtonBound)
 {
 
-	// 사용자 프로필 창 생성
+	// 윈도우 생성
 	sf::RectangleShape profileBox_Frame = makeRectangle(window, 0.5f, 0.5f);
 
 	// 기준 객체 (프로필 배경창)
@@ -225,9 +226,13 @@ void initUI(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profileImg, Us
 	box = loadButton.getGlobalBounds();
 	bounds = loadButtonText.getGlobalBounds();
 	loadButtonText.setPosition(getCenterPosition(bounds.size, box));
+	// 텍스트 위치 조정 (한글)
+	bounds = loadButtonText.getGlobalBounds();
+	loadButtonText.setPosition({ bounds.position.x, bounds.position.y - 6.f });
+	
+	// 버튼 이벤트를 위해 위치 받아옴
 	bounds = loadButton.getGlobalBounds();
 	loadButtonBound = bounds;
-
 
 	// 사용자 정보 텍스트
 	std::vector<std::pair<std::wstring, std::wstring>> profileStats = {
@@ -302,7 +307,7 @@ void initUI(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profileImg, Us
 //	// 윈도우 생성
 //	sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "My window");
 //
-//	 //폰트 설정
+//	// 폰트 설정
 //	sf::Font font;
 //	if (!font.openFromFile("assets/fonts/D2Coding.ttf")) {
 //		std::wcerr << L"[ERROR] 폰트 로드 실패!" << std::endl;
@@ -330,7 +335,7 @@ void initUI(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profileImg, Us
 //	std::vector<std::shared_ptr<sf::Drawable>> drawables;
 //	std::vector<sf::Text> profileTexts;
 //	sf::FloatRect loadButtonBound;
-//	initUI(window, font, imgSprite, info, drawables, profileTexts, loadButtonBound);
+//	initProfileUI(window, font, imgSprite, info, drawables, profileTexts, loadButtonBound);
 //
 //	while (window.isOpen())
 //	{
@@ -339,11 +344,6 @@ void initUI(sf::RenderWindow& window, sf::Font& font, sf::Sprite& profileImg, Us
 //			// "close requested" event: we close the window
 //			if (event->is<sf::Event::Closed>())
 //				window.close();
-//
-//
-//			// 파일 불러오기 버튼 이벤트
-//
-//
 //		}
 //
 //		window.clear();

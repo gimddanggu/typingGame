@@ -131,9 +131,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ProfileUI.cpp" />
     <ClCompile Include="SelectImg.cpp" />
     <ClCompile Include="testui.cpp" />
-    <ClCompile Include="test.cpp" />
     <ClCompile Include="UserProfileSelectUI.cpp" />
     <ClCompile Include="UserProfileUI.cpp" />
   </ItemGroup>
