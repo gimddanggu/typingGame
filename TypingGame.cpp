@@ -263,7 +263,7 @@ void drawOriginalText(sf::RenderWindow& window,
     std::vector<std::vector<std::wstring>>& displaySentences)
 {
     float startX = standardPos.x + 20.f;        // 노란 영역 패딩 20
-    float startY = standardPos.y;               // 노란 영역 패딩 20
+    float startY = standardPos.y;               
 
     float x = 30.f;
     float y = 50.f; // y를 누적해서 줄 간격 주기
