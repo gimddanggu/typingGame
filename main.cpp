@@ -9,6 +9,7 @@
 #include "FileLoader.hpp"
 #include "TextUtil.hpp"
 #include "TypingGame.hpp";
+#include "ResultScreen.hpp"
 #include <locale>
 #include <windows.h>
 
@@ -16,7 +17,13 @@
 #include <iomanip>  // std::hex, std::setw
 #include <codecvt>  // wide → utf8 변환 (선택)
 
-
+//bool showResultWindow(
+//    GameState& game,
+//    const sf::Font& font,
+//    int fontSize,
+//    std::vector<std::vector<std::wstring>>& sentences);
+//
+//void resetGameResult(GameState& game);
 
 int main() {
     // 로그 출력용
@@ -46,6 +53,8 @@ int main() {
         std::wcerr << L"[ERROR] 폰트 로드 실패!" << std::endl;
         return 1;
     }
+
+    int fontSize = game.user.fontSize;
     
     
     //// 프로필 이미지 로딩
@@ -87,6 +96,8 @@ int main() {
     // 메인 while 루프
     while (window.isOpen()) 
     {
+        std::wcout << L"[DEBUG] 현재 Scene: " << static_cast<int>(game.currentScene) << std::endl;
+
         while (const std::optional event = window.pollEvent())
         {
             // "close requested" event: we close the window
@@ -102,8 +113,7 @@ int main() {
     
     
 
-        // 이건 한번 확인해봐야 될 듯(?)
-        float elapsed = clock.getElapsedTime().asSeconds();
+        
         //updateGame(game, elapsed);  // GAME 상태에서만 처리되도록 내부 분기 가능
 
         window.clear(sf::Color::White);
@@ -124,13 +134,30 @@ int main() {
             auto now = std::chrono::high_resolution_clock::now();
             float elapsed = std::chrono::duration<float>(now - game.startTime).count();
             game.elapsedSeconds = elapsed;
-            renderGame(window, game, font, 18);         // UI 렌더링
+
+            if (game.readyToShowResult)
+                //game.progress = 100.f;
+                game.currentScene = Scene::RESULT;
+
+            renderGame(window, game, font, fontSize);         // UI 렌더링
             updateTypingStats(game, elapsed);           // 실시간 통계 업데이트
             break;
         }
-        case Scene::RESULT:
+        case Scene::RESULT: {
             //renderResult(window, game);
+            std::wcout << L"[DEBUG] 렌더링 RESULT 로 변경합니다." << std::endl;
+
+            bool bRstart = showResultWindow(game, font, fontSize, game.sentences);
+            if (bRstart) {
+                resetGameResult(game);  // 값 초기화
+                game.currentScene = Scene::TYPING_GAME;
+            }
+            else {
+                game.currentScene = Scene::MAIN_MENU;
+            }
+
             break;
+        }
         }
 
         window.display();
@@ -138,5 +165,9 @@ int main() {
 
     return 0;
 }
+
+
+
+
 
 

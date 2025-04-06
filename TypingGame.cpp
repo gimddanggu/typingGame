@@ -284,6 +284,7 @@ void drawOriginalText(sf::RenderWindow& window,
 }
 
 
+
 // --- 로직 ---
 void updateTypingStats(GameState& game, float elapsedSeconds)
 {
@@ -341,7 +342,13 @@ void moveToNextLineOrParagraph(GameState& game) {
     }
     else {
         std::wcout << L"[DEBUG] 마지막 문장 입력 완료! 결과 화면으로 넘어갈 준비." << std::endl;
-        // game.currentScene = Scene::RESULT;
+        updateTypingStats(game, game.elapsedSeconds);
+        game.result.gamePlayTime = game.elapsedSeconds;
+        game.result.avgTpm = game.tpm;
+        game.result.avgWpm = game.wpm;
+
+        game.readyToShowResult = true;
+        
     }
 }
 
@@ -362,6 +369,25 @@ void initUserInputsAndCorrectMap(GameState& game) {
     }
 }
 
+void resetGameResult(GameState& game) {
+    game.result = gameResult();  // 기본값으로 초기화
+
+    game.curPara = 0;
+    game.curLine = 0;
+    game.curChar = 0;
+
+    game.accuracy = 0.f;
+    game.wpm = 0.f;
+    game.tpm = 0.f;
+    game.progress = 0.f;
+    game.totalKeyPress = 0;
+
+    game.elapsedSeconds = 0.f;
+
+
+    initUserInputsAndCorrectMap(game);
+    game.started = false;
+}
 
 // --- 입력 처리 ---
 void handleInputGame(GameState& game, const sf::Event& event)

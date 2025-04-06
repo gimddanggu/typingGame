@@ -15,6 +15,7 @@ void drawUserInputText(sf::RenderWindow& window, const GameState& game, const sf
 void updateTypingStats(GameState& game, float elapsedSeconds);
 void moveToNextLineOrParagraph(GameState& game);
 void initUserInputsAndCorrectMap(GameState& game);
+void resetGameResult(GameState& game);
 
 // --- ют╥б ---
 void handleInputGame(GameState& game, const sf::Event& event);

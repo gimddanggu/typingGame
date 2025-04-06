@@ -39,6 +39,9 @@
     <ClCompile Include="TypingGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="ResultScreen.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.hpp">
@@ -54,6 +57,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="TextUtil.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultScreen.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

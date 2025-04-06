@@ -27,8 +27,16 @@ struct UserInfo {
   
 };
 
+struct gameResult {
+    float avgWpm = 0.f;
+    float avgTpm = 0.f;
+    float gamePlayTime = 0.f;
+};
+
 struct GameState {
     UserInfo user;
+    gameResult result;
+
     std::wstring selectPath;                                        // 사용자가 선택한 파일 경로
     std::vector<std::vector<std::wstring>> sentences;               // 선택한 파일 문장 벡터
     std::vector<std::vector<std::wstring>> userInputs;              // 사용자 입력 벡터
@@ -50,9 +58,11 @@ struct GameState {
     std::chrono::time_point<std::chrono::high_resolution_clock> startTime;      // 게임 시작 시간 - 정밀하게 하기 위해서
     float elapsedSeconds = 0.f;       // 경과 시간
 
+
+
     bool isPaused = false;          // 혹시 모를 일시정지 기능을 위해 
     bool bHangle = true;            // 한글 파일이면 true, 영어 파일이면 false
-
+    bool readyToShowResult = false; // 게임 끝나면 true
     Scene currentScene = Scene::MAIN_MENU;  // 전역 enum 사용
 
 
