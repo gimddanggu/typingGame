@@ -88,9 +88,26 @@ inline sf::Vector2f getWindowCenterPosition(const sf::RenderWindow& window, cons
 
     float x = centerX - targetBounds.size.x / 2.f;
     float y = centerY - targetBounds.size.y / 2.f;
+    /*std::cout << "x: " << x << "y:"<<  y << std::endl;
+    std::cout << "x: " << window.getSize().x << "y:" << window.getSize().y << std::endl;*/
 
     return { x, y };
 }
+
+//// 가운데 정렬 - 윈도우 기준 - 리사이즈 버전
+//inline sf::Vector2f getWindowCenterPosition(const sf::RenderWindow& window, const sf::FloatRect& targetBounds)
+//{
+//    float centerX = window.getSize().x / 2.f;
+//    float centerY = window.getSize().y / 2.f;
+//
+//    float x = centerX - targetBounds.size.x / 2.f;
+//    float y = centerY - targetBounds.size.y / 2.f;
+//    std::cout << "x: " << x << "y:" << y << std::endl;
+//    std::cout << "x: " << window.getSize().x << "y:" << window.getSize().y << std::endl;
+//
+//    return { x, y };
+//}
+
 
 // XY 중앙정렬 (버튼에 텍스트)
 inline sf::Vector2f getCenterPosition(const sf::Vector2f& targetSize, const sf::FloatRect& container)

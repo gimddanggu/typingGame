@@ -10,6 +10,9 @@
 #include "TextUtil.hpp"
 #include "TypingGame.hpp";
 #include "ResultScreen.hpp"
+#include "DrawUIR.hpp"
+#include "FileSelectList.hpp"
+
 #include <locale>
 #include <windows.h>
 
@@ -17,18 +20,13 @@
 #include <iomanip>  // std::hex, std::setw
 #include <codecvt>  // wide → utf8 변환 (선택)
 
-//bool showResultWindow(
-//    GameState& game,
-//    const sf::Font& font,
-//    int fontSize,
-//    std::vector<std::vector<std::wstring>>& sentences);
-//
-//void resetGameResult(GameState& game);
+
 
 int main() {
     // 로그 출력용
     //SetConsoleOutputCP(CP_UTF8);               // 콘솔 UTF-8 설정
     std::wcout.imbue(std::locale(""));         // 유니코드 로케일 설정
+    
 
 
     sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "Typing Game");
@@ -67,14 +65,14 @@ int main() {
     game.selectPath = L"assets/hangleFile/애국가.txt";
 
     // 파일 경로를 받아오면 2차원 벡터로 변환하는 과정
-    std::wstring content = loadText(game.selectPath);
-    std::vector<std::wstring> lines = splitStrtoVector(content);
-    auto wrapped = wrapAllLinesToPixelWidth(lines, font, game.user.fontSize, 1280.f);       // 이건 노란색 창의 크기를 받아와야 하는데
-    game.sentences = wrapped;
+    //std::wstring content = loadText(game.selectPath);
+    //std::vector<std::wstring> lines = splitStrtoVector(content);
+    //auto wrapped = wrapAllLinesToPixelWidth(lines, font, game.user.fontSize, 1280.f);       // 이건 노란색 창의 크기를 받아와야 하는데
+    //game.sentences = wrapped;
 
 
-    // input, correctMap 초기화
-    initUserInputsAndCorrectMap(game);
+    //// input, correctMap 초기화
+    //initUserInputsAndCorrectMap(game);
     
 
     // 게임 기록 - 일단 임의로 초기화
@@ -87,34 +85,74 @@ int main() {
     // 현제 플레이어의 게임 화면 저장
     //game.currentScene = Scene::MAIN_MENU; // 초기값 줬으므로 필요 x 나중에 복사용으로 남겨뒀음
     
-    game.currentScene = Scene::TYPING_GAME; // 초기값 줬으므로 필요 x 나중에 복사용으로 남겨뒀음
+    game.currentScene = Scene::FILE_SELECT; // 초기값 줬으므로 필요 x 나중에 복사용으로 남겨뒀음
     //TYPING_GAME
 
     // 플레이 타임 기록용(?)
     sf::Clock clock;
     
+
+    // 파일 목록용 테스트 변수
+    std::vector<FileOption> fileOptions;
+    std::wstring selectMod = L"한글";
+    std::vector<std::wstring> typingFilePath;
+
+    typingFilePath = {
+            L"assets/typing/한글1.txt",
+            L"assets/typing/한글2.txt",
+            L"assets/typing/english.txt",
+            L"assets/typing/coding.cpp",
+            L"assets/typing/한글1.txt",
+            L"assets/typing/한글2.txt",
+            L"assets/typing/english.txt",
+            L"assets/typing/coding.cpp",
+            L"assets/typing/coding.cpp",
+            L"assets/typing/한글1.txt",
+
+    };
+
+
+
+
     // 메인 while 루프
     while (window.isOpen()) 
     {
-        std::wcout << L"[DEBUG] 현재 Scene: " << static_cast<int>(game.currentScene) << std::endl;
+        //std::wcout << L"[DEBUG] 현재 Scene: " << static_cast<int>(game.currentScene) << std::endl;
+        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+        sf::Vector2f worldPos = window.mapPixelToCoords(mousePos);
 
         while (const std::optional event = window.pollEvent())
         {
+            //// 리사이즈 이벤트
+            //if (event->is < sf::Event::Resized>()) {
+            //    const auto* resizeEvent = event->getIf<sf::Event::Resized>();
+            //    sf::Vector2u newSize(resizeEvent->size.x, resizeEvent->size.y);
+            //    game.windowSize = newSize;
+            //    std::wcout << L"[DEBUG] 윈도우 크기 갱신됨: " << newSize.x << L"x" << newSize.y << std::endl;
+            //}
+
             // "close requested" event: we close the window
             if (event->is<sf::Event::Closed>())
                 window.close();
             switch (game.currentScene) {
-            case Scene::TYPING_GAME:
+            case Scene::FILE_SELECT: {
+                handleFileClick(game, *event, worldPos, fileOptions, font);
+                break;
+            }         
+            case Scene::TYPING_GAME: 
                 // Scene별 입력 처리
                 handleInputGame(game, *event);
-
+                break;
             }
-        }
-    
-    
 
+        }
+
+        // HOVER 효과
+        if (game.currentScene == Scene::FILE_SELECT) {
+            hoverText(game, fileOptions, worldPos);
+        }
         
-        //updateGame(game, elapsed);  // GAME 상태에서만 처리되도록 내부 분기 가능
+
 
         window.clear(sf::Color::White);
 
@@ -123,9 +161,10 @@ int main() {
         case Scene::MAIN_MENU:
             //renderMenu(window, game);
             break;
-        case Scene::FILE_SELECT:
-            //renderFileSelect(window, game);
+        case Scene::FILE_SELECT: {
+            renderFileList(window, game, font, fontSize, typingFilePath, fileOptions, selectMod);
             break;
+        }
         case Scene::TYPING_GAME: {
             if (game.currentScene == Scene::TYPING_GAME && !game.started) {
                 game.startTime = std::chrono::high_resolution_clock::now();     // 게임 시작 시간 저장
@@ -153,7 +192,7 @@ int main() {
                 game.currentScene = Scene::TYPING_GAME;
             }
             else {
-                game.currentScene = Scene::MAIN_MENU;
+                game.currentScene = Scene::FILE_SELECT;
             }
 
             break;

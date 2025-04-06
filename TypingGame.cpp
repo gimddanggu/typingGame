@@ -6,11 +6,15 @@
 #include <iomanip>
 
 // --- 렌더링 ---
-void renderGame(sf::RenderWindow& window, const GameState& game, const sf::Font& font, int fontSize)
+void renderGame(sf::RenderWindow& window, GameState& game, const sf::Font& font, int fontSize)
 {
     // UI 배치를 위한 프레임 생성
     // 윈도우 크기의 사각형 생성
-    sf::RectangleShape winRact({ 1280, 720 });
+    sf::Vector2f winSizeF(
+        static_cast<float>(window.getSize().x),
+        static_cast<float>(window.getSize().y)
+    );
+    sf::RectangleShape winRact(winSizeF);
     sf::FloatRect winRactBounds = winRact.getGlobalBounds();
     sf::RectangleShape typingArea = makeRectangle(window, 0.66f, 0.9f);
     sf::RectangleShape gState = makeRectangle(window, 0.25f, 0.52f);
@@ -29,6 +33,9 @@ void renderGame(sf::RenderWindow& window, const GameState& game, const sf::Font&
     sf::Vector2f pfImgSize = pfImg.getSize();
     sf::Vector2f gStateSize = gState.getSize();
     sf::Vector2f typingAreaSize = typingArea.getSize();
+
+    sf::FloatRect typingAreaBounds = typingArea.getGlobalBounds();
+    game.typingAreaWidth = typingAreaBounds.size.x;
 
     // 오른쪽 아래 정렬
     //sf::Vector2f btnSize = loadBtn.getGlobalBounds().size;
@@ -164,9 +171,7 @@ void renderGame(sf::RenderWindow& window, const GameState& game, const sf::Font&
     }
 
 
-    // 가져온 파일 
-    // 파일 내용 그리기
-    //originalTextDraw = drawOriginalText(window, font, 18, bHangle, fileAllLines);     // bHangle = true 이면 한글
+
 
     // 컨테이너 draw
     //window.draw(pfImg);
@@ -370,7 +375,7 @@ void initUserInputsAndCorrectMap(GameState& game) {
 }
 
 void resetGameResult(GameState& game) {
-    game.result = gameResult();  // 기본값으로 초기화
+    game.result = GameResult();  // 기본값으로 초기화
 
     game.curPara = 0;
     game.curLine = 0;

@@ -42,6 +42,15 @@
     <ClCompile Include="ResultScreen.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="TypingFileSelectUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawUIR.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSelectList.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.hpp">
@@ -60,6 +69,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ResultScreen.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawUIR.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSelectList.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

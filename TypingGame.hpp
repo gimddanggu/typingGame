@@ -4,7 +4,7 @@
 #include "GameState.hpp"
 
 // --- ·»´õ¸µ ---
-void renderGame(sf::RenderWindow& window, const GameState& game, const sf::Font& font, int fontSize);
+void renderGame(sf::RenderWindow& window, GameState& game, const sf::Font& font, int fontSize);
 void drawOriginalText(sf::RenderWindow& window, const GameState& game, const sf::Font& font, int fontSize,
     sf::Vector2f standardPos, std::vector<std::vector<std::wstring>>& displaySentences);
 void drawUserInputText(sf::RenderWindow& window, const GameState& game, const sf::Font& font, int fontSize,

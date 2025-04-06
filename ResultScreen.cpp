@@ -66,7 +66,6 @@ bool showResultWindow(
                     resultWindow.close();
                     game.readyToShowResult = false;
                     return false;   // 메인 메뉴로 돌아갈 경우
-                    //game.currentScene = Scene::MAIN_MENU;
                     //window.close();
                 }
             }
