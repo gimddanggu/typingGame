@@ -68,10 +68,13 @@ struct GameState {
     std::chrono::time_point<std::chrono::high_resolution_clock> startTime;      // 게임 시작 시간 - 정밀하게 하기 위해서
     float elapsedSeconds = 0.f;       // 경과 시간
 
+    sf::Clock cursorTimer;     // 커서 깜빡임용 타이머
+    bool showCursor = true;    // 깜빡임 토글용
+
     float typingAreaWidth = 1280 * 0.66f;
 
     bool isPaused = false;          // 혹시 모를 일시정지 기능을 위해 
-    bool bHangle = true;            // 한글 파일이면 true, 영어 파일이면 false
+    bool bHangle = false;            // 한글 파일이면 true, 영어 파일이면 false
     bool readyToShowResult = false; // 게임 끝나면 true
 
     Scene currentScene = Scene::MAIN_MENU;  // 전역 enum 사용

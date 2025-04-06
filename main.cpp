@@ -21,6 +21,29 @@
 #include <codecvt>  // wide → utf8 변환 (선택)
 
 
+void debugPrintSentences(const std::vector<std::vector<std::wstring>>& sentences) {
+    for (size_t i = 0; i < sentences.size(); ++i) {
+        std::wcout << L"[문장 그룹 " << i << L"]\n";
+        for (size_t j = 0; j < sentences[i].size(); ++j) {
+            const std::wstring& line = sentences[i][j];
+            std::wcout << L"  줄 " << j << L": \"" << line << L"\"\n";
+            for (size_t k = 0; k < line.size(); ++k) {
+                wchar_t ch = line[k];
+                std::wstring type;
+                if (ch == L' ')
+                    type = L"공백";
+                else if (ch == L'\t')
+                    type = L"탭";
+                else
+                    type = L"일반";
+
+                std::wcout << L"    [" << k << L"] '" << (ch == L' ' ? L'공백' : (ch == L'\t' ? L'tap' : ch))
+                    << L"' (" << type << L")\n";
+            }
+        }
+    }
+}
+
 
 int main() {
     // 로그 출력용
@@ -62,18 +85,7 @@ int main() {
     //else {
     //    std::wcout << L"프로필 이미지 로딩 실패!" << std::endl;
     //}
-    game.selectPath = L"assets/hangleFile/애국가.txt";
-
-    // 파일 경로를 받아오면 2차원 벡터로 변환하는 과정
-    //std::wstring content = loadText(game.selectPath);
-    //std::vector<std::wstring> lines = splitStrtoVector(content);
-    //auto wrapped = wrapAllLinesToPixelWidth(lines, font, game.user.fontSize, 1280.f);       // 이건 노란색 창의 크기를 받아와야 하는데
-    //game.sentences = wrapped;
-
-
-    //// input, correctMap 초기화
-    //initUserInputsAndCorrectMap(game);
-    
+    game.selectPath = L"assets/hangleFile/애국가.txt";    
 
     // 게임 기록 - 일단 임의로 초기화
     game.user.point = 1234;
@@ -98,11 +110,11 @@ int main() {
     std::vector<std::wstring> typingFilePath;
 
     typingFilePath = {
-            L"assets/typing/한글1.txt",
-            L"assets/typing/한글2.txt",
-            L"assets/typing/english.txt",
-            L"assets/typing/coding.cpp",
-            L"assets/typing/한글1.txt",
+            L"C:/Source/IoT-C-2025/Day02/c03.conditional Statements.c",
+            L"C:/Source/IoT-C-2025/Day02/c04.loop Statements.c",
+            L"C:/Source/IoT-python-2025/day04/py03_module.py",
+            L"C:/Source/IoT-python-2025/day02/py02_datastruct.py",
+            L"C://Users//Admin//Downloads//TypingTest_EnglishOnly.java",
             L"assets/typing/한글2.txt",
             L"assets/typing/english.txt",
             L"assets/typing/coding.cpp",
@@ -111,12 +123,19 @@ int main() {
 
     };
 
+    /* \t 확인용 코드 */
+    std::wstring content = loadText(typingFilePath[4]);
+    std::vector<std::wstring> lines = splitStrtoVector(content);
+    //std::cout << "[DEBUG] typingAreaWith: " << game.typingAreaWidth << '\n';
+    game.sentences = wrapAllLinesToPixelWidth(lines, font, game.user.fontSize, game.typingAreaWidth);
 
 
+    debugPrintSentences(game.sentences);
 
     // 메인 while 루프
     while (window.isOpen()) 
     {
+        //std::wcout << L"[DEBUG] 현재 Scene: ";
         //std::wcout << L"[DEBUG] 현재 Scene: " << static_cast<int>(game.currentScene) << std::endl;
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         sf::Vector2f worldPos = window.mapPixelToCoords(mousePos);
@@ -180,6 +199,7 @@ int main() {
 
             renderGame(window, game, font, fontSize);         // UI 렌더링
             updateTypingStats(game, elapsed);           // 실시간 통계 업데이트
+            updateGame(game);
             break;
         }
         case Scene::RESULT: {
