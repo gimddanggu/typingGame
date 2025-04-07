@@ -12,7 +12,8 @@
 #include "ResultScreen.hpp"
 #include "DrawUIR.hpp"
 #include "FileSelectList.hpp"
-
+#include "UserProfileUI.hpp"
+#include "UserProfileSelectUI.hpp"
 #include <locale>
 #include <windows.h>
 
@@ -51,7 +52,7 @@ int main() {
     std::wcout.imbue(std::locale(""));         // 유니코드 로케일 설정
     
 
-
+    // 윈도우 생성 
     sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "Typing Game");
 
     GameState game;
@@ -60,14 +61,13 @@ int main() {
     //game.user.profileImagePath = "images/profile.png";
     //game.user.loadProfileImage();
 
+    
+
     // 테스트 용 임시 유저 정보
     game.user.id = L"test_user_001";
     game.user.nickname = L"타자마스터";
     game.user.profileImagePath = L"assets/profile_img/default_avatar.png";
 
-    sf::Image img = loadImg(game.user.profileImagePath);
-    game.user.profileTexture = sf::Texture(resizeImageKeepAspect(img));
-    
     // 폰트 설정
     sf::Font font;
     if (!font.openFromFile("assets/fonts/D2Coding.ttf")) {
@@ -76,8 +76,18 @@ int main() {
     }
 
     int fontSize = game.user.fontSize;
-    
-    
+
+    // 기본 프로필 이미지 로드
+    sf::Image img = loadImg(game.user.profileImagePath);
+    game.user.profileTexture = sf::Texture(resizeImageKeepAspect(img));
+    sf::Sprite userImage(game.user.profileTexture);
+
+    std::vector<sf::Sprite> sprites;            // 이건 삭제 고민
+    std::vector<ImageOption> imageOptions;      // 추가함 
+    std::vector<FileOption> fileOptions;
+    std::vector<std::wstring> typingFilePath;
+    std::wstring selectMod = L"한글";
+
     //// 프로필 이미지 로딩
     //if (game.user.profileTexture.loadFromFile(game.user.profileImagePath)) {
     //    // 로딩 성공
@@ -85,6 +95,7 @@ int main() {
     //else {
     //    std::wcout << L"프로필 이미지 로딩 실패!" << std::endl;
     //}
+
     game.selectPath = L"assets/hangleFile/애국가.txt";    
 
     // 게임 기록 - 일단 임의로 초기화
@@ -97,19 +108,13 @@ int main() {
     // 현제 플레이어의 게임 화면 저장
     //game.currentScene = Scene::MAIN_MENU; // 초기값 줬으므로 필요 x 나중에 복사용으로 남겨뒀음
     
-    game.currentScene = Scene::FILE_SELECT; // 초기값 줬으므로 필요 x 나중에 복사용으로 남겨뒀음
+    game.currentScene = Scene::PROFILE; // 초기값 줬으므로 필요 x 나중에 복사용으로 남겨뒀음
     //TYPING_GAME
-
-    // 플레이 타임 기록용(?)
-    sf::Clock clock;
     
 
-    // 파일 목록용 테스트 변수
-    std::vector<FileOption> fileOptions;
-    std::wstring selectMod = L"한글";
-    std::vector<std::wstring> typingFilePath;
 
-    typingFilePath = {
+
+    /*typingFilePath = {
             L"C:/Source/IoT-C-2025/Day02/c03.conditional Statements.c",
             L"C:/Source/IoT-C-2025/Day02/c04.loop Statements.c",
             L"C:/Source/IoT-python-2025/day04/py03_module.py",
@@ -121,14 +126,26 @@ int main() {
             L"assets/typing/coding.cpp",
             L"assets/typing/한글1.txt",
 
+    };*/
+
+    typingFilePath = {
+        L"C:\\Users\\Admin\\Documents\\카카오톡 받은 파일"
     };
 
     /* \t 확인용 코드 */
-    std::wstring content = loadText(typingFilePath[4]);
-    std::vector<std::wstring> lines = splitStrtoVector(content);
-    //std::cout << "[DEBUG] typingAreaWith: " << game.typingAreaWidth << '\n';
-    game.sentences = wrapAllLinesToPixelWidth(lines, font, game.user.fontSize, game.typingAreaWidth);
+    //std::wstring content = loadText(typingFilePath[4]);
+    //std::vector<std::wstring> lines = splitStrtoVector(content);
+    ////std::cout << "[DEBUG] typingAreaWith: " << game.typingAreaWidth << '\n';
+    //game.sentences = wrapAllLinesToPixelWidth(lines, font, game.user.fontSize, game.typingAreaWidth);
+    // 
+    // 프로필 선택 hover 효과
+    sf::RectangleShape thumbnailHoverOutline;
+    thumbnailHoverOutline.setSize({ 200, 200 }); // 썸네일 크기에 맞게
+    thumbnailHoverOutline.setFillColor(sf::Color::Transparent);
+    thumbnailHoverOutline.setOutlineColor(sf::Color::Red);
+    thumbnailHoverOutline.setOutlineThickness(4.f);
 
+    std::vector<sf::Text> profileTexts;
 
     debugPrintSentences(game.sentences);
 
@@ -154,16 +171,80 @@ int main() {
             if (event->is<sf::Event::Closed>())
                 window.close();
             switch (game.currentScene) {
+            case Scene::PROFILE: {
+                if (const auto* mouse = event->getIf<sf::Event::MouseButtonPressed>()){
+                    if (mouse->button == sf::Mouse::Button::Left) {
+                        if (game.showImageOverlay) {
+                            for (int i = 0; i < sprites.size(); ++i) {
+                                if (sprites[i].getGlobalBounds().contains(worldPos)) {
+                                    imageOptions[i].onClick();
+                                    
+                                }
+                            }
+
+                            // 불러오기 버튼 클릭 확인
+                            if (game.btn.loadImgBtnBounds.contains(worldPos)) {
+                                std::wcout << L"[불러오기 버튼 클릭됨]" << std::endl;
+                                auto originalPath = std::filesystem::current_path();	// 현재 폴더 경로 저장
+                                std::wstring selectedImagePath = openImageFileDialog();
+                                std::filesystem::current_path(originalPath);  // 다시 원래 경로로 되돌림 - 선택된 폴더 경로로 바뀌는 거 방지
+                                sf::Image image;
+                                if (image.loadFromFile(selectedImagePath)) {
+                                    // 성공 처리
+                                    std::wcout << L"[이미지를 성공적으로 불러왔습니다]" << std::endl;
+                                    std::wcout << selectedImagePath << std::endl;
+                                    game.user.profileImagePath = selectedImagePath;
+                                    updateProfileImage(selectedImagePath, game, userImage);
+                                    game.showImageOverlay = false;
+                                    game.currentScene = Scene::PROFILE;
+
+
+                                }
+                                else {
+                                    std::wcout << L"[이미지를 불러오지 못했습니다]" << std::endl;
+                                    return -1;
+                                }
+
+                            }   // HOVER 이벤트
+                            
+                        }
+                        if (game.btn.selectImgBtnBounds.contains(worldPos)) {
+                            game.showImageOverlay = true;
+                            std::cout << 1 << std::endl;
+                        }
+                    }
+                }
+
+                else if (const auto* move = event->getIf<sf::Event::MouseMoved>()) {
+                    sf::Vector2f mousePos = window.mapPixelToCoords(move->position);
+                    game.bHoveringThumbnail = false;
+
+                    for (int i = 0; i < sprites.size(); ++i) {
+                        if (sprites[i].getGlobalBounds().contains(mousePos)) {
+                            /*thumbnailHoverOutline.setPosition(sprites[i].getPosition());
+                            thumbnailHoverOutline.setScale(sprites[i].getScale());*/
+                            sf::FloatRect bounds = sprites[i].getGlobalBounds();
+                            thumbnailHoverOutline.setPosition(bounds.position);
+                            thumbnailHoverOutline.setSize(bounds.size);
+                            game.bHoveringThumbnail = true;
+                            break;
+                        }
+                    }
+                }
+                break;
+
+                
+            }
             case Scene::FILE_SELECT: {
                 handleFileClick(game, *event, worldPos, fileOptions, font);
                 break;
-            }         
-            case Scene::TYPING_GAME: 
+            }
+            case Scene::TYPING_GAME: {
                 // Scene별 입력 처리
                 handleInputGame(game, *event);
                 break;
             }
-
+            }
         }
 
         // HOVER 효과
@@ -171,6 +252,9 @@ int main() {
             hoverText(game, fileOptions, worldPos);
         }
         
+        /*if (game.currentScene == Scene::IMAGESELECT) {
+            hoverImg(game, fileOptions, worldPos);
+        }*/
 
 
         window.clear(sf::Color::White);
@@ -180,6 +264,16 @@ int main() {
         case Scene::MAIN_MENU:
             //renderMenu(window, game);
             break;
+        case Scene::PROFILE: {
+            renderProfile(window, game, font, fontSize, userImage, profileTexts);       
+            // profileTexts 이거 나중에 프로필 기록 나타낼 때 일단 필요
+
+            if (game.showImageOverlay) {
+                renderSelectImage(window, game, font, imageOptions, sprites, userImage, thumbnailHoverOutline);  // 프로필 이미지 선택 화면 겹쳐서 그림
+            }
+            break;
+        }
+
         case Scene::FILE_SELECT: {
             renderFileList(window, game, font, fontSize, typingFilePath, fileOptions, selectMod);
             break;
@@ -224,9 +318,3 @@ int main() {
 
     return 0;
 }
-
-
-
-
-
-

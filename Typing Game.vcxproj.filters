@@ -42,13 +42,16 @@
     <ClCompile Include="ResultScreen.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TypingFileSelectUI.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="DrawUIR.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="FileSelectList.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UserProfileUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UserProfileSelectUI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -75,6 +78,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="FileSelectList.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UserProfileUI.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UserProfileSelectUI.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

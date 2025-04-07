@@ -140,9 +140,10 @@
     <ClCompile Include="ResultScreen.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="TextUtil.cpp" />
-    <ClCompile Include="TypingFileSelectUI.cpp" />
     <ClCompile Include="TypingGame.cpp" />
     <ClCompile Include="TypingGame.hpp" />
+    <ClCompile Include="UserProfileSelectUI.cpp" />
+    <ClCompile Include="UserProfileUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DrawUI.hpp" />
@@ -153,6 +154,8 @@
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="TextUtil.hpp" />
     <ClInclude Include="UIAlign.hpp" />
+    <ClInclude Include="UserProfileSelectUI.hpp" />
+    <ClInclude Include="UserProfileUI.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
