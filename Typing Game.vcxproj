@@ -138,7 +138,7 @@
     <ClCompile Include="GameState.hpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ResultScreen.cpp" />
-    <ClCompile Include="TajaMain.cpp" />
+    <ClCompile Include="TajaMainUI.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="TextUtil.cpp" />
     <ClCompile Include="TypingGame.cpp" />
@@ -153,6 +153,7 @@
     <ClInclude Include="FileSelectList.hpp" />
     <ClInclude Include="ResultScreen.hpp" />
     <ClInclude Include="Scene.hpp" />
+    <ClInclude Include="TajaMainUI.hpp" />
     <ClInclude Include="TextUtil.hpp" />
     <ClInclude Include="UIAlign.hpp" />
     <ClInclude Include="UserProfileSelectUI.hpp" />
