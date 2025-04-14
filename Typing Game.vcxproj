@@ -138,6 +138,7 @@
     <ClCompile Include="GameState.hpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ResultScreen.cpp" />
+    <ClCompile Include="TajaMain.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="TextUtil.cpp" />
     <ClCompile Include="TypingGame.cpp" />
