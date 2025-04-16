@@ -44,3 +44,5 @@ void initTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, Taj
 void tajaMenuHandeler(sf::RenderWindow& window, GameState& game, TajaMenuUI& ui, const std::optional<sf::Event>& event);
 
 void renderTajaMenu(sf::RenderWindow& window, TajaMenuUI& ui);
+
+

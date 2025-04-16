@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <functional>
 #include "DrawUIR.hpp"
+#include "DrawUI.hpp"
 #include "UIAlign.hpp"
 #include "GameState.hpp"
 
@@ -112,9 +113,7 @@ void initTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, Taj
         btn.label.setString(mainMenuLabels[i]);
 
         btn.onClick = [&game, label = mainMenuLabels[i]]() {
-            //std::wcout << label;
-            //wprintf(L"[클릭됨] %ls\n", label.c_str());
-            //std::cout << "[클릭됨] " << wstringToUtf8(label) << std::endl;
+
             std::wcout << L"[씬 이동] " << label << std::endl;
             game.currentScene = Scene::FILE_SELECT;
             };
@@ -155,18 +154,16 @@ void initTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, Taj
     sf::Texture profileTexture = game.user.profileTexture;
     sf::Vector2u profileTextureSize = profileTexture.getSize();
 
-    // 스프라이트 프레임에 맞추는 작업
-    float scaleX = imgFrameSize.x / profileTextureSize.x;
-    float scaleY = imgFrameSize.y / profileTextureSize.y;
+
+   
     ui.profileSprite.setTexture(game.user.profileTexture);
-    ui.profileSprite.setScale({ scaleX, scaleY });
-    ui.profileSprite.setPosition({20, 20});
+    ui.profileSprite.setScale(setSpriteScale(imgFrameSize, profileTexture));
+    ui.profileSprite.setPosition({ 20, 20 });
 
 
     // 닉네임 추가
     sf::Text nickname(font, game.user.nickname, 30);
     AlignTextCenterY(nickname, nickFrame.getGlobalBounds(), {10, 0});
-    //nickname.setPosition({ 20 + 10 + imgFrameSize.x, 20 });
     nickname.setFillColor(sf::Color::White);
     ui.nicknameText = nickname;
 
