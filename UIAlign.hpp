@@ -80,6 +80,20 @@ inline void AlignTextCenter(
     text.setPosition(box.position + offset);
 }
 
+inline void AlignTextCenterY(
+    sf::Text& text,
+    const sf::FloatRect& box,
+    const sf::Vector2f& margin = { 0.f, 0.f }
+) {
+    sf::FloatRect textBounds = text.getGlobalBounds();
+
+    sf::Vector2f offset;
+    offset.x = textBounds.position.x + margin.x;
+    offset.y = (box.size.y - textBounds.size.y) / 2.f - textBounds.position.y + margin.y;
+
+    text.setPosition(box.position + offset);
+}
+
 // 가운데 정렬 - 윈도우 기준
 inline sf::Vector2f getWindowCenterPosition(const sf::RenderWindow& window, const sf::FloatRect& targetBounds)
 {
