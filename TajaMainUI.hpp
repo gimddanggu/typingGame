@@ -26,8 +26,10 @@ struct MenuButton {
 struct TajaMenuUI {
     std::vector<MenuButton> mainMenuButtons;
     MenuButton logoutButton;
+    sf::Sprite profileSprite;
+    sf::Text nicknameText;
 
-    TajaMenuUI(const sf::Font& font) : logoutButton(font) {}
+    TajaMenuUI(const sf::Font& font, const sf::Texture& texture) : logoutButton(font), profileSprite(texture), nicknameText(font) {}
 };
 
 void drawBtn(sf::RenderWindow& window, MenuButton& btn);
@@ -37,7 +39,7 @@ void menuHover(std::vector<MenuButton>& buttons, sf::Vector2f mousePos);
 
 void logoutHover(MenuButton& button, sf::Vector2f mousePos);
 
-void InitMainMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, TajaMenuUI& ui);
+void InitTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, TajaMenuUI& ui);
 
 void TajaMenuHandeler(sf::RenderWindow& window, GameState& game, TajaMenuUI& ui, const std::optional<sf::Event>& event);
 

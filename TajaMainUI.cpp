@@ -51,8 +51,13 @@ struct MenuButton {
 struct TajaMenuUI {
     std::vector<MenuButton> mainMenuButtons;
     MenuButton logoutButton;
+    sf::Sprite profileSprite;
+    sf::Text nicknameText;
 
-    TajaMenuUI(const sf::Font& font) : logoutButton(font) {}
+    
+
+
+    TajaMenuUI(const sf::Font& font, const sf::Texture& texture) : logoutButton(font), profileSprite(texture), nicknameText(font){}
 };
 
 void drawBtn(sf::RenderWindow& window, MenuButton& btn) {
@@ -89,7 +94,7 @@ void logoutHover(MenuButton& button, sf::Vector2f mousePos) {
     }
 }
 
-void InitMainMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, TajaMenuUI& ui) {
+void InitTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, TajaMenuUI& ui) {
     sf::RectangleShape mFrame = makeRectangleR(window, 0.4f, 0.5f, sf::Color::Transparent, sf::Color::Transparent, 3.0f);
     sf::FloatRect frameBounds = mFrame.getGlobalBounds();
     sf::Vector2f frameSize = mFrame.getSize();
@@ -97,7 +102,6 @@ void InitMainMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, Taj
     sf::Vector2 framePos = getWindowCenterPosition(window, frameBounds); // 가운데 정렬
     mFrame.setPosition(framePos);
 
-    //std::vector<MenuButton> mainMenuButtons;
     std::vector<std::wstring> mainMenuLabels = { L"> 한글연습", L"> 영어연습", L"> 코딩연습", L"> 타자대결" };
 
 
@@ -135,6 +139,39 @@ void InitMainMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, Taj
     ui.logoutButton = logoutButton;
     // 랭킹 버튼 생성 // 아이콘만 있었나?
     //MenuButton rankingButton(font);
+
+    // 프로필 버튼 생성
+    sf::RectangleShape profileFrame = makeRectangleR(window, 0.25f, 0.18f, sf::Color::Transparent, sf::Color::Green, 3.0f);
+    profileFrame.setPosition({ 20, 20 });   // padding
+    sf::Vector2f profileFrameSize = profileFrame.getSize();
+    sf::RectangleShape imgFrame({ profileFrameSize.y, profileFrameSize.y });
+    imgFrame.setOutlineColor(sf::Color::Yellow);
+    imgFrame.setOutlineThickness(3);
+    imgFrame.setPosition({ 20, 20 });
+    sf::Vector2f imgFrameSize = imgFrame.getSize();
+
+    sf::RectangleShape nickFrame({ profileFrameSize.x - imgFrameSize.x, profileFrameSize.y / 3 });
+    nickFrame.setPosition({ 20 + imgFrameSize.x, 20});
+    sf::Texture profileTexture = game.user.profileTexture;
+    sf::Vector2u profileTextureSize = profileTexture.getSize();
+
+    // 스프라이트 프레임에 맞추는 작업
+    float scaleX = imgFrameSize.x / profileTextureSize.x;
+    float scaleY = imgFrameSize.y / profileTextureSize.y;
+    ui.profileSprite.setTexture(game.user.profileTexture);
+    ui.profileSprite.setScale({ scaleX, scaleY });
+    ui.profileSprite.setPosition({20, 20});
+
+
+    // 닉네임 추가
+    sf::Text nickname(font, game.user.nickname, 30);
+    AlignTextCenterY(nickname, nickFrame.getGlobalBounds(), {10, 0});
+    //nickname.setPosition({ 20 + 10 + imgFrameSize.x, 20 });
+    nickname.setFillColor(sf::Color::White);
+    ui.nicknameText = nickname;
+
+    
+
 }
 
 void TajaMenuHandeler(sf::RenderWindow& window, GameState& game, TajaMenuUI& ui, const std::optional<sf::Event>& event) {
@@ -149,6 +186,10 @@ void TajaMenuHandeler(sf::RenderWindow& window, GameState& game, TajaMenuUI& ui,
         }
 
         if (ui.logoutButton.contains(clickPos)) ui.logoutButton.onClick();
+        else if (ui.profileSprite.getGlobalBounds().contains(clickPos)) {
+            std::wcout << L"[클릭] 프로필 클릭!" << std::endl;
+            game.currentScene = Scene::PROFILE;
+        }
     }
 }
 
@@ -158,5 +199,9 @@ void renderTajaMenu(sf::RenderWindow& window, TajaMenuUI& ui) {
     }
 
     drawBtn(window, ui.logoutButton);
+
+    window.draw(ui.profileSprite);
+    window.draw(ui.nicknameText);
+
 }
 

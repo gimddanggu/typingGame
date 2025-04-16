@@ -10,7 +10,7 @@
 struct UserInfo {
     std::wstring id;
     std::wstring nickname;
-    std::wstring profileImagePath = L"assets/profile_img/default_avatar.png";
+    std::wstring profileImagePath = L"assets/profile_img/profile_img.png";
     sf::Texture profileTexture;
     int fontSize = 18;
     int point = 0;

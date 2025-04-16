@@ -86,14 +86,13 @@ int main() {
     backgroundSprite.setScale({ scaleX, scaleY });
 
 
-    TajaMenuUI ui(font1);
-    InitMainMenu(window, game, font1, ui);
+    
     // 메인 메뉴 초기화 끝
 
     // 테스트 용 임시 유저 정보
     game.user.id = L"test_user_001";
-    game.user.nickname = L"타자마스터";
-    game.user.profileImagePath = L"assets/profile_img/default_avatar.png";
+    game.user.nickname = L"인순이";
+    game.user.profileImagePath = L"assets/profile_img/crok2.png";
 
     // 폰트 설정 d2
     sf::Font font;
@@ -135,12 +134,13 @@ int main() {
 
     
     game.currentScene = Scene::MAIN_MENU; // 초기값 줬으므로 필요 x 나중에 복사용으로 남겨뒀음
-    //TYPING_GAME
-    
+
+    TajaMenuUI ui(font1, game.user.profileTexture);
+    InitTajaMenu(window, game, font1, ui);
 
 
     // 목록확인 테스트용 
-    /*typingFilePath = {
+    typingFilePath = {
             L"C:/Source/IoT-C-2025/Day02/c03.conditional Statements.c",
             L"C:/Source/IoT-C-2025/Day02/c04.loop Statements.c",
             L"C:/Source/IoT-python-2025/day04/py03_module.py",
@@ -152,11 +152,11 @@ int main() {
             L"assets/typing/coding.cpp",
             L"assets/typing/한글1.txt",
 
-    };*/
-
-    typingFilePath = {
-        L"C:\\Users\\Admin\\Documents\\카카오톡 받은 파일"
     };
+
+    /*ypingFilePath = {
+        L"C:\\Users\\Admin\\Documents\\카카오톡 받은 파일"
+    };*/
 
     /* \t 확인용 코드 */
     //std::wstring content = loadText(typingFilePath[4]);
@@ -184,12 +184,7 @@ int main() {
         // hover 및 버튼 이벤트를 위해 마우스 위치 저장
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         sf::Vector2f worldPos = window.mapPixelToCoords(mousePos);
-        // 호버함수용 switch
-        switch (game.currentScene) {
-        case Scene::MAIN_MENU: {
-            
-        }
-        }
+
 
         while (const std::optional event = window.pollEvent())
         {
