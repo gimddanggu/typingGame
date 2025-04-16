@@ -17,5 +17,5 @@ sf::RectangleShape makeRectangle(sf::FloatRect& frameBounds, float widthRatio, f
 // 이미지 로드 및 리사이즈
 sf::Image loadImg(std::wstring path);
 sf::Image resizeImageKeepAspect(const sf::Image& src, sf::Vector2u targetSize = { 200, 200 }, sf::Color paddingColor = sf::Color::Transparent);
-
+sf::Vector2f setSpriteScale(sf::Vector2f imgFrameSize, sf::Texture texture);
 

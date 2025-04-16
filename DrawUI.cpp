@@ -113,3 +113,14 @@ sf::Image resizeImageKeepAspect(const sf::Image& src, sf::Vector2u targetSize, s
 }
 
 
+sf::Vector2f setSpriteScale(sf::Vector2f imgFrameSize, sf::Texture texture) {
+
+	sf::Vector2u textureSize = texture.getSize();
+
+	float scaleX = imgFrameSize.x / textureSize.x;
+	float scaleY = imgFrameSize.y / textureSize.y;
+
+	return { scaleX, scaleY };
+
+}
+
