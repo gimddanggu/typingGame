@@ -14,6 +14,7 @@
 #include "FileSelectList.hpp"
 #include "UserProfileUI.hpp"
 #include "UserProfileSelectUI.hpp"
+#include "TajaMainUI.hpp"
 #include <locale>
 #include <windows.h>
 
@@ -21,7 +22,7 @@
 #include <iomanip>  // std::hex, std::setw
 #include <codecvt>  // wide → utf8 변환 (선택)
 
-
+// 디버그 확인용 함수
 void debugPrintSentences(const std::vector<std::vector<std::wstring>>& sentences) {
     for (size_t i = 0; i < sentences.size(); ++i) {
         std::wcout << L"[문장 그룹 " << i << L"]\n";
@@ -54,26 +55,52 @@ int main() {
 
     // 윈도우 생성 
     sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "Typing Game");
-
+    
+    // 게임상태 저장  구조체
     GameState game;
-    // 로그인 성공하면 유저 정보 초기화
-    //game.user.nickname = L"Player1";
-    //game.user.profileImagePath = "images/profile.png";
-    //game.user.loadProfileImage();
+    // 메인 메뉴 초기화
+    // 폰트 불러옴
+    sf::Font font1;
+    if (!font1.openFromFile("assets/fonts/DungGeunMo.ttf")) {
+        std::wcerr << L"[ERROR] 폰트 로드 실패!" << std::endl;
+        return 1;
+    }
+
+
+    // 배경 이미지
+    sf::Texture backgroundTexture;
+    if (!backgroundTexture.loadFromFile("assets/resorce_img/background_sunset.png")) {
+        std::wcerr << L"[ERROR] 폰트 로드 실패!" << std::endl;
+        return 1;
+    }
+
+    sf::Sprite backgroundSprite(backgroundTexture);
+
+    // 윈도우 크기 기준으로 스프라이트 크기 조정
+    sf::Vector2u windowSize = window.getSize();
+    sf::Vector2u textureSize = backgroundTexture.getSize();
+
+    float scaleX = static_cast<float>(windowSize.x) / textureSize.x;
+    float scaleY = static_cast<float>(windowSize.y) / textureSize.y;
+
+    backgroundSprite.setScale({ scaleX, scaleY });
+
 
     
+    // 메인 메뉴 초기화 끝
 
     // 테스트 용 임시 유저 정보
     game.user.id = L"test_user_001";
-    game.user.nickname = L"타자마스터";
-    game.user.profileImagePath = L"assets/profile_img/default_avatar.png";
+    game.user.nickname = L"인순이";
+    game.user.profileImagePath = L"assets/profile_img/crok2.png";
 
-    // 폰트 설정
+    // 폰트 설정 d2
     sf::Font font;
     if (!font.openFromFile("assets/fonts/D2Coding.ttf")) {
         std::wcerr << L"[ERROR] 폰트 로드 실패!" << std::endl;
         return 1;
     }
+
 
     int fontSize = game.user.fontSize;
 
@@ -105,16 +132,15 @@ int main() {
     game.user.totalPlayCount = 12;
     game.user.totalPlayTime = 983.7f;
 
-    // 현제 플레이어의 게임 화면 저장
-    //game.currentScene = Scene::MAIN_MENU; // 초기값 줬으므로 필요 x 나중에 복사용으로 남겨뒀음
     
-    game.currentScene = Scene::PROFILE; // 초기값 줬으므로 필요 x 나중에 복사용으로 남겨뒀음
-    //TYPING_GAME
-    
+    game.currentScene = Scene::MAIN_MENU; // 초기값 줬으므로 필요 x 나중에 복사용으로 남겨뒀음
+
+    TajaMenuUI ui(font1, game.user.profileTexture);
+    InitTajaMenu(window, game, font1, ui);
 
 
-
-    /*typingFilePath = {
+    // 목록확인 테스트용 
+    typingFilePath = {
             L"C:/Source/IoT-C-2025/Day02/c03.conditional Statements.c",
             L"C:/Source/IoT-C-2025/Day02/c04.loop Statements.c",
             L"C:/Source/IoT-python-2025/day04/py03_module.py",
@@ -126,11 +152,11 @@ int main() {
             L"assets/typing/coding.cpp",
             L"assets/typing/한글1.txt",
 
-    };*/
-
-    typingFilePath = {
-        L"C:\\Users\\Admin\\Documents\\카카오톡 받은 파일"
     };
+
+    /*ypingFilePath = {
+        L"C:\\Users\\Admin\\Documents\\카카오톡 받은 파일"
+    };*/
 
     /* \t 확인용 코드 */
     //std::wstring content = loadText(typingFilePath[4]);
@@ -154,24 +180,22 @@ int main() {
     {
         //std::wcout << L"[DEBUG] 현재 Scene: ";
         //std::wcout << L"[DEBUG] 현재 Scene: " << static_cast<int>(game.currentScene) << std::endl;
+
+        // hover 및 버튼 이벤트를 위해 마우스 위치 저장
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         sf::Vector2f worldPos = window.mapPixelToCoords(mousePos);
 
+
         while (const std::optional event = window.pollEvent())
         {
-            //// 리사이즈 이벤트
-            //if (event->is < sf::Event::Resized>()) {
-            //    const auto* resizeEvent = event->getIf<sf::Event::Resized>();
-            //    sf::Vector2u newSize(resizeEvent->size.x, resizeEvent->size.y);
-            //    game.windowSize = newSize;
-            //    std::wcout << L"[DEBUG] 윈도우 크기 갱신됨: " << newSize.x << L"x" << newSize.y << std::endl;
-            //}
-
-            // "close requested" event: we close the window
             if (event->is<sf::Event::Closed>())
                 window.close();
+
             switch (game.currentScene) {
-            case Scene::PROFILE: {
+            case Scene::MAIN_MENU: {
+                TajaMenuHandeler(window, game, ui, event);
+            }
+            case Scene::PROFILE: {  // 프로필 창 이벤트
                 if (const auto* mouse = event->getIf<sf::Event::MouseButtonPressed>()){
                     if (mouse->button == sf::Mouse::Button::Left) {
                         if (game.showImageOverlay) {
@@ -239,7 +263,7 @@ int main() {
                 handleFileClick(game, *event, worldPos, fileOptions, font);
                 break;
             }
-            case Scene::TYPING_GAME: {
+            case Scene::TYPING_GAME: {  // 기본타자연습 이벤트
                 // Scene별 입력 처리
                 handleInputGame(game, *event);
                 break;
@@ -251,6 +275,10 @@ int main() {
         if (game.currentScene == Scene::FILE_SELECT) {
             hoverText(game, fileOptions, worldPos);
         }
+        else if (game.currentScene == Scene::MAIN_MENU) {
+            menuHover(ui.mainMenuButtons, worldPos);
+            logoutHover(ui.logoutButton, worldPos);
+        }
         
         /*if (game.currentScene == Scene::IMAGESELECT) {
             hoverImg(game, fileOptions, worldPos);
@@ -261,9 +289,11 @@ int main() {
 
         // 씬에 따라 그리기
         switch (game.currentScene) {
-        case Scene::MAIN_MENU:
-            //renderMenu(window, game);
+        case Scene::MAIN_MENU: {
+            window.draw(backgroundSprite);
+            renderTajaMenu(window, ui);
             break;
+        }
         case Scene::PROFILE: {
             renderProfile(window, game, font, fontSize, userImage, profileTexts);       
             // profileTexts 이거 나중에 프로필 기록 나타낼 때 일단 필요
