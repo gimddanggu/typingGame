@@ -6,8 +6,8 @@ enum class Scene {
     LOGIN,
     SIGNUP,
     MAIN_MENU,      // 처음 화면, 사용자 프로필 포함
-    PROFILE,
-    IMAGESELECT,
+    PROFILE,        // 프로필 화면
+    PROFILE_SELECT, // 프로필 이미지 선택화면
     SETTING,
     FILE_SELECT,    // 파일 목록 선택 화면
     TYPING_GAME,    // 실제 게임 화면
