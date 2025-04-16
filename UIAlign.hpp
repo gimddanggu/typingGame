@@ -80,6 +80,20 @@ inline void AlignTextCenter(
     text.setPosition(box.position + offset);
 }
 
+inline void AlignTextXCenter(
+    sf::Text& text,
+    const sf::FloatRect& box,
+    const sf::Vector2f& margin = { 0.f, 0.f }
+) {
+    sf::FloatRect textBounds = text.getGlobalBounds();
+
+    sf::Vector2f offset;
+    offset.x = (box.size.x - textBounds.size.x) / 2.f - textBounds.position.x + margin.x;
+    offset.y = textBounds.position.y + margin.y;
+
+    text.setPosition(box.position + offset);
+}
+
 inline void AlignTextCenterY(
     sf::Text& text,
     const sf::FloatRect& box,
@@ -120,24 +134,24 @@ inline sf::Vector2f getCenterPosition(const sf::Vector2f& targetSize, const sf::
 // 어떤 객체 기준 x 축 가운데 정렬
 inline sf::Vector2f getCenterXPosition(sf::Vector2f targetSize,
     const sf::FloatRect& refBounds,
-    float y)
+    float Ypadding = 0.f)
 {
     float x = refBounds.position.x + (refBounds.size.x - targetSize.x) / 2.f;
-    return { x, y };
+    return { x, refBounds.position.y + Ypadding};
 }
 
 // 왼쪽 정렬
-inline sf::Vector2f LeftInnerAlign(sf::FloatRect& refBounds, float x_margin)
+inline sf::Vector2f LeftInnerAlign(sf::FloatRect& refBounds, float x_margin = 0.f)
 {
     return { refBounds.position.x + x_margin, refBounds.position.y };
 }
 
 // 오른쪽 정렬
-inline sf::Vector2f RightInnerAlign(sf::Vector2f targetSize, sf::FloatRect& refBounds, float x_margin)
+inline sf::Vector2f RightInnerAlign(sf::Vector2f targetSize, sf::FloatRect& refBounds, float x_margin = 0.f)
 {
     return { refBounds.position.x + refBounds.size.x - targetSize.x - x_margin, refBounds.position.y };
 }
-inline sf::Vector2f RightInnerAlign(sf::FloatRect& targetBounds, sf::FloatRect& refBounds, float x_margin)
+inline sf::Vector2f RightInnerAlign(const sf::FloatRect& targetBounds, const sf::FloatRect& refBounds, float x_margin = 0.f)
 {
 
     return { refBounds.position.x + refBounds.size.x - targetBounds.size.x - x_margin, refBounds.position.y };
