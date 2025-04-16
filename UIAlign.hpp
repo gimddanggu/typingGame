@@ -50,6 +50,22 @@ inline sf::Vector2f AlignPosition(
     return { x, y };
 }
 
+inline sf::Vector2f AlignToWindowPosition(
+    const sf::RenderWindow& window,
+    const sf::Vector2f& targetSize,
+    AlignX alignX,
+    AlignY alignY,
+    float x_margin = 0.f,
+    float y_margin = 0.f
+) {
+    sf::FloatRect windowBounds(
+        { 0.f, 0.f },
+        { static_cast<float>(window.getSize().x),
+        static_cast<float>(window.getSize().y) }
+    );
+    return AlignPosition(targetSize, windowBounds, alignX, alignY, x_margin, y_margin);
+}
+
 // 일반 Drawable 객체 정렬
 template<typename Drawable>
 void AlignTo(
@@ -62,6 +78,26 @@ void AlignTo(
 ) {
     sf::Vector2f size = drawable.getGlobalBounds().size;
     sf::Vector2f pos = AlignPosition(size, refBounds, alignX, alignY, x_margin, y_margin);
+    drawable.setPosition(pos);
+}
+
+template<typename Drawable>
+void AlignToWindow(
+    Drawable& drawable,
+    const sf::RenderWindow& window,
+    AlignX alignX,
+    AlignY alignY,
+    float x_margin = 0.f,
+    float y_margin = 0.f
+) {
+    sf::FloatRect windowBounds(
+        { 0.f, 0.f },
+        { static_cast<float>(window.getSize().x),
+        static_cast<float>(window.getSize().y) }
+    );
+
+    sf::Vector2f size = drawable.getGlobalBounds().size;
+    sf::Vector2f pos = AlignPosition(size, windowBounds, alignX, alignY, x_margin, y_margin);
     drawable.setPosition(pos);
 }
 
