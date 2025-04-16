@@ -94,7 +94,7 @@ void logoutHover(MenuButton& button, sf::Vector2f mousePos) {
     }
 }
 
-void InitTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, TajaMenuUI& ui) {
+void initTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, TajaMenuUI& ui) {
     sf::RectangleShape mFrame = makeRectangleR(window, 0.4f, 0.5f, sf::Color::Transparent, sf::Color::Transparent, 3.0f);
     sf::FloatRect frameBounds = mFrame.getGlobalBounds();
     sf::Vector2f frameSize = mFrame.getSize();
@@ -174,7 +174,7 @@ void InitTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, Taj
 
 }
 
-void TajaMenuHandeler(sf::RenderWindow& window, GameState& game, TajaMenuUI& ui, const std::optional<sf::Event>& event) {
+void tajaMenuHandeler(sf::RenderWindow& window, GameState& game, TajaMenuUI& ui, const std::optional<sf::Event>& event) {
     if (auto mouse = event->getIf<sf::Event::MouseButtonPressed>()) {
         sf::Vector2f clickPos = window.mapPixelToCoords({ mouse->position.x, mouse->position.y });
 

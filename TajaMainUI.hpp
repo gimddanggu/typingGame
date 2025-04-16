@@ -39,8 +39,8 @@ void menuHover(std::vector<MenuButton>& buttons, sf::Vector2f mousePos);
 
 void logoutHover(MenuButton& button, sf::Vector2f mousePos);
 
-void InitTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, TajaMenuUI& ui);
+void initTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, TajaMenuUI& ui);
 
-void TajaMenuHandeler(sf::RenderWindow& window, GameState& game, TajaMenuUI& ui, const std::optional<sf::Event>& event);
+void tajaMenuHandeler(sf::RenderWindow& window, GameState& game, TajaMenuUI& ui, const std::optional<sf::Event>& event);
 
 void renderTajaMenu(sf::RenderWindow& window, TajaMenuUI& ui);
