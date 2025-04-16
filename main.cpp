@@ -12,7 +12,7 @@
 #include "ResultScreen.hpp"
 #include "DrawUIR.hpp"
 #include "FileSelectList.hpp"
-#include "UserProfileUI.hpp"
+#include "ProfileUI.hpp"
 #include "UserProfileSelectUI.hpp"
 #include "TajaMainUI.hpp"
 #include <locale>
@@ -59,7 +59,7 @@ int main() {
     // 게임상태 저장  구조체
     GameState game;
     // 메인 메뉴 초기화
-    // 폰트 불러옴
+    // 폰트 불러옴 (픽셀느낌)
     sf::Font font1;
     if (!font1.openFromFile("assets/fonts/DungGeunMo.ttf")) {
         std::wcerr << L"[ERROR] 폰트 로드 실패!" << std::endl;
@@ -89,12 +89,26 @@ int main() {
     
     // 메인 메뉴 초기화 끝
 
+    // 뒤로가기 버튼 생성
+    sf::Texture backBtnTexture;
+    backBtnTexture.loadFromFile("assets/resorce_img/backButton.png");
+
+    // 뒤로가기 버튼
+    sf::RectangleShape backBtnFrame = makeRectangleR(window, 0.08f, 0.12f, sf::Color::Green);
+    AlignToWindow(backBtnFrame, window, AlignX::Right, AlignY::Bottom, 20, 20); // 윈도우 오른쪽 아래 정렬 
+    sf::Vector2f backBtnPos = backBtnFrame.getPosition();
+    sf::Vector2f backBtnSize = backBtnFrame.getSize();
+
+    sf::Sprite backBtnSprite(backBtnTexture);
+    backBtnSprite.setScale(setSpriteScale(backBtnSize, backBtnTexture));
+    backBtnSprite.setPosition(backBtnPos);
+
     // 테스트 용 임시 유저 정보
     game.user.id = L"test_user_001";
     game.user.nickname = L"인순이";
     game.user.profileImagePath = L"assets/profile_img/crok2.png";
 
-    // 폰트 설정 d2
+    // 폰트 설정 d2coding
     sf::Font font;
     if (!font.openFromFile("assets/fonts/D2Coding.ttf")) {
         std::wcerr << L"[ERROR] 폰트 로드 실패!" << std::endl;
@@ -134,11 +148,13 @@ int main() {
 
     
     game.currentScene = Scene::MAIN_MENU; // 초기값 줬으므로 필요 x 나중에 복사용으로 남겨뒀음
-
+    // 메인메뉴 초기화
     TajaMenuUI ui(font1, game.user.profileTexture);
-    InitTajaMenu(window, game, font1, ui);
-
-
+    initTajaMenu(window, game, font1, ui);
+    // 프로필 초기화
+    ProfileUI pUI(font, game.user.profileTexture, backBtnTexture);
+    pUI.backBtn = backBtnSprite;
+    initProfile(window, game, font1, pUI);
     // 목록확인 테스트용 
     typingFilePath = {
             L"C:/Source/IoT-C-2025/Day02/c03.conditional Statements.c",
@@ -153,6 +169,11 @@ int main() {
             L"assets/typing/한글1.txt",
 
     };
+
+    
+
+    
+
 
     /*ypingFilePath = {
         L"C:\\Users\\Admin\\Documents\\카카오톡 받은 파일"
@@ -193,7 +214,7 @@ int main() {
 
             switch (game.currentScene) {
             case Scene::MAIN_MENU: {
-                TajaMenuHandeler(window, game, ui, event);
+                tajaMenuHandeler(window, game, ui, event);
             }
             case Scene::PROFILE: {  // 프로필 창 이벤트
                 if (const auto* mouse = event->getIf<sf::Event::MouseButtonPressed>()){
@@ -232,10 +253,7 @@ int main() {
                             }   // HOVER 이벤트
                             
                         }
-                        if (game.btn.selectImgBtnBounds.contains(worldPos)) {
-                            game.showImageOverlay = true;
-                            std::cout << 1 << std::endl;
-                        }
+                        profileHandeler(window, game, pUI, event);
                     }
                 }
 
@@ -295,7 +313,8 @@ int main() {
             break;
         }
         case Scene::PROFILE: {
-            renderProfile(window, game, font, fontSize, userImage, profileTexts);       
+            renderProfile(window, pUI);
+            window.draw(backBtnSprite);
             // profileTexts 이거 나중에 프로필 기록 나타낼 때 일단 필요
 
             if (game.showImageOverlay) {

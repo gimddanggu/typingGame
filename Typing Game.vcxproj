@@ -135,29 +135,30 @@
     <ClCompile Include="DrawUIR.cpp" />
     <ClCompile Include="FileLoader.cpp" />
     <ClCompile Include="FileSelectList.cpp" />
-    <ClCompile Include="GameState.hpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ResultScreen.cpp" />
     <ClCompile Include="TajaMainUI.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="ProfileUI.cpp" />
     <ClCompile Include="TextUtil.cpp" />
     <ClCompile Include="TypingGame.cpp" />
-    <ClCompile Include="TypingGame.hpp" />
     <ClCompile Include="UserProfileSelectUI.cpp" />
-    <ClCompile Include="UserProfileUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DrawUI.hpp" />
     <ClInclude Include="DrawUIR.hpp" />
     <ClInclude Include="FileLoader.hpp" />
     <ClInclude Include="FileSelectList.hpp" />
+    <ClInclude Include="GameState.hpp" />
     <ClInclude Include="ResultScreen.hpp" />
     <ClInclude Include="Scene.hpp" />
+    <ClInclude Include="StringFormat.hpp" />
     <ClInclude Include="TajaMainUI.hpp" />
     <ClInclude Include="TextUtil.hpp" />
+    <ClInclude Include="TypingGame.hpp" />
     <ClInclude Include="UIAlign.hpp" />
+    <ClInclude Include="ProfileUI.hpp" />
     <ClInclude Include="UserProfileSelectUI.hpp" />
-    <ClInclude Include="UserProfileUI.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
