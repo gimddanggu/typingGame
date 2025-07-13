@@ -19,24 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\DrawUI.hpp" />
-    <ClInclude Include="Src\DrawUIR.hpp" />
-    <ClInclude Include="Src\FileLoader.hpp" />
-    <ClInclude Include="Src\FileSelectList.hpp" />
-    <ClInclude Include="Src\GameState.hpp" />
-    <ClInclude Include="Src\ResultScreen.hpp" />
-    <ClInclude Include="Src\Scene.hpp" />
-    <ClInclude Include="Src\TajaMainUI.hpp" />
-    <ClInclude Include="Src\TextUtil.hpp" />
-    <ClInclude Include="Src\TypingGame.hpp" />
-    <ClInclude Include="Src\UIAlign.hpp" />
-    <ClInclude Include="Src\UserProfileSelectUI.hpp" />
-    <ClInclude Include="Src\UserProfileUI.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Src\DrawUI.cpp">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)Src;$(SolutionDir)SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
+    <ClCompile Include="Src\DrawUI.cpp" />
     <ClCompile Include="Src\DrawUIR.cpp" />
     <ClCompile Include="Src\FileLoader.cpp" />
     <ClCompile Include="Src\FileSelectList.cpp" />
@@ -48,6 +31,21 @@
     <ClCompile Include="Src\TypingGame.cpp" />
     <ClCompile Include="Src\UserProfileSelectUI.cpp" />
     <ClCompile Include="Src\UserProfileUI.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\DrawUI.hpp" />
+    <ClInclude Include="Include\DrawUIR.hpp" />
+    <ClInclude Include="Include\FileLoader.hpp" />
+    <ClInclude Include="Include\FileSelectList.hpp" />
+    <ClInclude Include="Include\GameState.hpp" />
+    <ClInclude Include="Include\ResultScreen.hpp" />
+    <ClInclude Include="Include\Scene.hpp" />
+    <ClInclude Include="Include\TajaMainUI.hpp" />
+    <ClInclude Include="Include\TextUtil.hpp" />
+    <ClInclude Include="Include\TypingGame.hpp" />
+    <ClInclude Include="Include\UIAlign.hpp" />
+    <ClInclude Include="Include\UserProfileSelectUI.hpp" />
+    <ClInclude Include="Include\UserProfileUI.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -136,7 +134,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)SFML\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Include;$(SolutionDir)Src;$(SolutionDir)SFML\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

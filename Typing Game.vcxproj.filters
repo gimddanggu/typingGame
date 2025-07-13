@@ -13,87 +13,90 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="소스 파일\메인화면">
-      <UniqueIdentifier>{3922d404-5d0c-4630-922d-1b181059ceea}</UniqueIdentifier>
+    <Filter Include="소스 파일\Src">
+      <UniqueIdentifier>{032b817e-9247-4a53-a715-5331cb3b6997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Include">
+      <UniqueIdentifier>{3ae5c1d0-40b4-44aa-b9fc-4064ceaa1319}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\DrawUI.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\DrawUIR.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\FileLoader.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\FileSelectList.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\GameState.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\ResultScreen.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Scene.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\TajaMainUI.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\TextUtil.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\TypingGame.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\UIAlign.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\UserProfileSelectUI.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\UserProfileUI.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Src\UserProfileUI.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\UserProfileSelectUI.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\TypingGame.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\TextUtil.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\test.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\TajaMainUI.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\ResultScreen.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\main.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\FileSelectList.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\FileLoader.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\DrawUIR.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\DrawUI.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Src</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\DrawUI.hpp">
+      <Filter>헤더 파일\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DrawUIR.hpp">
+      <Filter>헤더 파일\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FileLoader.hpp">
+      <Filter>헤더 파일\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FileSelectList.hpp">
+      <Filter>헤더 파일\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GameState.hpp">
+      <Filter>헤더 파일\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ResultScreen.hpp">
+      <Filter>헤더 파일\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Scene.hpp">
+      <Filter>헤더 파일\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\TajaMainUI.hpp">
+      <Filter>헤더 파일\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\TextUtil.hpp">
+      <Filter>헤더 파일\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\TypingGame.hpp">
+      <Filter>헤더 파일\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UIAlign.hpp">
+      <Filter>헤더 파일\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UserProfileSelectUI.hpp">
+      <Filter>헤더 파일\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UserProfileUI.hpp">
+      <Filter>헤더 파일\Include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
