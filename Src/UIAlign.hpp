@@ -1,17 +1,17 @@
-#pragma once
+ï»¿#pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
 //
-// UI Á¤·Ä À¯Æ¿ - SFML 3.0 ±âÁØ
-// - FloatRect: position, size »ç¿ë
-// - ÅØ½ºÆ®, ¹öÆ°, ½ºÇÁ¶óÀÌÆ® µî À§Ä¡ Á¤·Ä¿¡ »ç¿ë
+// UI ì •ë ¬ ìœ í‹¸ - SFML 3.0 ê¸°ì¤€
+// - FloatRect: position, size ì‚¬ìš©
+// - í…ìŠ¤íŠ¸, ë²„íŠ¼, ìŠ¤í”„ë¼ì´íŠ¸ ë“± ìœ„ì¹˜ ì •ë ¬ì— ì‚¬ìš©
 //
 
-// Á¤·Ä ¹æÇâ ¿­°ÅÇü
+// ì •ë ¬ ë°©í–¥ ì—´ê±°í˜•
 enum class AlignX { Left, Center, Right };
 enum class AlignY { Top, Center, Bottom };
 
-// ±âº» À§Ä¡ Á¤·Ä °è»ê
+// ê¸°ë³¸ ìœ„ì¹˜ ì •ë ¬ ê³„ì‚°
 inline sf::Vector2f AlignPosition(
     const sf::Vector2f& targetSize,
     const sf::FloatRect& refBounds,
@@ -50,7 +50,7 @@ inline sf::Vector2f AlignPosition(
     return { x, y };
 }
 
-// ÀÏ¹İ Drawable °´Ã¼ Á¤·Ä
+// ì¼ë°˜ Drawable ê°ì²´ ì •ë ¬
 template<typename Drawable>
 void AlignTo(
     Drawable& drawable,
@@ -65,7 +65,7 @@ void AlignTo(
     drawable.setPosition(pos);
 }
 
-// ÅØ½ºÆ® Á¤·Ä (°¡¿îµ¥ Á¤·Ä + ¸¶Áø)
+// í…ìŠ¤íŠ¸ ì •ë ¬ (ê°€ìš´ë° ì •ë ¬ + ë§ˆì§„)
 inline void AlignTextCenter(
     sf::Text& text,
     const sf::FloatRect& box,
@@ -94,7 +94,7 @@ inline void AlignTextCenterY(
     text.setPosition(box.position + offset);
 }
 
-// °¡¿îµ¥ Á¤·Ä - À©µµ¿ì ±âÁØ
+// ê°€ìš´ë° ì •ë ¬ - ìœˆë„ìš° ê¸°ì¤€
 inline sf::Vector2f getWindowCenterPosition(const sf::RenderWindow& window, const sf::FloatRect& targetBounds)
 {
     float centerX = window.getSize().x / 2.f;
@@ -109,7 +109,7 @@ inline sf::Vector2f getWindowCenterPosition(const sf::RenderWindow& window, cons
 
 
 
-// XY Áß¾ÓÁ¤·Ä (¹öÆ°¿¡ ÅØ½ºÆ®)
+// XY ì¤‘ì•™ì •ë ¬ (ë²„íŠ¼ì— í…ìŠ¤íŠ¸)
 inline sf::Vector2f getCenterPosition(const sf::Vector2f& targetSize, const sf::FloatRect& container)
 {
     float x = container.position.x + (container.size.x - targetSize.x) / 2.f;
@@ -117,7 +117,7 @@ inline sf::Vector2f getCenterPosition(const sf::Vector2f& targetSize, const sf::
     return { x, y };
 }
 
-// ¾î¶² °´Ã¼ ±âÁØ x Ãà °¡¿îµ¥ Á¤·Ä
+// ì–´ë–¤ ê°ì²´ ê¸°ì¤€ x ì¶• ê°€ìš´ë° ì •ë ¬
 inline sf::Vector2f getCenterXPosition(sf::Vector2f targetSize,
     const sf::FloatRect& refBounds,
     float y)
@@ -126,13 +126,13 @@ inline sf::Vector2f getCenterXPosition(sf::Vector2f targetSize,
     return { x, y };
 }
 
-// ¿ŞÂÊ Á¤·Ä
+// ì™¼ìª½ ì •ë ¬
 inline sf::Vector2f LeftInnerAlign(sf::FloatRect& refBounds, float x_margin)
 {
     return { refBounds.position.x + x_margin, refBounds.position.y };
 }
 
-// ¿À¸¥ÂÊ Á¤·Ä
+// ì˜¤ë¥¸ìª½ ì •ë ¬
 inline sf::Vector2f RightInnerAlign(sf::Vector2f targetSize, sf::FloatRect& refBounds, float x_margin)
 {
     return { refBounds.position.x + refBounds.size.x - targetSize.x - x_margin, refBounds.position.y };
@@ -145,7 +145,7 @@ inline sf::Vector2f RightInnerAlign(sf::FloatRect& targetBounds, sf::FloatRect& 
 }
 
 
-// ¾Æ·¡ÂÊ Á¤·Ä
+// ì•„ë˜ìª½ ì •ë ¬
 inline sf::Vector2f BottomInnerAlign(sf::Vector2f targetSize, const sf::FloatRect& refBounds, float y_margin)
 {
     return {

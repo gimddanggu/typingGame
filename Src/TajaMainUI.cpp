@@ -1,4 +1,4 @@
-#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+ï»¿#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
 
 #include <iostream>
 #include <vector>
@@ -10,9 +10,9 @@
 
 #include <Windows.h>
 #include <iomanip>  // std::hex, std::setw
-#include <codecvt>  // wide ¡æ utf8 º¯È¯ (
+#include <codecvt>  // wide â†’ utf8 ë³€í™˜ (
 #include <locale>
-// ¸ñ·Ï (ÇÑ±Û¿¬½À, ¿µ¾î¿¬½À, ÄÚµù¿¬½À, Å¸ÀÚ´ë°á)
+// ëª©ë¡ (í•œê¸€ì—°ìŠµ, ì˜ì–´ì—°ìŠµ, ì½”ë”©ì—°ìŠµ, íƒ€ìëŒ€ê²°)
 
 
 std::string wstringToUtf8(const std::wstring& wstr) {
@@ -26,7 +26,7 @@ struct MenuButton {
     std::function<void()> onClick;
 
 
-    // Text´Â ±âº» »ı¼ºÀÚ°¡ ¾øÀ¸¹Ç·Î : ÃÊ±âÈ­·Î font ¸¦ Áà¾ß ÇÑ´Ù.
+    // TextëŠ” ê¸°ë³¸ ìƒì„±ìê°€ ì—†ìœ¼ë¯€ë¡œ : ì´ˆê¸°í™”ë¡œ font ë¥¼ ì¤˜ì•¼ í•œë‹¤.
     MenuButton(const sf::Font& font) : label(font) {
    
     }
@@ -36,7 +36,7 @@ struct MenuButton {
     }
 
 
-    // ÅØ½ºÆ® ¹öÆ°¾È¿¡ Á¤·Ä
+    // í…ìŠ¤íŠ¸ ë²„íŠ¼ì•ˆì— ì •ë ¬
     void setBtnPos(float padding) {
         sf::FloatRect textBounds = label.getGlobalBounds();
         sf::Vector2f boxPos = box.getPosition();
@@ -65,7 +65,7 @@ void drawBtn(sf::RenderWindow& window, MenuButton& btn) {
     window.draw(btn.label);
 }
 
-// È£¹öÈ¿°ú
+// í˜¸ë²„íš¨ê³¼
 void menuHover(std::vector<MenuButton>& buttons, sf::Vector2f mousePos) {
     for (auto& btn : buttons) {
         if (btn.contains(mousePos)) {
@@ -99,10 +99,10 @@ void InitTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, Taj
     sf::FloatRect frameBounds = mFrame.getGlobalBounds();
     sf::Vector2f frameSize = mFrame.getSize();
 
-    sf::Vector2 framePos = getWindowCenterPosition(window, frameBounds); // °¡¿îµ¥ Á¤·Ä
+    sf::Vector2 framePos = getWindowCenterPosition(window, frameBounds); // ê°€ìš´ë° ì •ë ¬
     mFrame.setPosition(framePos);
 
-    std::vector<std::wstring> mainMenuLabels = { L"> ÇÑ±Û¿¬½À", L"> ¿µ¾î¿¬½À", L"> ÄÚµù¿¬½À", L"> Å¸ÀÚ´ë°á" };
+    std::vector<std::wstring> mainMenuLabels = { L"> í•œê¸€ì—°ìŠµ", L"> ì˜ì–´ì—°ìŠµ", L"> ì½”ë”©ì—°ìŠµ", L"> íƒ€ìëŒ€ê²°" };
 
 
     for (int i = 0; i < 4; i++) {
@@ -113,17 +113,18 @@ void InitTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, Taj
 
         btn.onClick = [&game, label = mainMenuLabels[i]]() {
             //std::wcout << label;
-            //wprintf(L"[Å¬¸¯µÊ] %ls\n", label.c_str());
-            //std::cout << "[Å¬¸¯µÊ] " << wstringToUtf8(label) << std::endl;
-            std::wcout << L"[¾À ÀÌµ¿] " << label << std::endl;
+            //wprintf(L"[í´ë¦­ë¨] %ls\n", label.c_str());
+            //std::cout << "[í´ë¦­ë¨] " << wstringToUtf8(label) << std::endl;
+            std::wcout << L"[ì”¬ ì´ë™] " << label << std::endl;
             game.currentScene = Scene::FILE_SELECT;
+            game.curMode = label.substr(2);
             };
         btn.setBtnPos(15.f);
 
         ui.mainMenuButtons.push_back(btn);
     }
 
-    // ·Î±×¾Æ¿ô ¹öÆ° »ı¼º
+    // ë¡œê·¸ì•„ì›ƒ ë²„íŠ¼ ìƒì„±
     MenuButton logoutButton(font);
     logoutButton.box = makeRectangleR(frameSize, 0.3f, 0.15f);
     logoutButton.box.setFillColor(sf::Color(0, 0, 0, 0));
@@ -132,15 +133,15 @@ void InitTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, Taj
         std::cout << "logout";
         };
     sf::Vector2f logoutBtnPos = getWindowCenterPosition(window, logoutButton.box.getGlobalBounds());
-    sf::FloatRect lastBtnBounds = ui.mainMenuButtons.back().box.getGlobalBounds();  //  ¸¶Áö¸· ¹öÆ° ¹Ø¿¡ ·Î±×¾Æ¿ôÀ» À§Ä¡ ½ÃÅ°±â À§ÇØ
+    sf::FloatRect lastBtnBounds = ui.mainMenuButtons.back().box.getGlobalBounds();  //  ë§ˆì§€ë§‰ ë²„íŠ¼ ë°‘ì— ë¡œê·¸ì•„ì›ƒì„ ìœ„ì¹˜ ì‹œí‚¤ê¸° ìœ„í•´
     logoutButton.box.setPosition({ logoutBtnPos.x, lastBtnBounds.position.y + lastBtnBounds.size.y + 20.f });
     AlignTextCenter(logoutButton.label, logoutButton.box.getGlobalBounds());
 
     ui.logoutButton = logoutButton;
-    // ·©Å· ¹öÆ° »ı¼º // ¾ÆÀÌÄÜ¸¸ ÀÖ¾ú³ª?
+    // ë­í‚¹ ë²„íŠ¼ ìƒì„± // ì•„ì´ì½˜ë§Œ ìˆì—ˆë‚˜?
     //MenuButton rankingButton(font);
 
-    // ÇÁ·ÎÇÊ ¹öÆ° »ı¼º
+    // í”„ë¡œí•„ ë²„íŠ¼ ìƒì„±
     sf::RectangleShape profileFrame = makeRectangleR(window, 0.25f, 0.18f, sf::Color::Transparent, sf::Color::Green, 3.0f);
     profileFrame.setPosition({ 20, 20 });   // padding
     sf::Vector2f profileFrameSize = profileFrame.getSize();
@@ -155,7 +156,7 @@ void InitTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, Taj
     sf::Texture profileTexture = game.user.profileTexture;
     sf::Vector2u profileTextureSize = profileTexture.getSize();
 
-    // ½ºÇÁ¶óÀÌÆ® ÇÁ·¹ÀÓ¿¡ ¸ÂÃß´Â ÀÛ¾÷
+    // ìŠ¤í”„ë¼ì´íŠ¸ í”„ë ˆì„ì— ë§ì¶”ëŠ” ì‘ì—…
     float scaleX = imgFrameSize.x / profileTextureSize.x;
     float scaleY = imgFrameSize.y / profileTextureSize.y;
     ui.profileSprite.setTexture(game.user.profileTexture);
@@ -163,7 +164,7 @@ void InitTajaMenu(sf::RenderWindow& window, GameState& game, sf::Font& font, Taj
     ui.profileSprite.setPosition({20, 20});
 
 
-    // ´Ğ³×ÀÓ Ãß°¡
+    // ë‹‰ë„¤ì„ ì¶”ê°€
     sf::Text nickname(font, game.user.nickname, 30);
     AlignTextCenterY(nickname, nickFrame.getGlobalBounds(), {10, 0});
     //nickname.setPosition({ 20 + 10 + imgFrameSize.x, 20 });
@@ -187,7 +188,7 @@ void TajaMenuHandeler(sf::RenderWindow& window, GameState& game, TajaMenuUI& ui,
 
         if (ui.logoutButton.contains(clickPos)) ui.logoutButton.onClick();
         else if (ui.profileSprite.getGlobalBounds().contains(clickPos)) {
-            std::wcout << L"[Å¬¸¯] ÇÁ·ÎÇÊ Å¬¸¯!" << std::endl;
+            std::wcout << L"[í´ë¦­] í”„ë¡œí•„ í´ë¦­!" << std::endl;
             game.currentScene = Scene::PROFILE;
         }
     }

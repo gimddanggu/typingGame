@@ -1,8 +1,8 @@
-#include "DrawUIR.hpp"
+ï»¿#include "DrawUIR.hpp"
 
-// °³¼±µÈ makeRectangle ÇÔ¼ö - ¿À¹ö·Îµå ±â¹İ
+// ê°œì„ ëœ makeRectangle í•¨ìˆ˜ - ì˜¤ë²„ë¡œë“œ ê¸°ë°˜
 sf::RectangleShape makeRectangleR(
-    const sf::Vector2f& baseSize,     // ±âÁØÀÌ µÇ´Â Å©±â (window ¶Ç´Â frameÀÇ size)
+    const sf::Vector2f& baseSize,     // ê¸°ì¤€ì´ ë˜ëŠ” í¬ê¸° (window ë˜ëŠ” frameì˜ size)
     float widthRatio,
     float heightRatio,
     sf::Color fill,
@@ -17,7 +17,7 @@ sf::RectangleShape makeRectangleR(
     return rect;
 }
 
-// À©µµ¿ì ±âÁØ È£Ãâ¿ë
+// ìœˆë„ìš° ê¸°ì¤€ í˜¸ì¶œìš©
 sf::RectangleShape makeRectangleR(
     sf::RenderWindow& window,
     float widthRatio,
@@ -36,7 +36,7 @@ sf::RectangleShape makeRectangleR(
     );
 }
 
-// Æ¯Á¤ ÇÁ·¹ÀÓ ±âÁØ È£Ãâ¿ë
+// íŠ¹ì • í”„ë ˆì„ ê¸°ì¤€ í˜¸ì¶œìš©
 sf::RectangleShape makeRectangleR(
     const sf::FloatRect& frameBounds,
     float widthRatio,

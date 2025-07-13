@@ -1,4 +1,4 @@
-#include "UserProfileUI.hpp"
+ï»¿#include "UserProfileUI.hpp"
 #include "DrawUI.hpp"
 #include "UIAlign.hpp"
 #include <SFML/Graphics.hpp>
@@ -12,49 +12,49 @@ void renderProfile(sf::RenderWindow& window, GameState& game,
 	sf::Sprite& profileImg,
 	std::vector<sf::Text>& profileTexts)
 {
-	// ±âÁ¸ ÅØ½ºÆ® Á¦°Å 
+	// ê¸°ì¡´ í…ìŠ¤íŠ¸ ì œê±° 
 	profileTexts.clear();
 
-	 //À©µµ¿ì »ı¼º
+	 //ìœˆë„ìš° ìƒì„±
 	sf::RectangleShape profileBox_Frame = makeRectangle(window, 0.5f, 0.5f);
 	profileBox_Frame.setOutlineColor(sf::Color::Black);
 	profileBox_Frame.setOutlineThickness(2.f);
 
-	 //±âÁØ °´Ã¼ (ÇÁ·ÎÇÊ ¹è°æÃ¢)
+	 //ê¸°ì¤€ ê°ì²´ (í”„ë¡œí•„ ë°°ê²½ì°½)
 	sf::FloatRect frameBound = profileBox_Frame.getGlobalBounds();
-	profileBox_Frame.setPosition(getWindowCenterPosition(window, frameBound));			// À©µµ¿ì¸¦ Áß½ÉÀ¸·Î Áß¾ÓÁ¤·Ä
+	profileBox_Frame.setPosition(getWindowCenterPosition(window, frameBound));			// ìœˆë„ìš°ë¥¼ ì¤‘ì‹¬ìœ¼ë¡œ ì¤‘ì•™ì •ë ¬
 	frameBound = profileBox_Frame.getGlobalBounds();
 
 
-	 //Á¤·ÄÀ» À§ÇÑ ÄÁÅ×ÀÌ³Ê »ı¼º
+	 //ì •ë ¬ì„ ìœ„í•œ ì»¨í…Œì´ë„ˆ ìƒì„±
 	sf::RectangleShape profileBox_Title = makeRectangle(frameBound, 0.4f, 0.1f, sf::Color::Red);
 	sf::RectangleShape profileBox_Image = makeRectangle(frameBound, 0.3f, 0.5f, sf::Color::Green);
 	sf::RectangleShape profileBox_info = makeRectangle(frameBound, 0.5f, 0.6f, sf::Color::Yellow);
 
 
 
-	 //Á¦¸ñ frame
+	 //ì œëª© frame
 	sf::Vector2f TitleSize = profileBox_Title.getSize();
 	sf::FloatRect profileBox_Title_Bound = profileBox_Title.getGlobalBounds();
-	sf::Vector2f titlePos = getCenterXPosition(TitleSize, frameBound, frameBound.position.y);	// ÇÁ·ÎÇÊ ÇÁ·¡ÀÓ ±âÁØÀ¸·Î Áß¾Ó Á¤·Ä
+	sf::Vector2f titlePos = getCenterXPosition(TitleSize, frameBound, frameBound.position.y);	// í”„ë¡œí•„ í”„ë˜ì„ ê¸°ì¤€ìœ¼ë¡œ ì¤‘ì•™ ì •ë ¬
 
-	 //ÀÌ¹ÌÁö frame
+	 //ì´ë¯¸ì§€ frame
 	sf::Vector2f imgSize = profileBox_Image.getSize();
 	sf::FloatRect profileBox_Image_Bound = profileBox_Image.getGlobalBounds();
-	sf::Vector2f imgPos = LeftInnerAlign(frameBound, 30.f);										// ÇÁ·ÎÇÊ ÇÁ·¡ÀÓ ±âÁØÀ¸·Î ¿ŞÂÊ Á¤·Ä
+	sf::Vector2f imgPos = LeftInnerAlign(frameBound, 30.f);										// í”„ë¡œí•„ í”„ë˜ì„ ê¸°ì¤€ìœ¼ë¡œ ì™¼ìª½ ì •ë ¬
 
-	 //Á¤º¸ ÀÔ·Â frame
+	 //ì •ë³´ ì…ë ¥ frame
 	sf::Vector2f infoSize = profileBox_info.getSize();
 	sf::FloatRect profileBox_info_Bound = profileBox_info.getGlobalBounds();
-	sf::Vector2f infoPos = RightInnerAlign(infoSize, frameBound, 30.f);							// ÇÁ·ÎÇÊ ÇÁ·¡ÀÓ ±âÁØÀ¸·Î ¿À¸¥ÂÊ Á¤·Ä
+	sf::Vector2f infoPos = RightInnerAlign(infoSize, frameBound, 30.f);							// í”„ë¡œí•„ í”„ë˜ì„ ê¸°ì¤€ìœ¼ë¡œ ì˜¤ë¥¸ìª½ ì •ë ¬
 
-	 //ÄÁÅ×ÀÌ³Ê À§Ä¡ Á¶Á¤
-	profileBox_Image.setPosition({ imgPos.x, imgPos.y + 90.0f });	// ¿ŞÂÊ Á¤·Ä µÊ
-	profileBox_info.setPosition({ infoPos.x, infoPos.y + 90.0f });	// ¿À¸¥ÂÊ Á¤·Ä µÊ
+	 //ì»¨í…Œì´ë„ˆ ìœ„ì¹˜ ì¡°ì •
+	profileBox_Image.setPosition({ imgPos.x, imgPos.y + 90.0f });	// ì™¼ìª½ ì •ë ¬ ë¨
+	profileBox_info.setPosition({ infoPos.x, infoPos.y + 90.0f });	// ì˜¤ë¥¸ìª½ ì •ë ¬ ë¨
 	profileBox_Title.setPosition(titlePos);
 
-	 //¿ä¼Ò °´Ã¼ »ı¼º
-	sf::Text titleText(font, L"ÇÁ·ÎÇÊ", 40);
+	 //ìš”ì†Œ ê°ì²´ ìƒì„±
+	sf::Text titleText(font, L"í”„ë¡œí•„", 40);
 	sf::FloatRect box = profileBox_Title.getGlobalBounds();
 	sf::FloatRect bounds = titleText.getGlobalBounds();
 	sf::Vector2f center = box.getCenter();
@@ -66,55 +66,55 @@ void renderProfile(sf::RenderWindow& window, GameState& game,
 	
 
 
-	 //¹öÆ°
+	 //ë²„íŠ¼
 	sf::RectangleShape loadButton({ 200, 40 });
 	loadButton.setFillColor(sf::Color::Green);
 
 
-	 //¹öÆ° ÅØ½ºÆ®
-	sf::Text loadButtonText(font, L"ÇÁ·ÎÇÊ ÀÌ¹ÌÁö ¼±ÅÃ", 20);
+	 //ë²„íŠ¼ í…ìŠ¤íŠ¸
+	sf::Text loadButtonText(font, L"í”„ë¡œí•„ ì´ë¯¸ì§€ ì„ íƒ", 20);
 
-	 //ÇÁ·ÎÇÊ À§Ä¡ ¼³Á¤
+	 //í”„ë¡œí•„ ìœ„ì¹˜ ì„¤ì •
 	center = profileBox_Image.getPosition();
 	profileImg.setPosition(center);
 
-	 //ÇÁ·ÎÇÊ ÀÌ¹ÌÁö ¼öÁ¤ ¹öÆ° À§Ä¡ ¼³Á¤
+	 //í”„ë¡œí•„ ì´ë¯¸ì§€ ìˆ˜ì • ë²„íŠ¼ ìœ„ì¹˜ ì„¤ì •
 	loadButton.setPosition({ center.x, center.y + 210.f });
 
 	loadButton.setFillColor(sf::Color::Magenta);
 	
-	 //ÇÁ·ÎÇÊ ÀÌ¹ÌÁö ¼öÁ¤ ¹öÆ° ÅØ½ºÆ® À§Ä¡ ¼³Á¤
+	 //í”„ë¡œí•„ ì´ë¯¸ì§€ ìˆ˜ì • ë²„íŠ¼ í…ìŠ¤íŠ¸ ìœ„ì¹˜ ì„¤ì •
 	box = loadButton.getGlobalBounds();
 	bounds = loadButtonText.getGlobalBounds();
 	loadButtonText.setPosition(getCenterPosition(bounds.size, box));
-	 //ÅØ½ºÆ® À§Ä¡ Á¶Á¤ (ÇÑ±Û)
+	 //í…ìŠ¤íŠ¸ ìœ„ì¹˜ ì¡°ì • (í•œê¸€)
 	bounds = loadButtonText.getGlobalBounds();
 	loadButtonText.setPosition({ bounds.position.x, bounds.position.y - 6.f });
 	
-	 //¹öÆ° ÀÌº¥Æ®¸¦ À§ÇØ À§Ä¡ ¹Ş¾Æ¿È
+	 //ë²„íŠ¼ ì´ë²¤íŠ¸ë¥¼ ìœ„í•´ ìœ„ì¹˜ ë°›ì•„ì˜´
 	bounds = loadButton.getGlobalBounds();
 	game.btn.selectImgBtnBounds = bounds;
 
-	 //»ç¿ëÀÚ Á¤º¸ ÅØ½ºÆ®
+	 //ì‚¬ìš©ì ì •ë³´ í…ìŠ¤íŠ¸
 	std::vector<std::pair<std::wstring, std::wstring>> profileStats = {
 		{L"ID", game.user.id},
-		{L"´Ğ³×ÀÓ", game.user.nickname},
-		{L"·©Å·", std::to_wstring(game.user.ranking)},
-		{L"ÃÖ°í Å¸¼ö", to_wstring_fixed(game.user.bestTPM)},
-		{L"ÃÖ°í WPM", to_wstring_fixed(game.user.bestWPM)},
-		{L"ÇÃ·¹ÀÌ Å¸ÀÓ", to_wstring_fixed(game.user.totalPlayTime)},
-		{L"Æ÷ÀÎÆ®", std::to_wstring(game.user.point)}
+		{L"ë‹‰ë„¤ì„", game.user.nickname},
+		{L"ë­í‚¹", std::to_wstring(game.user.ranking)},
+		{L"ìµœê³  íƒ€ìˆ˜", to_wstring_fixed(game.user.bestTPM)},
+		{L"ìµœê³  WPM", to_wstring_fixed(game.user.bestWPM)},
+		{L"í”Œë ˆì´ íƒ€ì„", to_wstring_fixed(game.user.totalPlayTime)},
+		{L"í¬ì¸íŠ¸", std::to_wstring(game.user.point)}
 	};
 
 
 
-	 //ÀÌ°Ç ³ªÁß¿¡ ¸Å°³º¯¼ö·Î »©´øÁö ¾È»©´øÁö °áÁ¤ÇØ¾ßµÉ µí
+	 //ì´ê±´ ë‚˜ì¤‘ì— ë§¤ê°œë³€ìˆ˜ë¡œ ë¹¼ë˜ì§€ ì•ˆë¹¼ë˜ì§€ ê²°ì •í•´ì•¼ë  ë“¯
 	float lineHeight = 30.f;
 	float startY = profileBox_info.getGlobalBounds().position.y + 10.f;
 	float labelX = profileBox_info.getGlobalBounds().position.x + 20.f;
 	float gap = 10.f;
 
-	 //¶óº§ÀÇ ÃÖ´ë ³Êºñ ÃøÁ¤
+	 //ë¼ë²¨ì˜ ìµœëŒ€ ë„ˆë¹„ ì¸¡ì •
 	float maxLabelWidth = 0.f;
 	for (const auto& [label, _] : profileStats) {
 		sf::Text temp(font, label + L" :", 20);
@@ -123,7 +123,7 @@ void renderProfile(sf::RenderWindow& window, GameState& game,
 			maxLabelWidth = width;
 	}
 
-	 //ÅØ½ºÆ® ½ÇÁ¦ ¹èÄ¡
+	 //í…ìŠ¤íŠ¸ ì‹¤ì œ ë°°ì¹˜
 	for (std::size_t i = 0; i < profileStats.size(); ++i) {
 		const auto& [labelStr, valueStr] = profileStats[i];
 		float y = startY + i * lineHeight;
@@ -156,11 +156,11 @@ void renderProfile(sf::RenderWindow& window, GameState& game,
 	window.draw(loadButtonText);
 
 	//drawables.push_back(std::make_shared<sf::RectangleShape>(profileBox_Frame));
-	//// ¾Æ·¡ µÎ °³´Â ÄÁÅ×ÀÌ³Ê 
+	//// ì•„ë˜ ë‘ ê°œëŠ” ì»¨í…Œì´ë„ˆ 
 	////drawables.push_back(std::make_shared<sf::RectangleShape>(profileBox_Title));
 	////drawables.push_back(std::make_shared<sf::RectangleShape>(profileBox_Image));
 	//drawables.push_back(std::make_shared<sf::Text>(titleText));
-	//// drawables¿¡ ½ºÇÁ¶óÀÌÆ® Ãß°¡
+	//// drawablesì— ìŠ¤í”„ë¼ì´íŠ¸ ì¶”ê°€
 	//drawables.push_back(std::make_shared<sf::Sprite>(profileImg));
 	//drawables.push_back(std::make_shared<sf::RectangleShape>(loadButton));
 
@@ -168,7 +168,7 @@ void renderProfile(sf::RenderWindow& window, GameState& game,
 	////appendProfileTexts(info, profileBox_info, font, drawables);
 }
 
-// ¼ıÀÚ ¡æ wstring º¯È¯ ÇÔ¼ö
+// ìˆ«ì â†’ wstring ë³€í™˜ í•¨ìˆ˜
 std::wstring to_wstring_fixed(double value, int precision) {
 	std::wstringstream wss;
 	wss << std::fixed << std::setprecision(precision) << value;
@@ -179,20 +179,20 @@ std::wstring to_wstring_fixed(double value, int precision) {
 
 //int main()
 //{
-//	// À©µµ¿ì »ı¼º
+//	// ìœˆë„ìš° ìƒì„±
 //	sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "My window");
 //
-//	// ÆùÆ® ¼³Á¤
+//	// í°íŠ¸ ì„¤ì •
 //	sf::Font font;
 //	if (!font.openFromFile("assets/fonts/D2Coding.ttf")) {
-//		std::wcerr << L"[ERROR] ÆùÆ® ·Îµå ½ÇÆĞ!" << std::endl;
+//		std::wcerr << L"[ERROR] í°íŠ¸ ë¡œë“œ ì‹¤íŒ¨!" << std::endl;
 //		return 1;
 //	}
 //
-//	// »ç¿ëÀÚ Á¤º¸ ¹Ş¾Æ¿È Ã³À½ ÇÑ ¹ø¸¸
+//	// ì‚¬ìš©ì ì •ë³´ ë°›ì•„ì˜´ ì²˜ìŒ í•œ ë²ˆë§Œ
 //	UserInfo info;
 //	info.id = L"gimddanggu";
-//	info.nickname = L"±è¶¯±¸";
+//	info.nickname = L"ê¹€ë•¡êµ¬";
 //	info.rank = L"1";
 //	info.maxTpm = L"450";
 //	info.maxWpm = L"30.4";
@@ -200,7 +200,7 @@ std::wstring to_wstring_fixed(double value, int precision) {
 //	info.point = L"230";
 //
 //
-//	// ±âº» ÇÁ·ÎÇÊ ¼³Á¤
+//	// ê¸°ë³¸ í”„ë¡œí•„ ì„¤ì •
 //	std::wstring imgPath = L"assets/profile_img/default_avatar.png";
 //	sf::Image profile = loadImg(imgPath);
 //	sf::Image resizeProfileImage = resizeImageKeepAspect(profile, {200, 200});
@@ -223,7 +223,7 @@ std::wstring to_wstring_fixed(double value, int precision) {
 //
 //		window.clear();
 //
-//		// drawables ·çÇÁ µ¹¸é¼­ draw
+//		// drawables ë£¨í”„ ëŒë©´ì„œ draw
 //		for (auto& d : drawables)
 //			window.draw(*d);
 //

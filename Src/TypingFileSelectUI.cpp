@@ -1,30 +1,30 @@
-#include "DrawUI.hpp"
+ï»¿#include "DrawUI.hpp"
 #include "UIAlign.hpp"
 #include <iostream>
 
 struct FileOption {
-	std::wstring filePath;				// ½ÇÁ¦ ÆÄÀÏ °æ·Î
-	std::function<void()> onClick;		// ÆÄÀÏ ¼±ÅÃ ½Ã ÀÌº¥Æ® Ã³¸®
-	std::shared_ptr<sf::Text> label;	// ÅØ½ºÆ® °´Ã¼ Æ÷ÀÎÅÍ
-	bool isHovered = false;    // ¸¶¿ì½º°¡ ¿Ã·ÁÁ® ÀÖ´Â »óÅÂ
-	bool isClicked = false;    // Å¬¸¯ÇØ¼­ ¼±ÅÃµÈ »óÅÂ
+	std::wstring filePath;				// ì‹¤ì œ íŒŒì¼ ê²½ë¡œ
+	std::function<void()> onClick;		// íŒŒì¼ ì„ íƒ ì‹œ ì´ë²¤íŠ¸ ì²˜ë¦¬
+	std::shared_ptr<sf::Text> label;	// í…ìŠ¤íŠ¸ ê°ì²´ í¬ì¸í„°
+	bool isHovered = false;    // ë§ˆìš°ìŠ¤ê°€ ì˜¬ë ¤ì ¸ ìˆëŠ” ìƒíƒœ
+	bool isClicked = false;    // í´ë¦­í•´ì„œ ì„ íƒëœ ìƒíƒœ
 
 };
 
-// ÆÄÀÏ Á¦¸ñ ÃßÃâ ÇÔ¼ö
+// íŒŒì¼ ì œëª© ì¶”ì¶œ í•¨ìˆ˜
 std::wstring removeExtension(const std::wstring& filePath) {
-	// 1. ¸¶Áö¸· °æ·Î ±¸ºĞÀÚ (\\ ¶Ç´Â /) À§Ä¡ Ã£±â
+	// 1. ë§ˆì§€ë§‰ ê²½ë¡œ êµ¬ë¶„ì (\\ ë˜ëŠ” /) ìœ„ì¹˜ ì°¾ê¸°
 	size_t slashPos = filePath.find_last_of(L"\\/");
 
-	// 2. ÆÄÀÏ¸í¸¸ Àß¶ó³»±â
+	// 2. íŒŒì¼ëª…ë§Œ ì˜ë¼ë‚´ê¸°
 	std::wstring fileName = (slashPos != std::wstring::npos)
 		? filePath.substr(slashPos + 1)
 		: filePath;
 
-	// 3. ¸¶Áö¸· Á¡(.) À§Ä¡ Ã£±â
+	// 3. ë§ˆì§€ë§‰ ì (.) ìœ„ì¹˜ ì°¾ê¸°
 	size_t dotPos = fileName.find_last_of(L'.');
 
-	// 4. È®ÀåÀÚ Á¦°Å
+	// 4. í™•ì¥ì ì œê±°
 	if (dotPos != std::wstring::npos) {
 		return fileName.substr(0, dotPos);
 	}
@@ -39,55 +39,55 @@ void initLangSelectUI(sf::RenderWindow& window,
 	sf::FloatRect& loadUserFileBtnBound,
 	std::vector<std::wstring> typingFilePath,
 	std::vector<FileOption>& filieOptions,
-	std::wstring selectMod,						// ÇÑ±Û / ¿µ¿© / ÄÚµù
+	std::wstring selectMod,						// í•œê¸€ / ì˜ì—¬ / ì½”ë”©
 	std::vector<std::shared_ptr<sf::Drawable>>& drawables,
 	std::vector<std::shared_ptr<sf::Drawable>>& fileNameDrawables,
 	UIState& currentState)
 {
-	// ÆÄÀÏ ¼±ÅÃ UI Ã¢
+	// íŒŒì¼ ì„ íƒ UI ì°½
 	sf::RectangleShape fileSelectionPanel = makeRectangle(window, 0.45f, 0.8f);
 	fileSelectionPanel.setFillColor(sf::Color::White);
 	sf::FloatRect typingFileSelectorBounds = fileSelectionPanel.getGlobalBounds();
-	sf::Vector2f mpos = getWindowCenterPosition(window, typingFileSelectorBounds);	// À©µµ¿ì °¡¿îµ¥ Á¤·Ä
+	sf::Vector2f mpos = getWindowCenterPosition(window, typingFileSelectorBounds);	// ìœˆë„ìš° ê°€ìš´ë° ì •ë ¬
 	fileSelectionPanel.setPosition(mpos);
 
-	// Á¤·ÄÀÇ ±âÁØÀÌ µÉ ÆĞ³Î Á¤º¸ ÀúÀå
+	// ì •ë ¬ì˜ ê¸°ì¤€ì´ ë  íŒ¨ë„ ì •ë³´ ì €ì¥
 	typingFileSelectorBounds = fileSelectionPanel.getGlobalBounds();
 
 
-	// Á¦¸ñ
-	std::wstring listTitle = selectMod + L" ¿¬½À";
+	// ì œëª©
+	std::wstring listTitle = selectMod + L" ì—°ìŠµ";
 	sf::Text title(font, listTitle, 45);
 	title.setFillColor(sf::Color::Black);
 	sf::FloatRect titleBounds = title.getGlobalBounds();
 	sf::Vector2f titlePos = getWindowCenterPosition(window, titleBounds);
 	title.setPosition({ titlePos.x, mpos.y + 10.f});
 
-	// ¸ñ·ÏÀ» ´ãÀ» ÄÁÅ×ÀÌ³Ê
+	// ëª©ë¡ì„ ë‹´ì„ ì»¨í…Œì´ë„ˆ
 	sf::RectangleShape listContainer = makeRectangle(typingFileSelectorBounds, 0.7f, 0.7f, sf::Color::Red);
 	sf::FloatRect listContainerBounds = listContainer.getGlobalBounds();
 
 	sf::Vector2f listContainerPos = getWindowCenterPosition(window, listContainerBounds);
 	listContainer.setPosition(listContainerPos);
-	// ÄÁÅ×ÀÌ³Ê À§Ä¡ ÀúÀå - ÆÄÀÏ ¸ñ·Ï UI À§Ä¡ Á¶Á¤ ½Ã »ç¿ë
+	// ì»¨í…Œì´ë„ˆ ìœ„ì¹˜ ì €ì¥ - íŒŒì¼ ëª©ë¡ UI ìœ„ì¹˜ ì¡°ì • ì‹œ ì‚¬ìš©
 	listContainerBounds = listContainer.getGlobalBounds();
 
-	//// ºä
+	//// ë·°
 	//sf::FloatRect listBounds = listContainer.getGlobalBounds();
 
-	//listView.setSize(listBounds.size);  // ¡ç º¸¿©ÁÙ ¿µ¿ª Å©±â ¼³Á¤
+	//listView.setSize(listBounds.size);  // â† ë³´ì—¬ì¤„ ì˜ì—­ í¬ê¸° ì„¤ì •
 
 	//listView.setCenter(
-	//	listBounds.position + listBounds.size / 2.f  // ¡ç Áß½É ÁÂÇ¥´Â position + size/2
+	//	listBounds.position + listBounds.size / 2.f  // â† ì¤‘ì‹¬ ì¢Œí‘œëŠ” position + size/2
 	//);
 
 
 
-	// »ç¿ëÀÚ ÆÄÀÏ ºÒ·¯¿À±â ¹öÆ°
+	// ì‚¬ìš©ì íŒŒì¼ ë¶ˆëŸ¬ì˜¤ê¸° ë²„íŠ¼
 	sf::RectangleShape loadBtn = makeRectangle(typingFileSelectorBounds, 0.2f, 0.05f, sf::Color::Red);
 
 
-	// ¿À¸¥ÂÊ ¾Æ·¡ Á¤·Ä
+	// ì˜¤ë¥¸ìª½ ì•„ë˜ ì •ë ¬
 	sf::Vector2f btnSize = loadBtn.getGlobalBounds().size;
 	sf::Vector2f loadBtnPos = AlignPosition(
 		btnSize,
@@ -100,12 +100,12 @@ void initLangSelectUI(sf::RenderWindow& window,
 	sf::FloatRect loadBtnBounds = loadBtn.getGlobalBounds();
 	loadUserFileBtnBound = loadBtnBounds;
 
-	// ¹öÆ° ÅØ½ºÆ®
-	sf::Text btnText(font, L"ºÒ·¯¿À±â", 18);
+	// ë²„íŠ¼ í…ìŠ¤íŠ¸
+	sf::Text btnText(font, L"ë¶ˆëŸ¬ì˜¤ê¸°", 18);
 	btnText.setFillColor(sf::Color::Black);
-	AlignTextCenter(btnText, loadBtnBounds);	// ¹öÆ° ÅØ½ºÆ®¿¡ ¸ÂÃã
+	AlignTextCenter(btnText, loadBtnBounds);	// ë²„íŠ¼ í…ìŠ¤íŠ¸ì— ë§ì¶¤
 
-	// ¾îµğ¼­ ºÎÅÍ Ãâ·ÂµÉÁö ¼³Á¤
+	// ì–´ë””ì„œ ë¶€í„° ì¶œë ¥ë ì§€ ì„¤ì •
 	float spacing = 40.f;
 	float startX = listContainerBounds.position.x + 15.f;
 	float startY = listContainerBounds.position.y;
@@ -120,13 +120,13 @@ void initLangSelectUI(sf::RenderWindow& window,
 	int fileCount = typingFilePath.size();
 	for (int i = 0; i < fileCount; i++)
 	{
-		// ±¸Á¶Ã¼ ÃÊ±âÈ­
+		// êµ¬ì¡°ì²´ ì´ˆê¸°í™”
 		FileOption option;
 		//option.fileName = L"";
 		option.filePath = typingFilePath[i];
 		std::wstring thisPath = typingFilePath[i];
 
-		// ÆÄÀÏ ¸ñ·Ï
+		// íŒŒì¼ ëª©ë¡
 		auto fileName = std::make_shared<sf::Text>(font, removeExtension(thisPath), 18);
 		fileName->setFillColor(sf::Color::Black);
 		sf::FloatRect textBounds = fileName->getGlobalBounds();
@@ -139,14 +139,14 @@ void initLangSelectUI(sf::RenderWindow& window,
 
 		option.onClick = [thisPath]()
 		{
-			std::wcout << thisPath << L" °æ·Î ÆÄÀÏ ¼±ÅÃ" << std::endl;
+			std::wcout << thisPath << L" ê²½ë¡œ íŒŒì¼ ì„ íƒ" << std::endl;
 
 				
-			// °ÔÀÓ ½ÃÀÛ È­¸é ÀÌµ¿
-			//currentState = UIState::ProfileMain;  // ´Ù½Ã ¸ŞÀÎ È­¸éÀ¸·Î ÀüÈ¯
+			// ê²Œì„ ì‹œì‘ í™”ë©´ ì´ë™
+			//currentState = UIState::ProfileMain;  // ë‹¤ì‹œ ë©”ì¸ í™”ë©´ìœ¼ë¡œ ì „í™˜
 		};
 		filieOptions.push_back(option);
-		fileNameDrawables.push_back(fileName);    // ¿©ÀüÈ÷ drawables¿¡µµ Ãß°¡
+		fileNameDrawables.push_back(fileName);    // ì—¬ì „íˆ drawablesì—ë„ ì¶”ê°€
 	}
 
 	
@@ -168,75 +168,75 @@ int main()
 {
 	std::setlocale(LC_ALL, "");
 
-	// °´Ã¼ ÃÊ±âÈ­
+	// ê°ì²´ ì´ˆê¸°í™”
 	sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "My window");
 	std::vector<std::shared_ptr<sf::Drawable>> langSelectUIDrawables;
 	std::vector<std::shared_ptr<sf::Drawable>> fileNameDrawables;
 	std::vector<std::wstring> typingFilePath;
 	std::vector<FileOption> fileOptions;
-	std::wstring selectMod = L"ÇÑ±Û";		// ÇÑ±Û / ¿µ¾î / ÄÚµù
+	std::wstring selectMod = L"í•œê¸€";		// í•œê¸€ / ì˜ì–´ / ì½”ë”©
 
 	sf::View listView;
 
 	sf::Font font;
 	if (!font.openFromFile("assets/fonts/D2Coding.ttf")) {
-		std::wcerr << L"[ERROR] ÆùÆ® ·Îµå ½ÇÆĞ!" << std::endl;
+		std::wcerr << L"[ERROR] í°íŠ¸ ë¡œë“œ ì‹¤íŒ¨!" << std::endl;
 		return 1;
 	}
 	typingFilePath = {
-	L"assets/typing/ÇÑ±Û1.txt",
-	L"assets/typing/ÇÑ±Û2.txt",
+	L"assets/typing/í•œê¸€1.txt",
+	L"assets/typing/í•œê¸€2.txt",
 	L"assets/typing/english.txt",
 	L"assets/typing/coding.cpp",
-	L"assets/typing/ÇÑ±Û1.txt",
-	L"assets/typing/ÇÑ±Û2.txt",
+	L"assets/typing/í•œê¸€1.txt",
+	L"assets/typing/í•œê¸€2.txt",
 	L"assets/typing/english.txt",
 	L"assets/typing/coding.cpp",
 	L"assets/typing/coding.cpp",
-	L"assets/typing/ÇÑ±Û1.txt",
+	L"assets/typing/í•œê¸€1.txt",
 	
 	};
 
-	// ½ºÅ©·Ñ Á¶Àı °ª
+	// ìŠ¤í¬ë¡¤ ì¡°ì ˆ ê°’
 	float scrollOffset = 0.f;
 	float maxScrollOffset = 0.f;
 	float scrollStep = 30.f;
 
-	// ÆÄÀÏ ºÒ·¯¿À±â ¹öÆ°À» À§Ä¡ ÀúÀå
+	// íŒŒì¼ ë¶ˆëŸ¬ì˜¤ê¸° ë²„íŠ¼ì„ ìœ„ì¹˜ ì €ì¥
 	sf::FloatRect loadUserFileBtnBound;
 
-	// UI »ı¼º
+	// UI ìƒì„±
 	initLangSelectUI(window, font, listView, maxScrollOffset, loadUserFileBtnBound,  typingFilePath, fileOptions, selectMod, langSelectUIDrawables, fileNameDrawables, currentState);
 
 	while (window.isOpen())
 	{
-		// ÀÌº¥Æ® ·çÇÁ
+		// ì´ë²¤íŠ¸ ë£¨í”„
 		while (const std::optional event = window.pollEvent())
 		{
 			// "close requested" event: we close the window
 			if (event->is<sf::Event::Closed>())
 				window.close();
 
-			// ³ªÁß¿¡ ÇÏÀÚ..
-			//// ¸¶¿ì½º ÈÙ ÀÌº¥Æ®
+			// ë‚˜ì¤‘ì— í•˜ì..
+			//// ë§ˆìš°ìŠ¤ íœ  ì´ë²¤íŠ¸
 			//if (event->is<sf::Event::MouseWheelScrolled>()) {
 			//	const auto& scrollEvent = event->getIf<sf::Event::MouseWheelScrolled>();
 			//	float delta = scrollEvent->delta;
 			//	scrollOffset -= delta * scrollStep;
 
-			//	// ¹üÀ§ Á¦ÇÑ
+			//	// ë²”ìœ„ ì œí•œ
 			//	scrollOffset = std::clamp(scrollOffset, 0.f, maxScrollOffset);
 
-			//	// ºä ÀÌµ¿ Àû¿ë
+			//	// ë·° ì´ë™ ì ìš©
 			//	listView.move({ 0.f, delta * scrollStep });
 			//}
-			// ¸¶¿ì½º Å¬¸¯ ÀÌº¥Æ®
+			// ë§ˆìš°ìŠ¤ í´ë¦­ ì´ë²¤íŠ¸
 			if (const auto* mouse = event->getIf<sf::Event::MouseButtonPressed>()) {
 				if (mouse->button == sf::Mouse::Button::Left) {
 					sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
 					if (loadUserFileBtnBound.contains(mousePos)) {
-						std::wcout << L"[ºÒ·¯¿À±â ¹öÆ° Å¬¸¯µÊ]" << std::endl;
+						std::wcout << L"[ë¶ˆëŸ¬ì˜¤ê¸° ë²„íŠ¼ í´ë¦­ë¨]" << std::endl;
 						//currentState = UIState::TypingGame;
 					}
 					for (auto& option : fileOptions) {
@@ -248,10 +248,10 @@ int main()
 			}
 		}
 
-		// ¸¶¿ì½º À§Ä¡ ¾ò±â
+		// ë§ˆìš°ìŠ¤ ìœ„ì¹˜ ì–»ê¸°
 		sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
-		// hover Ã³¸®
+		// hover ì²˜ë¦¬
 		for (auto& option : fileOptions) {
 			if (option.label->getGlobalBounds().contains(mousePos)) {
 				if (!option.isHovered) {
@@ -268,7 +268,7 @@ int main()
 		}
 
 
-		// ·»´õ¸µ ·çÇÁ
+		// ë Œë”ë§ ë£¨í”„
 		window.clear();
 
 		for (auto& d : langSelectUIDrawables)

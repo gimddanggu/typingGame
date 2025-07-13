@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <memory>
@@ -7,14 +7,14 @@
 
 
 
-// À©µµ¿ì ºñÀ²·Î »ç°¢Çü »ı¼º
+// ìœˆë„ìš° ë¹„ìœ¨ë¡œ ì‚¬ê°í˜• ìƒì„±
 sf::RectangleShape makeRectangle(sf::RenderWindow& window, float widthRatio, float heightRatio);
 
-// ºÎ¸ğ ÄÁÅ×ÀÌ³Ê ºñÀ²·Î »ç°¢Çü »ı¼º
+// ë¶€ëª¨ ì»¨í…Œì´ë„ˆ ë¹„ìœ¨ë¡œ ì‚¬ê°í˜• ìƒì„±
 sf::RectangleShape makeRectangle(sf::FloatRect& frameBounds, float widthRatio, float heightRatio, sf::Color color);
 
 
-// ÀÌ¹ÌÁö ·Îµå ¹× ¸®»çÀÌÁî
+// ì´ë¯¸ì§€ ë¡œë“œ ë° ë¦¬ì‚¬ì´ì¦ˆ
 sf::Image loadImg(std::wstring path);
 sf::Image resizeImageKeepAspect(const sf::Image& src, sf::Vector2u targetSize = { 200, 200 }, sf::Color paddingColor = sf::Color::Transparent);
 

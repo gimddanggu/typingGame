@@ -1,4 +1,4 @@
-// Å¸ÀÚ °ÔÀÓ ¸ŞÀÎ 
+ï»¿// íƒ€ì ê²Œì„ ë©”ì¸ 
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <sstream>
@@ -20,26 +20,26 @@
 
 
 #include <iomanip>  // std::hex, std::setw
-#include <codecvt>  // wide ¡æ utf8 º¯È¯ (¼±ÅÃ)
+#include <codecvt>  // wide â†’ utf8 ë³€í™˜ (ì„ íƒ)
 
-// µğ¹ö±× È®ÀÎ¿ë ÇÔ¼ö
+// ë””ë²„ê·¸ í™•ì¸ìš© í•¨ìˆ˜
 void debugPrintSentences(const std::vector<std::vector<std::wstring>>& sentences) {
     for (size_t i = 0; i < sentences.size(); ++i) {
-        std::wcout << L"[¹®Àå ±×·ì " << i << L"]\n";
+        std::wcout << L"[ë¬¸ì¥ ê·¸ë£¹ " << i << L"]\n";
         for (size_t j = 0; j < sentences[i].size(); ++j) {
             const std::wstring& line = sentences[i][j];
-            std::wcout << L"  ÁÙ " << j << L": \"" << line << L"\"\n";
+            std::wcout << L"  ì¤„ " << j << L": \"" << line << L"\"\n";
             for (size_t k = 0; k < line.size(); ++k) {
                 wchar_t ch = line[k];
                 std::wstring type;
                 if (ch == L' ')
-                    type = L"°ø¹é";
+                    type = L"ê³µë°±";
                 else if (ch == L'\t')
-                    type = L"ÅÇ";
+                    type = L"íƒ­";
                 else
-                    type = L"ÀÏ¹İ";
+                    type = L"ì¼ë°˜";
 
-                std::wcout << L"    [" << k << L"] '" << (ch == L' ' ? L'°ø¹é' : (ch == L'\t' ? L'tap' : ch))
+                std::wcout << L"    [" << k << L"] '" << (ch == L' ' ? L'ê³µë°±' : (ch == L'\t' ? L'tap' : ch))
                     << L"' (" << type << L")\n";
             }
         }
@@ -48,35 +48,35 @@ void debugPrintSentences(const std::vector<std::vector<std::wstring>>& sentences
 
 
 int main() {
-    // ·Î±× Ãâ·Â¿ë
-    //SetConsoleOutputCP(CP_UTF8);               // ÄÜ¼Ö UTF-8 ¼³Á¤
-    std::wcout.imbue(std::locale(""));         // À¯´ÏÄÚµå ·ÎÄÉÀÏ ¼³Á¤
+    // ë¡œê·¸ ì¶œë ¥ìš©
+    //SetConsoleOutputCP(CP_UTF8);               // ì½˜ì†” UTF-8 ì„¤ì •
+    std::wcout.imbue(std::locale(""));         // ìœ ë‹ˆì½”ë“œ ë¡œì¼€ì¼ ì„¤ì •
     
 
-    // À©µµ¿ì »ı¼º 
+    // ìœˆë„ìš° ìƒì„± 
     sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "Typing Game");
     
-    // °ÔÀÓ»óÅÂ ÀúÀå  ±¸Á¶Ã¼
+    // ê²Œì„ìƒíƒœ ì €ì¥  êµ¬ì¡°ì²´
     GameState game;
-    // ¸ŞÀÎ ¸Ş´º ÃÊ±âÈ­
-    // ÆùÆ® ºÒ·¯¿È
+    // ë©”ì¸ ë©”ë‰´ ì´ˆê¸°í™”
+    // í°íŠ¸ ë¶ˆëŸ¬ì˜´
     sf::Font font1;
     if (!font1.openFromFile("assets/fonts/DungGeunMo.ttf")) {
-        std::wcerr << L"[ERROR] ÆùÆ® ·Îµå ½ÇÆĞ!" << std::endl;
+        std::wcerr << L"[ERROR] í°íŠ¸ ë¡œë“œ ì‹¤íŒ¨!" << std::endl;
         return 1;
     }
 
 
-    // ¹è°æ ÀÌ¹ÌÁö
+    // ë°°ê²½ ì´ë¯¸ì§€
     sf::Texture backgroundTexture;
     if (!backgroundTexture.loadFromFile("assets/resorce_img/background_sunset.png")) {
-        std::wcerr << L"[ERROR] ÆùÆ® ·Îµå ½ÇÆĞ!" << std::endl;
+        std::wcerr << L"[ERROR] í°íŠ¸ ë¡œë“œ ì‹¤íŒ¨!" << std::endl;
         return 1;
     }
 
     sf::Sprite backgroundSprite(backgroundTexture);
 
-    // À©µµ¿ì Å©±â ±âÁØÀ¸·Î ½ºÇÁ¶óÀÌÆ® Å©±â Á¶Á¤
+    // ìœˆë„ìš° í¬ê¸° ê¸°ì¤€ìœ¼ë¡œ ìŠ¤í”„ë¼ì´íŠ¸ í¬ê¸° ì¡°ì •
     sf::Vector2u windowSize = window.getSize();
     sf::Vector2u textureSize = backgroundTexture.getSize();
 
@@ -87,45 +87,45 @@ int main() {
 
 
     
-    // ¸ŞÀÎ ¸Ş´º ÃÊ±âÈ­ ³¡
+    // ë©”ì¸ ë©”ë‰´ ì´ˆê¸°í™” ë
 
-    // Å×½ºÆ® ¿ë ÀÓ½Ã À¯Àú Á¤º¸
+    // í…ŒìŠ¤íŠ¸ ìš© ì„ì‹œ ìœ ì € ì •ë³´
     game.user.id = L"test_user_001";
-    game.user.nickname = L"ÀÎ¼øÀÌ";
+    game.user.nickname = L"ì¸ìˆœì´";
     game.user.profileImagePath = L"assets/profile_img/crok2.png";
 
-    // ÆùÆ® ¼³Á¤ d2
+    // í°íŠ¸ ì„¤ì • d2
     sf::Font font;
     if (!font.openFromFile("assets/fonts/D2Coding.ttf")) {
-        std::wcerr << L"[ERROR] ÆùÆ® ·Îµå ½ÇÆĞ!" << std::endl;
+        std::wcerr << L"[ERROR] í°íŠ¸ ë¡œë“œ ì‹¤íŒ¨!" << std::endl;
         return 1;
     }
 
 
     int fontSize = game.user.fontSize;
 
-    // ±âº» ÇÁ·ÎÇÊ ÀÌ¹ÌÁö ·Îµå
+    // ê¸°ë³¸ í”„ë¡œí•„ ì´ë¯¸ì§€ ë¡œë“œ
     sf::Image img = loadImg(game.user.profileImagePath);
     game.user.profileTexture = sf::Texture(resizeImageKeepAspect(img));
     sf::Sprite userImage(game.user.profileTexture);
 
-    std::vector<sf::Sprite> sprites;            // ÀÌ°Ç »èÁ¦ °í¹Î
-    std::vector<ImageOption> imageOptions;      // Ãß°¡ÇÔ 
+    std::vector<sf::Sprite> sprites;            // ì´ê±´ ì‚­ì œ ê³ ë¯¼
+    std::vector<ImageOption> imageOptions;      // ì¶”ê°€í•¨ 
     std::vector<FileOption> fileOptions;
     std::vector<std::wstring> typingFilePath;
-    std::wstring selectMod = L"ÇÑ±Û";
+    std::wstring selectMod = L"í•œê¸€";
 
-    //// ÇÁ·ÎÇÊ ÀÌ¹ÌÁö ·Îµù
+    //// í”„ë¡œí•„ ì´ë¯¸ì§€ ë¡œë”©
     //if (game.user.profileTexture.loadFromFile(game.user.profileImagePath)) {
-    //    // ·Îµù ¼º°ø
+    //    // ë¡œë”© ì„±ê³µ
     //}
     //else {
-    //    std::wcout << L"ÇÁ·ÎÇÊ ÀÌ¹ÌÁö ·Îµù ½ÇÆĞ!" << std::endl;
+    //    std::wcout << L"í”„ë¡œí•„ ì´ë¯¸ì§€ ë¡œë”© ì‹¤íŒ¨!" << std::endl;
     //}
 
-    game.selectPath = L"assets/hangleFile/¾Ö±¹°¡.txt";    
+    game.selectPath = L"assets/hangleFile/ì• êµ­ê°€.txt";    
 
-    // °ÔÀÓ ±â·Ï - ÀÏ´Ü ÀÓÀÇ·Î ÃÊ±âÈ­
+    // ê²Œì„ ê¸°ë¡ - ì¼ë‹¨ ì„ì˜ë¡œ ì´ˆê¸°í™”
     game.user.point = 1234;
     game.user.bestWPM = 87.5f;
     game.user.bestAccuracy = 96.2f;
@@ -133,40 +133,41 @@ int main() {
     game.user.totalPlayTime = 983.7f;
 
     
-    game.currentScene = Scene::MAIN_MENU; // ÃÊ±â°ª ÁáÀ¸¹Ç·Î ÇÊ¿ä x ³ªÁß¿¡ º¹»ç¿ëÀ¸·Î ³²°Üµ×À½
+    game.currentScene = Scene::MAIN_MENU; // ì´ˆê¸°ê°’ ì¤¬ìœ¼ë¯€ë¡œ í•„ìš” x ë‚˜ì¤‘ì— ë³µì‚¬ìš©ìœ¼ë¡œ ë‚¨ê²¨ë’€ìŒ
 
     TajaMenuUI ui(font1, game.user.profileTexture);
     InitTajaMenu(window, game, font1, ui);
 
 
-    // ¸ñ·ÏÈ®ÀÎ Å×½ºÆ®¿ë 
+    // ëª©ë¡í™•ì¸ í…ŒìŠ¤íŠ¸ìš© 
     typingFilePath = {
-            L"C:/Source/IoT-C-2025/Day02/c03.conditional Statements.c",
-            L"C:/Source/IoT-C-2025/Day02/c04.loop Statements.c",
+            L"C:/dev/typingGame/assets/typing/BOJ_2751.py",
+            L"C:/dev/typingGame/assets/typing/BOJ_11050.py",
+            L"C:/dev/typingGame/assets/typing/heap_study.py",
             L"C:/Source/IoT-python-2025/day04/py03_module.py",
             L"C:/Source/IoT-python-2025/day02/py02_datastruct.py",
             L"C://Users//Admin//Downloads//TypingTest_EnglishOnly.java",
-            L"assets/typing/ÇÑ±Û2.txt",
+            L"assets/typing/í•œê¸€2.txt",
             L"assets/typing/english.txt",
             L"assets/typing/coding.cpp",
             L"assets/typing/coding.cpp",
-            L"assets/typing/ÇÑ±Û1.txt",
+            L"assets/typing/í•œê¸€1.txt",
 
     };
 
     /*ypingFilePath = {
-        L"C:\\Users\\Admin\\Documents\\Ä«Ä«¿ÀÅå ¹ŞÀº ÆÄÀÏ"
+        L"C:\\Users\\Admin\\Documents\\ì¹´ì¹´ì˜¤í†¡ ë°›ì€ íŒŒì¼"
     };*/
 
-    /* \t È®ÀÎ¿ë ÄÚµå */
+    /* \t í™•ì¸ìš© ì½”ë“œ */
     //std::wstring content = loadText(typingFilePath[4]);
     //std::vector<std::wstring> lines = splitStrtoVector(content);
     ////std::cout << "[DEBUG] typingAreaWith: " << game.typingAreaWidth << '\n';
     //game.sentences = wrapAllLinesToPixelWidth(lines, font, game.user.fontSize, game.typingAreaWidth);
     // 
-    // ÇÁ·ÎÇÊ ¼±ÅÃ hover È¿°ú
+    // í”„ë¡œí•„ ì„ íƒ hover íš¨ê³¼
     sf::RectangleShape thumbnailHoverOutline;
-    thumbnailHoverOutline.setSize({ 200, 200 }); // ½æ³×ÀÏ Å©±â¿¡ ¸Â°Ô
+    thumbnailHoverOutline.setSize({ 200, 200 }); // ì¸ë„¤ì¼ í¬ê¸°ì— ë§ê²Œ
     thumbnailHoverOutline.setFillColor(sf::Color::Transparent);
     thumbnailHoverOutline.setOutlineColor(sf::Color::Red);
     thumbnailHoverOutline.setOutlineThickness(4.f);
@@ -175,13 +176,13 @@ int main() {
 
     debugPrintSentences(game.sentences);
 
-    // ¸ŞÀÎ while ·çÇÁ
+    // ë©”ì¸ while ë£¨í”„
     while (window.isOpen()) 
     {
-        //std::wcout << L"[DEBUG] ÇöÀç Scene: ";
-        //std::wcout << L"[DEBUG] ÇöÀç Scene: " << static_cast<int>(game.currentScene) << std::endl;
+        //std::wcout << L"[DEBUG] í˜„ì¬ Scene: ";
+        //std::wcout << L"[DEBUG] í˜„ì¬ Scene: " << static_cast<int>(game.currentScene) << std::endl;
 
-        // hover ¹× ¹öÆ° ÀÌº¥Æ®¸¦ À§ÇØ ¸¶¿ì½º À§Ä¡ ÀúÀå
+        // hover ë° ë²„íŠ¼ ì´ë²¤íŠ¸ë¥¼ ìœ„í•´ ë§ˆìš°ìŠ¤ ìœ„ì¹˜ ì €ì¥
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         sf::Vector2f worldPos = window.mapPixelToCoords(mousePos);
 
@@ -195,7 +196,7 @@ int main() {
             case Scene::MAIN_MENU: {
                 TajaMenuHandeler(window, game, ui, event);
             }
-            case Scene::PROFILE: {  // ÇÁ·ÎÇÊ Ã¢ ÀÌº¥Æ®
+            case Scene::PROFILE: {  // í”„ë¡œí•„ ì°½ ì´ë²¤íŠ¸
                 if (const auto* mouse = event->getIf<sf::Event::MouseButtonPressed>()){
                     if (mouse->button == sf::Mouse::Button::Left) {
                         if (game.showImageOverlay) {
@@ -206,16 +207,16 @@ int main() {
                                 }
                             }
 
-                            // ºÒ·¯¿À±â ¹öÆ° Å¬¸¯ È®ÀÎ
+                            // ë¶ˆëŸ¬ì˜¤ê¸° ë²„íŠ¼ í´ë¦­ í™•ì¸
                             if (game.btn.loadImgBtnBounds.contains(worldPos)) {
-                                std::wcout << L"[ºÒ·¯¿À±â ¹öÆ° Å¬¸¯µÊ]" << std::endl;
-                                auto originalPath = std::filesystem::current_path();	// ÇöÀç Æú´õ °æ·Î ÀúÀå
+                                std::wcout << L"[ë¶ˆëŸ¬ì˜¤ê¸° ë²„íŠ¼ í´ë¦­ë¨]" << std::endl;
+                                auto originalPath = std::filesystem::current_path();	// í˜„ì¬ í´ë” ê²½ë¡œ ì €ì¥
                                 std::wstring selectedImagePath = openImageFileDialog();
-                                std::filesystem::current_path(originalPath);  // ´Ù½Ã ¿ø·¡ °æ·Î·Î µÇµ¹¸² - ¼±ÅÃµÈ Æú´õ °æ·Î·Î ¹Ù²î´Â °Å ¹æÁö
+                                std::filesystem::current_path(originalPath);  // ë‹¤ì‹œ ì›ë˜ ê²½ë¡œë¡œ ë˜ëŒë¦¼ - ì„ íƒëœ í´ë” ê²½ë¡œë¡œ ë°”ë€ŒëŠ” ê±° ë°©ì§€
                                 sf::Image image;
                                 if (image.loadFromFile(selectedImagePath)) {
-                                    // ¼º°ø Ã³¸®
-                                    std::wcout << L"[ÀÌ¹ÌÁö¸¦ ¼º°øÀûÀ¸·Î ºÒ·¯¿Ô½À´Ï´Ù]" << std::endl;
+                                    // ì„±ê³µ ì²˜ë¦¬
+                                    std::wcout << L"[ì´ë¯¸ì§€ë¥¼ ì„±ê³µì ìœ¼ë¡œ ë¶ˆëŸ¬ì™”ìŠµë‹ˆë‹¤]" << std::endl;
                                     std::wcout << selectedImagePath << std::endl;
                                     game.user.profileImagePath = selectedImagePath;
                                     updateProfileImage(selectedImagePath, game, userImage);
@@ -225,11 +226,11 @@ int main() {
 
                                 }
                                 else {
-                                    std::wcout << L"[ÀÌ¹ÌÁö¸¦ ºÒ·¯¿ÀÁö ¸øÇß½À´Ï´Ù]" << std::endl;
+                                    std::wcout << L"[ì´ë¯¸ì§€ë¥¼ ë¶ˆëŸ¬ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤]" << std::endl;
                                     return -1;
                                 }
 
-                            }   // HOVER ÀÌº¥Æ®
+                            }   // HOVER ì´ë²¤íŠ¸
                             
                         }
                         if (game.btn.selectImgBtnBounds.contains(worldPos)) {
@@ -263,15 +264,15 @@ int main() {
                 handleFileClick(game, *event, worldPos, fileOptions, font);
                 break;
             }
-            case Scene::TYPING_GAME: {  // ±âº»Å¸ÀÚ¿¬½À ÀÌº¥Æ®
-                // Sceneº° ÀÔ·Â Ã³¸®
+            case Scene::TYPING_GAME: {  // ê¸°ë³¸íƒ€ìì—°ìŠµ ì´ë²¤íŠ¸
+                // Sceneë³„ ì…ë ¥ ì²˜ë¦¬
                 handleInputGame(game, *event);
                 break;
             }
             }
         }
 
-        // HOVER È¿°ú
+        // HOVER íš¨ê³¼
         if (game.currentScene == Scene::FILE_SELECT) {
             hoverText(game, fileOptions, worldPos);
         }
@@ -287,7 +288,7 @@ int main() {
 
         window.clear(sf::Color::White);
 
-        // ¾À¿¡ µû¶ó ±×¸®±â
+        // ë Œë”ë§
         switch (game.currentScene) {
         case Scene::MAIN_MENU: {
             window.draw(backgroundSprite);
@@ -296,22 +297,22 @@ int main() {
         }
         case Scene::PROFILE: {
             renderProfile(window, game, font, fontSize, userImage, profileTexts);       
-            // profileTexts ÀÌ°Å ³ªÁß¿¡ ÇÁ·ÎÇÊ ±â·Ï ³ªÅ¸³¾ ¶§ ÀÏ´Ü ÇÊ¿ä
+            // profileTexts ì´ê±° ë‚˜ì¤‘ì— í”„ë¡œí•„ ê¸°ë¡ ë‚˜íƒ€ë‚¼ ë•Œ ì¼ë‹¨ í•„ìš”
 
             if (game.showImageOverlay) {
-                renderSelectImage(window, game, font, imageOptions, sprites, userImage, thumbnailHoverOutline);  // ÇÁ·ÎÇÊ ÀÌ¹ÌÁö ¼±ÅÃ È­¸é °ãÃÄ¼­ ±×¸²
+                renderSelectImage(window, game, font, imageOptions, sprites, userImage, thumbnailHoverOutline);  // í”„ë¡œí•„ ì´ë¯¸ì§€ ì„ íƒ í™”ë©´ ê²¹ì³ì„œ ê·¸ë¦¼
             }
             break;
         }
 
         case Scene::FILE_SELECT: {
-            renderFileList(window, game, font, fontSize, typingFilePath, fileOptions, selectMod);
+            renderFileList(window, game, font, fontSize, typingFilePath, fileOptions, game.curMode);
             break;
         }
         case Scene::TYPING_GAME: {
             if (game.currentScene == Scene::TYPING_GAME && !game.started) {
-                game.startTime = std::chrono::high_resolution_clock::now();     // °ÔÀÓ ½ÃÀÛ ½Ã°£ ÀúÀå
-                game.started = true;                    // ÇÑ ¹ø¸¸ ÃÊ±âÈ­ ÇÏµµ·Ï
+                game.startTime = std::chrono::high_resolution_clock::now();     // ê²Œì„ ì‹œì‘ ì‹œê°„ ì €ì¥
+                game.started = true;                    // í•œ ë²ˆë§Œ ì´ˆê¸°í™” í•˜ë„ë¡
             }
             auto now = std::chrono::high_resolution_clock::now();
             float elapsed = std::chrono::duration<float>(now - game.startTime).count();
@@ -321,18 +322,18 @@ int main() {
                 //game.progress = 100.f;
                 game.currentScene = Scene::RESULT;
 
-            renderGame(window, game, font, fontSize);         // UI ·»´õ¸µ
-            updateTypingStats(game, elapsed);           // ½Ç½Ã°£ Åë°è ¾÷µ¥ÀÌÆ®
+            renderGame(window, game, font, fontSize);         // UI ë Œë”ë§
+            updateTypingStats(game, elapsed);           // ì‹¤ì‹œê°„ í†µê³„ ì—…ë°ì´íŠ¸
             updateGame(game);
             break;
         }
         case Scene::RESULT: {
             //renderResult(window, game);
-            std::wcout << L"[DEBUG] ·»´õ¸µ RESULT ·Î º¯°æÇÕ´Ï´Ù." << std::endl;
+            std::wcout << L"[DEBUG] ë Œë”ë§ RESULT ë¡œ ë³€ê²½í•©ë‹ˆë‹¤." << std::endl;
 
             bool bRstart = showResultWindow(game, font, fontSize, game.sentences);
             if (bRstart) {
-                resetGameResult(game);  // °ª ÃÊ±âÈ­
+                resetGameResult(game);  // ê°’ ì´ˆê¸°í™”
                 game.currentScene = Scene::TYPING_GAME;
             }
             else {

@@ -1,19 +1,19 @@
-#pragma once
+ï»¿#pragma once
 
 #include <SFML/Graphics.hpp>
 #include "GameState.hpp"
 #include <functional>
 
 struct FileOption {
-    std::wstring filePath;				// ½ÇÁ¦ ÆÄÀÏ °æ·Î
-    std::function<void()> onClick;		// ÆÄÀÏ ¼±ÅÃ ½Ã ÀÌº¥Æ® Ã³¸®
-    std::shared_ptr<sf::Text> label;	// ÅØ½ºÆ® °´Ã¼ Æ÷ÀÎÅÍ
-    bool isHovered = false;    // ¸¶¿ì½º°¡ ¿Ã·ÁÁ® ÀÖ´Â »óÅÂ
-    bool isClicked = false;    // Å¬¸¯ÇØ¼­ ¼±ÅÃµÈ »óÅÂ
+    std::wstring filePath;				// ì‹¤ì œ íŒŒì¼ ê²½ë¡œ
+    std::function<void()> onClick;		// íŒŒì¼ ì„ íƒ ì‹œ ì´ë²¤íŠ¸ ì²˜ë¦¬
+    std::shared_ptr<sf::Text> label;	// í…ìŠ¤íŠ¸ ê°ì²´ í¬ì¸í„°
+    bool isHovered = false;    // ë§ˆìš°ìŠ¤ê°€ ì˜¬ë ¤ì ¸ ìˆëŠ” ìƒíƒœ
+    bool isClicked = false;    // í´ë¦­í•´ì„œ ì„ íƒëœ ìƒíƒœ
 
 };
 
-// ÆÄÀÏ Á¦¸ñ ÃßÃâ ÇÔ¼ö
+// íŒŒì¼ ì œëª© ì¶”ì¶œ í•¨ìˆ˜
 std::wstring removeExtension(const std::wstring& filePath);
 
 
@@ -24,7 +24,7 @@ void renderFileList(sf::RenderWindow& window, GameState& game,
     std::wstring selectMod);
 
 
-// ÆÄÀÏ Å¬¸¯ ÀÌº¥Æ® Ã³¸®
+// íŒŒì¼ í´ë¦­ ì´ë²¤íŠ¸ ì²˜ë¦¬
 void handleFileClick(GameState& game, const sf::Event& event, sf::Vector2f& mousePos, std::vector<FileOption>& fileOptions, sf::Font& font);
 
 

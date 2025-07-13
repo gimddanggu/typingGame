@@ -1,4 +1,4 @@
-#include "FileLoader.hpp"
+ï»¿#include "FileLoader.hpp"
 #include <windows.h>
 #include <commdlg.h>
 #include <fstream>
@@ -9,38 +9,40 @@
 /*#include <iostream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include <windows.h>     // Windows API - ÆÄÀÏ ¼±ÅÃ±â ¿­±â À§ÇØ ÇÊ¿ä
-#include <commdlg.h>     // GetOpenFileName ÇÔ¼ö
-#include <optional>      // ¼±ÅÃÀû ¹İÈ¯
-#include <fstream>       // ÆÄÀÏ ÀĞ¾î¿À±â À§ÇØ
+#include <windows.h>     // Windows API - íŒŒì¼ ì„ íƒê¸° ì—´ê¸° ìœ„í•´ í•„ìš”
+#include <commdlg.h>     // GetOpenFileName í•¨ìˆ˜
+#include <optional>      // ì„ íƒì  ë°˜í™˜
+#include <fstream>       // íŒŒì¼ ì½ì–´ì˜¤ê¸° ìœ„í•´
 #include <sstream>
 #include <string>
 #pragma comment(lib, "Comdlg32.lib")*/
 
+// íŒŒì¼ Dialog()
 std::optional<std::wstring> openFileDialog() {
     wchar_t filename[MAX_PATH] = L"";
     OPENFILENAMEW ofn{};
     ofn.lStructSize = sizeof(ofn);
-    ofn.lpstrFilter = L"ÅØ½ºÆ® ÆÄÀÏ\0*.txt\0¸ğµç ÆÄÀÏ\0*.*\0ÆÄÀÌ½ã ÆÄÀÏ\0*.py\0ÀÚ¹Ù ÆÄÀÏ\0*.java\0C++ ÆÄÀÏ\0*.cpp\0\0";
+    ofn.lpstrFilter = L"í…ìŠ¤íŠ¸ íŒŒì¼\0*.txt\0ëª¨ë“  íŒŒì¼\0*.*\0íŒŒì´ì¬ íŒŒì¼\0*.py\0ìë°” íŒŒì¼\0*.java\0C++ íŒŒì¼\0*.cpp\0\0";
     ofn.lpstrFile = filename;
     ofn.nMaxFile = MAX_PATH;
     ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
-    ofn.lpstrTitle = L"ÆÄÀÏ ¿­±â";
+    ofn.lpstrTitle = L"íŒŒì¼ ì—´ê¸°";
 
     if (GetOpenFileNameW(&ofn)) {
-        std::wcout << L"[INFO] ÆÄÀÏ ¼±ÅÃµÊ: " << filename << std::endl;
+        std::wcout << L"[INFO] íŒŒì¼ ì„ íƒë¨: " << filename << std::endl;
         return std::wstring(filename);
     }
     else {
         DWORD err = CommDlgExtendedError();
-        std::wcerr << L"[ERROR] ÆÄÀÏ ¼±ÅÃ ½ÇÆĞ! ¿À·ù ÄÚµå: " << err << std::endl;
+        std::wcerr << L"[ERROR] íŒŒì¼ ì„ íƒ ì‹¤íŒ¨! ì˜¤ë¥˜ ì½”ë“œ: " << err << std::endl;
     }
     return std::nullopt;
 }
 
+// ì¸ì½”ë”©ì— ë”°ë¼ íŒŒì¼ ì½ì–´ì˜¤ëŠ” í•¨ìˆ˜
 std::wstring loadText(const std::wstring& filepath) {
     std::ifstream file(std::filesystem::path(filepath), std::ios::binary);
-    if (!file) return L"ÆÄÀÏÀÌ ¿­¸®Áö ¾Ê½À´Ï´Ù.";
+    if (!file) return L"íŒŒì¼ì´ ì—´ë¦¬ì§€ ì•ŠìŠµë‹ˆë‹¤.";
 
     unsigned char bom[3] = { 0 };
     file.read(reinterpret_cast<char*>(bom), 3);
@@ -64,6 +66,7 @@ std::wstring loadText(const std::wstring& filepath) {
     return result;
 }
 
+// ansië¥¼ wstring ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” í•¨ìˆ˜
 std::wstring ansiToWstring(const std::string& str) {
     int len = MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, nullptr, 0);
     std::wstring result(len, 0);
@@ -71,6 +74,7 @@ std::wstring ansiToWstring(const std::string& str) {
     return result;
 }
 
+// utf-8ì„ wstring í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” í•¨ìˆ˜
 std::wstring utf8ToWstring(const std::string& str) {
     int len = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
     std::wstring result(len, 0);
@@ -78,6 +82,7 @@ std::wstring utf8ToWstring(const std::string& str) {
     return result;
 }
 
+// ì¸ì½”ë”© utf-8 ì¸ì§€ í™•ì¸í•˜ëŠ” í•¨ìˆ˜
 bool isUtf8(const std::string& content) {
     int expected = 0;
     for (unsigned char c : content) {

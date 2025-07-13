@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
 #include <SFML/Graphics.hpp>
 
-// ±âÁØ »çÀÌÁî¸¦ ¹Ş¾Æ »ç°¢Çü »ı¼º (°øÅë ÇÔ¼ö)
+// ê¸°ì¤€ ì‚¬ì´ì¦ˆë¥¼ ë°›ì•„ ì‚¬ê°í˜• ìƒì„± (ê³µí†µ í•¨ìˆ˜)
 sf::RectangleShape makeRectangleR(
     const sf::Vector2f& baseSize,
     float widthRatio,
@@ -12,7 +12,7 @@ sf::RectangleShape makeRectangleR(
     float outlineThickness = 0.f
 );
 
-// ÀüÃ¼ Ã¢ ±âÁØ »ç°¢Çü »ı¼º
+// ì „ì²´ ì°½ ê¸°ì¤€ ì‚¬ê°í˜• ìƒì„±
 sf::RectangleShape makeRectangleR(
     sf::RenderWindow& window,
     float widthRatio,
@@ -22,7 +22,7 @@ sf::RectangleShape makeRectangleR(
     float outlineThickness = 0.f
 );
 
-// Æ¯Á¤ ÇÁ·¹ÀÓ ±âÁØ »ç°¢Çü »ı¼º
+// íŠ¹ì • í”„ë ˆì„ ê¸°ì¤€ ì‚¬ê°í˜• ìƒì„±
 sf::RectangleShape makeRectangleR(
     const sf::FloatRect& frameBounds,
     float widthRatio,

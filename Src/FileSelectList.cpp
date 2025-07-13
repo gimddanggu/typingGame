@@ -1,4 +1,4 @@
-#include "FileSelectList.hpp"
+ï»¿#include "FileSelectList.hpp"
 #include "DrawUI.hpp"
 #include "UIAlign.hpp"
 #include "FileLoader.hpp"
@@ -7,20 +7,20 @@
 #include <iostream>
 #include "DrawUIR.hpp"
 
-// ÆÄÀÏ Á¦¸ñ ÃßÃâ ÇÔ¼ö
+// íŒŒì¼ ì œëª© ì¶”ì¶œ í•¨ìˆ˜
 std::wstring removeExtension(const std::wstring& filePath) {
-    // 1. ¸¶Áö¸· °æ·Î ±¸ºĞÀÚ (\\ ¶Ç´Â /) À§Ä¡ Ã£±â
+    // 1. ë§ˆì§€ë§‰ ê²½ë¡œ êµ¬ë¶„ì (\\ ë˜ëŠ” /) ìœ„ì¹˜ ì°¾ê¸°
     size_t slashPos = filePath.find_last_of(L"\\/");
 
-    // 2. ÆÄÀÏ¸í¸¸ Àß¶ó³»±â
+    // 2. íŒŒì¼ëª…ë§Œ ì˜ë¼ë‚´ê¸°
     std::wstring fileName = (slashPos != std::wstring::npos)
         ? filePath.substr(slashPos + 1)
         : filePath;
 
-    // 3. ¸¶Áö¸· Á¡(.) À§Ä¡ Ã£±â
+    // 3. ë§ˆì§€ë§‰ ì (.) ìœ„ì¹˜ ì°¾ê¸°
     size_t dotPos = fileName.find_last_of(L'.');
 
-    // 4. È®ÀåÀÚ Á¦°Å
+    // 4. í™•ì¥ì ì œê±°
     if (dotPos != std::wstring::npos) {
         return fileName.substr(0, dotPos);
     }
@@ -28,58 +28,58 @@ std::wstring removeExtension(const std::wstring& filePath) {
     return fileName;
 }
 
-// typingFilePath: DB ÆÄÀÏ ¸ñ·Ï, filieOptions: ÆÄÀÏ ¸ñ·Ï¿¡ ÀÖ´Â ¿É¼Ç ´ãÀº ±¸Á¶Ã¼, selectMod - ÇÑ±Û/ ¿µ¾î/ ÄÚµù
+// typingFilePath: DB íŒŒì¼ ëª©ë¡, filieOptions: íŒŒì¼ ëª©ë¡ì— ìˆëŠ” ì˜µì…˜ ë‹´ì€ êµ¬ì¡°ì²´, selectMod - í•œê¸€/ ì˜ì–´/ ì½”ë”©
 void renderFileList(sf::RenderWindow& window, GameState& game,
     sf::Font& font, int fontSize,
     std::vector<std::wstring> typingFilePath,
     std::vector<FileOption>& filieOptions,
-    std::wstring selectMod)						// ÇÑ±Û / ¿µ¿© / ÄÚµù)
+    std::wstring selectMod)						// í•œê¸€ / ì˜ì—¬ / ì½”ë”©)
 {
-    // ÆÄÀÏ ¼±ÅÃ UI Ã¢
+    // íŒŒì¼ ì„ íƒ UI ì°½
     sf::RectangleShape fileSelectionPanel = makeRectangleR(window, 0.45f, 0.8f, sf::Color::White, sf::Color::Black, 2.f);
     //fileSelectionPanel.setFillColor(sf::Color::White);
     sf::FloatRect typingFileSelectorBounds = fileSelectionPanel.getGlobalBounds();
-    sf::Vector2f mpos = getWindowCenterPosition(window, typingFileSelectorBounds);	// À©µµ¿ì °¡¿îµ¥ Á¤·Ä
+    sf::Vector2f mpos = getWindowCenterPosition(window, typingFileSelectorBounds);	// ìœˆë„ìš° ê°€ìš´ë° ì •ë ¬
     fileSelectionPanel.setPosition(mpos);
 
 
-    // Á¤·ÄÀÇ ±âÁØÀÌ µÉ ÆĞ³Î Á¤º¸ ÀúÀå
+    // ì •ë ¬ì˜ ê¸°ì¤€ì´ ë  íŒ¨ë„ ì •ë³´ ì €ì¥
     typingFileSelectorBounds = fileSelectionPanel.getGlobalBounds();
 
 
-    // Á¦¸ñ
-    std::wstring listTitle = selectMod + L" ¿¬½À";
+    // ì œëª©
+    std::wstring listTitle = selectMod;
     sf::Text title(font, listTitle, 45);
     title.setFillColor(sf::Color::Black);
     sf::FloatRect titleBounds = title.getGlobalBounds();
     sf::Vector2f titlePos = getWindowCenterPosition(window, titleBounds);
     title.setPosition({ titlePos.x, mpos.y + 10.f });
 
-    // ¸ñ·ÏÀ» ´ãÀ» ÄÁÅ×ÀÌ³Ê
+    // ëª©ë¡ì„ ë‹´ì„ ì»¨í…Œì´ë„ˆ
     sf::RectangleShape listContainer = makeRectangle(typingFileSelectorBounds, 0.7f, 0.7f, sf::Color::Red);
     sf::FloatRect listContainerBounds = listContainer.getGlobalBounds();
 
     sf::Vector2f listContainerPos = getWindowCenterPosition(window, listContainerBounds);
     listContainer.setPosition(listContainerPos);
-    // ÄÁÅ×ÀÌ³Ê À§Ä¡ ÀúÀå - ÆÄÀÏ ¸ñ·Ï UI À§Ä¡ Á¶Á¤ ½Ã »ç¿ë
+    // ì»¨í…Œì´ë„ˆ ìœ„ì¹˜ ì €ì¥ - íŒŒì¼ ëª©ë¡ UI ìœ„ì¹˜ ì¡°ì • ì‹œ ì‚¬ìš©
     listContainerBounds = listContainer.getGlobalBounds();
 
-    //// ºä
+    //// ë·°
     //sf::FloatRect listBounds = listContainer.getGlobalBounds();
 
-    //listView.setSize(listBounds.size);  // ¡ç º¸¿©ÁÙ ¿µ¿ª Å©±â ¼³Á¤
+    //listView.setSize(listBounds.size);  // â† ë³´ì—¬ì¤„ ì˜ì—­ í¬ê¸° ì„¤ì •
 
     //listView.setCenter(
-    //	listBounds.position + listBounds.size / 2.f  // ¡ç Áß½É ÁÂÇ¥´Â position + size/2
+    //	listBounds.position + listBounds.size / 2.f  // â† ì¤‘ì‹¬ ì¢Œí‘œëŠ” position + size/2
     //);
 
 
 
-    // »ç¿ëÀÚ ÆÄÀÏ ºÒ·¯¿À±â ¹öÆ°
+    // ì‚¬ìš©ì íŒŒì¼ ë¶ˆëŸ¬ì˜¤ê¸° ë²„íŠ¼
     sf::RectangleShape loadBtn = makeRectangle(typingFileSelectorBounds, 0.2f, 0.05f, sf::Color::Red);
 
 
-    // ¿À¸¥ÂÊ ¾Æ·¡ Á¤·Ä
+    // ì˜¤ë¥¸ìª½ ì•„ë˜ ì •ë ¬
     sf::Vector2f btnSize = loadBtn.getGlobalBounds().size;
     sf::Vector2f loadBtnPos = AlignPosition(
         btnSize,
@@ -92,12 +92,12 @@ void renderFileList(sf::RenderWindow& window, GameState& game,
     sf::FloatRect loadBtnBounds = loadBtn.getGlobalBounds();
     game.btn.loadBtnBounds = loadBtnBounds;
 
-    // ¹öÆ° ÅØ½ºÆ®
-    sf::Text btnText(font, L"ºÒ·¯¿À±â", 18);
+    // ë²„íŠ¼ í…ìŠ¤íŠ¸
+    sf::Text btnText(font, L"ë¶ˆëŸ¬ì˜¤ê¸°", 18);
     btnText.setFillColor(sf::Color::Black);
-    AlignTextCenter(btnText, loadBtnBounds);	// ¹öÆ° ÅØ½ºÆ®¿¡ ¸ÂÃã
+    AlignTextCenter(btnText, loadBtnBounds);	// ë²„íŠ¼ í…ìŠ¤íŠ¸ì— ë§ì¶¤
 
-    // ¾îµğ¼­ ºÎÅÍ Ãâ·ÂµÉÁö ¼³Á¤
+    // ì–´ë””ì„œ ë¶€í„° ì¶œë ¥ë ì§€ ì„¤ì •
     float spacing = 40.f;
     float startX = listContainerBounds.position.x + 15.f;
     float startY = listContainerBounds.position.y;
@@ -114,13 +114,13 @@ void renderFileList(sf::RenderWindow& window, GameState& game,
     if (filieOptions.empty()) {
         for (int i = 0; i < fileCount; i++)
         {
-            // ±¸Á¶Ã¼ ÃÊ±âÈ­
+            // êµ¬ì¡°ì²´ ì´ˆê¸°í™”
             FileOption option;
             //option.fileName = L"";
             option.filePath = typingFilePath[i];
             std::wstring thisPath = typingFilePath[i];
 
-            // ÆÄÀÏ ¸ñ·Ï
+            // íŒŒì¼ ëª©ë¡
             auto fileName = std::make_shared<sf::Text>(font, removeExtension(thisPath), fontSize + 4);
             fileName->setFillColor(sf::Color::Black);
             fileName->setPosition({
@@ -135,7 +135,7 @@ void renderFileList(sf::RenderWindow& window, GameState& game,
 
             option.onClick = [thisPath, &game, &font]()
                 {
-                    std::wcout << thisPath << L" °æ·Î ÆÄÀÏ ¼±ÅÃ" << std::endl;
+                    std::wcout << thisPath << L" ê²½ë¡œ íŒŒì¼ ì„ íƒ" << std::endl;
                     game.selectPath = thisPath;
                     std::wstring content = loadText(game.selectPath);
                     std::vector<std::wstring> lines = splitStrtoVector(content);
@@ -143,7 +143,7 @@ void renderFileList(sf::RenderWindow& window, GameState& game,
                     game.sentences = wrapAllLinesToPixelWidth(lines, font, game.user.fontSize, game.typingAreaWidth);
                     resetGameResult(game);
                     
-                    //initUserInputsAndCorrectMap(game); // ÀÔ·Â°ª ÃÊ±âÈ­
+                    //initUserInputsAndCorrectMap(game); // ì…ë ¥ê°’ ì´ˆê¸°í™”
 
                     game.currentScene = Scene::TYPING_GAME;
 
@@ -151,7 +151,7 @@ void renderFileList(sf::RenderWindow& window, GameState& game,
 
                 };
             filieOptions.push_back(option);
-            //fileNameDrawables.push_back(fileName);    // ¿©ÀüÈ÷ drawables¿¡µµ Ãß°¡
+            //fileNameDrawables.push_back(fileName);    // ì—¬ì „íˆ drawablesì—ë„ ì¶”ê°€
         }
     }
 
@@ -169,12 +169,12 @@ void renderFileList(sf::RenderWindow& window, GameState& game,
 
 }
 
-// ÆÄÀÏ Å¬¸¯ ÀÌº¥Æ® Ã³¸®
+// íŒŒì¼ í´ë¦­ ì´ë²¤íŠ¸ ì²˜ë¦¬
 void handleFileClick(GameState& game, const sf::Event& event, sf::Vector2f& mousePos, std::vector<FileOption>& fileOptions, sf::Font& font)
 {
 
 
-    // ÀÏ¹İ ÅØ½ºÆ® ÀÔ·Â
+    // ì¼ë°˜ í…ìŠ¤íŠ¸ ì…ë ¥
     if (event.is<sf::Event::MouseButtonPressed>())
     {
 
@@ -183,12 +183,12 @@ void handleFileClick(GameState& game, const sf::Event& event, sf::Vector2f& mous
             //sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
             if (game.btn.loadBtnBounds.contains(mousePos)) {
-                std::wcout << L"[DEBUG] ºÒ·¯¿À±â ¹öÆ° Å¬¸¯µÊ" << std::endl;
-                // ÆÄÀÏ Å½»ö±â ¿­¸²
-                // °æ·Î ¹Ş¾Æ¿À°í 
+                std::wcout << L"[DEBUG] ë¶ˆëŸ¬ì˜¤ê¸° ë²„íŠ¼ í´ë¦­ë¨" << std::endl;
+                // íŒŒì¼ íƒìƒ‰ê¸° ì—´ë¦¼
+                // ê²½ë¡œ ë°›ì•„ì˜¤ê³  
                 std::optional<std::wstring> path = openFileDialog();
                 if (!path) {
-                    std::wcout << L"[ERROR] ÆÄÀÏÀ» ¼±ÅÃÇÏÁö ¾Ê¾Ò½À´Ï´Ù." << std::endl;
+                    std::wcout << L"[ERROR] íŒŒì¼ì„ ì„ íƒí•˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤." << std::endl;
                     return;
                 }
                 game.selectPath = loadText(path.value());

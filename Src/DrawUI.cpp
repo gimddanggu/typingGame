@@ -1,12 +1,12 @@
-#include "DrawUI.hpp"
+ï»¿#include "DrawUI.hpp"
 #include <iostream>
-// °á°úÃ¢À» À©µµ¿ì ºñÀ²¿¡ ¸Â°Ô ¸¸µé±â À§ÇÑ ÇÔ¼ö
+// ê²°ê³¼ì°½ì„ ìœˆë„ìš° ë¹„ìœ¨ì— ë§ê²Œ ë§Œë“¤ê¸° ìœ„í•œ í•¨ìˆ˜
 sf::RectangleShape makeRectangle(sf::RenderWindow& window, float widthRatio, float heightRatio)
 {
-	// ÇöÀç Ã¢ Å©±â
+	// í˜„ì¬ ì°½ í¬ê¸°
 	sf::Vector2u winSize = window.getSize();
 
-	// »ç°¢Çü »çÀÌÁî Á¶Àı
+	// ì‚¬ê°í˜• ì‚¬ì´ì¦ˆ ì¡°ì ˆ
 	sf::Vector2f rectSize(winSize.x * widthRatio, winSize.y * heightRatio);
 	sf::RectangleShape rect(rectSize);
 	rect.setFillColor(sf::Color::Transparent);
@@ -14,13 +14,13 @@ sf::RectangleShape makeRectangle(sf::RenderWindow& window, float widthRatio, flo
 
 }
 
-// ÄÁÅ×ÀÌ³Ê »ı¼º¿ë ÇÔ¼ö 
+// ì»¨í…Œì´ë„ˆ ìƒì„±ìš© í•¨ìˆ˜ 
 sf::RectangleShape makeRectangle(sf::FloatRect& frameBounds, float widthRatio, float heightRatio, sf::Color color)
 {
-	// ÇöÀç Ã¢ Å©±â
+	// í˜„ì¬ ì°½ í¬ê¸°
 	sf::Vector2f frameSize = frameBounds.size;
 
-	// »ç°¢Çü »çÀÌÁî Á¶Àı
+	// ì‚¬ê°í˜• ì‚¬ì´ì¦ˆ ì¡°ì ˆ
 	sf::Vector2f rectSize(frameSize.x * widthRatio, frameSize.y * heightRatio);
 	sf::RectangleShape rect(rectSize);
 	rect.setFillColor(sf::Color::Transparent);
@@ -43,30 +43,30 @@ sf::RectangleShape makeRectangle(sf::FloatRect& frameBounds, float widthRatio, f
 
 
 
-// ÀÌ¹ÌÁö ·Îµå
+// ì´ë¯¸ì§€ ë¡œë“œ
 sf::Image loadImg(std::wstring path)
 {
 	sf::Image image;
 	std::filesystem::path absPath = std::filesystem::absolute(path);
 
 	if (!image.loadFromFile(absPath.wstring())) {
-		std::wcerr << L"ÀÌ¹ÌÁö ·Îµå ½ÇÆĞ!" << std::endl;
-		std::wcerr << L"ÀÔ·ÂµÈ °æ·Î: " << path << std::endl;
-		std::wcerr << L"Àı´ë °æ·Î: " << absPath.wstring() << std::endl;
+		std::wcerr << L"ì´ë¯¸ì§€ ë¡œë“œ ì‹¤íŒ¨!" << std::endl;
+		std::wcerr << L"ì…ë ¥ëœ ê²½ë¡œ: " << path << std::endl;
+		std::wcerr << L"ì ˆëŒ€ ê²½ë¡œ: " << absPath.wstring() << std::endl;
 		std::exit(EXIT_FAILURE);
 	}
 
 	return image;
 }
 
-// ÀÌ¹ÌÁö ¸®»çÀÌÁî
+// ì´ë¯¸ì§€ ë¦¬ì‚¬ì´ì¦ˆ
 sf::Image resizeImageKeepAspect(const sf::Image& src, sf::Vector2u targetSize, sf::Color paddingColor)
 {
 	sf::Vector2u srcSize = src.getSize();
 	float srcAspect = static_cast<float>(srcSize.x) / srcSize.y;
 	float targetAspect = static_cast<float>(targetSize.x) / targetSize.y;
 
-	// »õ·Î¿î ½ÇÁ¦ ÀÌ¹ÌÁö Å©±â °è»ê
+	// ìƒˆë¡œìš´ ì‹¤ì œ ì´ë¯¸ì§€ í¬ê¸° ê³„ì‚°
 	unsigned int newWidth, newHeight;
 	if (srcAspect > targetAspect) {
 		newWidth = targetSize.x;
@@ -77,12 +77,12 @@ sf::Image resizeImageKeepAspect(const sf::Image& src, sf::Vector2u targetSize, s
 		newWidth = static_cast<unsigned int>(targetSize.y * srcAspect);
 	}
 
-	// ¸®»çÀÌÁîµÈ ÇÈ¼¿ ¹è¿­ ¸¸µé±â (nearest neighbor)
+	// ë¦¬ì‚¬ì´ì¦ˆëœ í”½ì…€ ë°°ì—´ ë§Œë“¤ê¸° (nearest neighbor)
 	std::vector<std::uint8_t> pixels(targetSize.x * targetSize.y * 4, 0);
 
 	for (unsigned int y = 0; y < targetSize.y; ++y) {
 		for (unsigned int x = 0; x < targetSize.x; ++x) {
-			// ÆĞµù ¿µ¿ªÀÌ¸é ¹è°æ»ö
+			// íŒ¨ë”© ì˜ì—­ì´ë©´ ë°°ê²½ìƒ‰
 			if (x < (targetSize.x - newWidth) / 2 ||
 				x >= (targetSize.x + newWidth) / 2 ||
 				y < (targetSize.y - newHeight) / 2 ||
@@ -94,7 +94,7 @@ sf::Image resizeImageKeepAspect(const sf::Image& src, sf::Vector2u targetSize, s
 				pixels[i + 3] = paddingColor.a;
 			}
 			else {
-				// ¿øº» ÀÌ¹ÌÁö ÁÂÇ¥ °è»ê
+				// ì›ë³¸ ì´ë¯¸ì§€ ì¢Œí‘œ ê³„ì‚°
 				unsigned int srcX = (x - (targetSize.x - newWidth) / 2) * srcSize.x / newWidth;
 				unsigned int srcY = (y - (targetSize.y - newHeight) / 2) * srcSize.y / newHeight;
 				sf::Color color = src.getPixel({ srcX, srcY });

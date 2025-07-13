@@ -1,4 +1,4 @@
-#include "UserProfileUI.hpp"
+ï»¿#include "UserProfileUI.hpp"
 #include "UserProfileSelectUI.hpp"
 #include "DrawUI.hpp"
 #include "UIAlign.hpp"
@@ -7,7 +7,7 @@
 #include <functional>
 
 
-// ÆÄÀÏ ¿­±â ´ëÈ­»óÀÚ ½ÇÇà ÈÄ ¼±ÅÃµÈ °æ·Î¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+// íŒŒì¼ ì—´ê¸° ëŒ€í™”ìƒì ì‹¤í–‰ í›„ ì„ íƒëœ ê²½ë¡œë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
 std::wstring openImageFileDialog()
 {
 	wchar_t filePath[MAX_PATH] = L"";
@@ -15,11 +15,11 @@ std::wstring openImageFileDialog()
 	OPENFILENAMEW ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = nullptr;
-	ofn.lpstrFilter = L"ÀÌ¹ÌÁö ÆÄÀÏ (PNG, JPG, JPEG)\0*.png;*.jpg;*.jpeg\0GIF ÆÄÀÏ\0*.gif\0\0";
+	ofn.lpstrFilter = L"ì´ë¯¸ì§€ íŒŒì¼ (PNG, JPG, JPEG)\0*.png;*.jpg;*.jpeg\0GIF íŒŒì¼\0*.gif\0\0";
 	ofn.lpstrFile = filePath;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
-	ofn.lpstrTitle = L"ÀÌ¹ÌÁö ÆÄÀÏ ¿­±â";
+	ofn.lpstrTitle = L"ì´ë¯¸ì§€ íŒŒì¼ ì—´ê¸°";
 
 	if (GetOpenFileNameW(&ofn))
 	{
@@ -27,11 +27,11 @@ std::wstring openImageFileDialog()
 	}
 	else
 	{
-		return L"";  // »ç¿ëÀÚ°¡ Ãë¼ÒÇß°Å³ª ¿À·ù ¹ß»ı
+		return L"";  // ì‚¬ìš©ìê°€ ì·¨ì†Œí–ˆê±°ë‚˜ ì˜¤ë¥˜ ë°œìƒ
 	}
 }
 
-// ÇÁ·ÎÇÊ ¾÷µ¥ÀÌÆ® ÇÔ¼ö
+// í”„ë¡œí•„ ì—…ë°ì´íŠ¸ í•¨ìˆ˜
 void updateProfileImage(std::wstring newPath, GameState& game, sf::Sprite& sprite) {
 	sf::Image image = loadImg(newPath);
 	sf::Image resized = resizeImageKeepAspect(image);
@@ -42,15 +42,15 @@ void updateProfileImage(std::wstring newPath, GameState& game, sf::Sprite& sprit
 
 
 
-// ÇÁ·ÎÇÊ ÀÌ¹ÌÁö ¼±ÅÃ UI »ı¼º ÇÔ¼ö
+// í”„ë¡œí•„ ì´ë¯¸ì§€ ì„ íƒ UI ìƒì„± í•¨ìˆ˜
 void renderSelectImage(
 	sf::RenderWindow& window,
 	GameState& game,
 	sf::Font& font,
 	std::vector<ImageOption>& imageOptions,
 	std::vector<sf::Sprite>& sprites,
-	sf::Sprite& profileSprite,								// Ãß°¡
-	sf::RectangleShape& thumbnailHoverOutline)				// Ãß°¡
+	sf::Sprite& profileSprite,								// ì¶”ê°€
+	sf::RectangleShape& thumbnailHoverOutline)				// ì¶”ê°€
 {
 	imageOptions.clear();
 	
@@ -59,46 +59,46 @@ void renderSelectImage(
 	selectFrame.setFillColor(sf::Color::White);
 	selectFrame.setOutlineColor(sf::Color::Black);
 	selectFrame.setOutlineThickness(3.f);
-	// ¼±ÅÃ Ã¢ À§Ä¡ °¡¿îµ¥ Á¤·Ä
+	// ì„ íƒ ì°½ ìœ„ì¹˜ ê°€ìš´ë° ì •ë ¬
 	sf::FloatRect frameBound = selectFrame.getGlobalBounds();
 	selectFrame.setPosition(getWindowCenterPosition(window, frameBound));
-	// Á¤·Ä ÈÄ À§Ä¡ ÀúÀå
+	// ì •ë ¬ í›„ ìœ„ì¹˜ ì €ì¥
 	frameBound = selectFrame.getGlobalBounds();
 
 
-	// Á¦¸ñ ÄÁÅ×ÀÌ³Ê
+	// ì œëª© ì»¨í…Œì´ë„ˆ
 	sf::RectangleShape selectBox_Title = makeRectangle(frameBound, 0.4f, 0.1f, sf::Color::Black);
 
 
-	// ÀÌ¹ÌÁö ¼±ÅÃ Á¦¸ñ ÅØ½ºÆ®
-	sf::Text selectTitle(font, L"ÇÁ·ÎÇÊ ÀÌ¹ÌÁö ¼±ÅÃ");
+	// ì´ë¯¸ì§€ ì„ íƒ ì œëª© í…ìŠ¤íŠ¸
+	sf::Text selectTitle(font, L"í”„ë¡œí•„ ì´ë¯¸ì§€ ì„ íƒ");
 	sf::Vector2f TitleSize = selectBox_Title.getSize();
-	sf::Vector2f titlePos = getCenterXPosition(TitleSize, frameBound, frameBound.position.y);	// ÇÁ·ÎÇÊ ÇÁ·¡ÀÓ ±âÁØÀ¸·Î Áß¾Ó Á¤·Ä
+	sf::Vector2f titlePos = getCenterXPosition(TitleSize, frameBound, frameBound.position.y);	// í”„ë¡œí•„ í”„ë˜ì„ ê¸°ì¤€ìœ¼ë¡œ ì¤‘ì•™ ì •ë ¬
 	selectTitle.setPosition({ titlePos.x, titlePos.y + 25.f });
 	selectTitle.setFillColor(sf::Color::Black);
 
-	// ÀÌ¹ÌÁö ¼±ÅÃ ¹öÆ°
+	// ì´ë¯¸ì§€ ì„ íƒ ë²„íŠ¼
 	sf::RectangleShape selectFileLoadBtn({ 100, 30 });
 	sf::FloatRect FileLoadBtnBound = selectFileLoadBtn.getGlobalBounds();
 	selectFileLoadBtn.setFillColor(sf::Color::Red);
 	sf::Vector2f btnPos = frameBound.getCenter();
-	btnPos = { btnPos.x - (FileLoadBtnBound.size.x / 2), btnPos.y }; // frame Áß¾Ó¿¡ Á¤·Ä
+	btnPos = { btnPos.x - (FileLoadBtnBound.size.x / 2), btnPos.y }; // frame ì¤‘ì•™ì— ì •ë ¬
 	selectFileLoadBtn.setPosition({ btnPos.x, btnPos.y + 100 });
 
-	// ¹öÆ° ÅØ½ºÆ®
-	// À§Ä¡ ´Ù½Ã °¡Á®¿È
-	sf::Text fileLoadButtonText(font, L"ºÒ·¯¿À±â", 18);
+	// ë²„íŠ¼ í…ìŠ¤íŠ¸
+	// ìœ„ì¹˜ ë‹¤ì‹œ ê°€ì ¸ì˜´
+	sf::Text fileLoadButtonText(font, L"ë¶ˆëŸ¬ì˜¤ê¸°", 18);
 	FileLoadBtnBound = selectFileLoadBtn.getGlobalBounds();
 	sf::FloatRect FileLoadTextBound = fileLoadButtonText.getGlobalBounds();
 	fileLoadButtonText.setPosition(getCenterPosition(FileLoadTextBound.size, FileLoadBtnBound));
 	sf::Vector2f btnText = fileLoadButtonText.getPosition();
-	// ¹öÆ° ÅØ½ºÆ® À§Ä¡ ÀçÁ¶Á¤ (ÇÑ±Û)
+	// ë²„íŠ¼ í…ìŠ¤íŠ¸ ìœ„ì¹˜ ì¬ì¡°ì • (í•œê¸€)
 	fileLoadButtonText.setPosition({ btnText.x, btnText.y - 3.f });
-	game.btn.loadImgBtnBounds = FileLoadBtnBound; // ÀÌº¥Æ® Ã³¸®¸¦ À§ÇØ ³Ñ°ÜÁÜ
+	game.btn.loadImgBtnBounds = FileLoadBtnBound; // ì´ë²¤íŠ¸ ì²˜ë¦¬ë¥¼ ìœ„í•´ ë„˜ê²¨ì¤Œ
 	
 
 
-	// ±âº» ÀÌ¹ÌÁö ÆÄÀÏ ÀúÀå °æ·Î ÀúÀå
+	// ê¸°ë³¸ ì´ë¯¸ì§€ íŒŒì¼ ì €ì¥ ê²½ë¡œ ì €ì¥
 	std::vector<std::wstring> imgPaths = {
 		L"assets/profile_img/avatar_profile1.png",
 		L"assets/profile_img/avatar_profile2.png",
@@ -115,17 +115,17 @@ void renderSelectImage(
 	//	option.image = resizeImageKeepAspect(loadImg(imgPaths[i]));
 	//	option.texture = sf::Texture(option.image);
 
-	//	// ÀÌº¥Æ® ·Î±× Ãâ·Â 
+	//	// ì´ë²¤íŠ¸ ë¡œê·¸ ì¶œë ¥ 
 	//	option.onClick = [i]() {
-	//		std::cout << i << "¹ø ½æ³×ÀÏ ¼±ÅÃµÊ!" << std::endl;
-	//		// ÇÁ·ÎÇÊ ÀÌ¹ÌÁö º¯°æ ·ÎÁ÷
+	//		std::cout << i << "ë²ˆ ì¸ë„¤ì¼ ì„ íƒë¨!" << std::endl;
+	//		// í”„ë¡œí•„ ì´ë¯¸ì§€ ë³€ê²½ ë¡œì§
 	//		
 	//		};
 
 	//	imageOptions.push_back(std::move(option));
 	//}
 
-	// Àü¿ª ¶Ç´Â main ÇÔ¼ö »ó´Ü¿¡ ÀÖ´Â profileTexture, profileSprite¸¦ Ä¸Ã³
+	// ì „ì—­ ë˜ëŠ” main í•¨ìˆ˜ ìƒë‹¨ì— ìˆëŠ” profileTexture, profileSpriteë¥¼ ìº¡ì²˜
 	for (int i = 0; i < imgPaths.size(); ++i)
 	{
 		ImageOption option;
@@ -133,13 +133,13 @@ void renderSelectImage(
 		option.image = resizeImageKeepAspect(loadImg(imgPaths[i]));
 		option.texture.loadFromImage(option.image);
 
-		// ¶÷´Ù ¾È¿¡¼­ ¿ÜºÎ »óÅÂ Ä¸Ã³
+		// ëŒë‹¤ ì•ˆì—ì„œ ì™¸ë¶€ ìƒíƒœ ìº¡ì²˜
 		option.onClick = [&, path]() {
-			std::cout << i << "Å¬¸¯" << std::endl;
-			std::wcout << path << L"¹ø ½æ³×ÀÏ ¼±ÅÃµÊ!" << std::endl;
+			std::cout << i << "í´ë¦­" << std::endl;
+			std::wcout << path << L"ë²ˆ ì¸ë„¤ì¼ ì„ íƒë¨!" << std::endl;
 			updateProfileImage(path, game, profileSprite);
 			game.showImageOverlay = false;
-			game.currentScene = Scene::PROFILE; // ´Ù½Ã ¸ŞÀÎ È­¸éÀ¸·Î ÀüÈ¯
+			game.currentScene = Scene::PROFILE; // ë‹¤ì‹œ ë©”ì¸ í™”ë©´ìœ¼ë¡œ ì „í™˜
 			};
 
 		imageOptions.push_back(std::move(option));
@@ -153,15 +153,15 @@ void renderSelectImage(
 	
 	window.draw(selectFrame);
 	sprites.clear();
-	//sprites.clear(); // ÀÌÀü ÇÁ·¹ÀÓÀÇ sprite Á¤º¸ Á¦°Å
+	//sprites.clear(); // ì´ì „ í”„ë ˆì„ì˜ sprite ì •ë³´ ì œê±°
 	for (int i = 0; i < imageOptions.size(); ++i) {
 		sf::Sprite sprite(imageOptions[i].texture);
 		sprite.setScale(scale);
 		sprite.setPosition({ startX + i * (100 + spacing), startY });
 
 
-		//// Àü¿ª¿¡ sprites º¤ÅÍ ÀÖ¾î¾ß µÊ
-		sprites.push_back(sprite);  // sprite¸¦ º¤ÅÍ¿¡ ÀúÀå Å¬¸¯ ÀÌº¥Æ®¸¦ À§ÇØ
+		//// ì „ì—­ì— sprites ë²¡í„° ìˆì–´ì•¼ ë¨
+		sprites.push_back(sprite);  // spriteë¥¼ ë²¡í„°ì— ì €ì¥ í´ë¦­ ì´ë²¤íŠ¸ë¥¼ ìœ„í•´
 		window.draw(sprite);
 	}
 	if (game.showImageOverlay && game.bHoveringThumbnail) {

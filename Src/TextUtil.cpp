@@ -1,4 +1,4 @@
-#include "TextUtil.hpp"
+ï»¿#include "TextUtil.hpp"
 #include <fstream>
 #include <sstream>
 
@@ -11,14 +11,14 @@ std::vector<std::wstring> splitStrtoVector(std::wstring contents)
 
     while (std::getline(ss, line)) {
 
-        // Ãß°¡: °³Çà Á¦°Å
+        // ì¶”ê°€: ê°œí–‰ ì œê±°
         line.erase(std::remove(line.begin(), line.end(), L'\n'), line.end());
         line.erase(std::remove(line.begin(), line.end(), L'\r'), line.end());
         line.erase(std::remove(line.begin(), line.end(), L'\t'), line.end());
 
         //line = trim(line);
 
-        // Æ¯¼ö ¹®ÀÚ Á¦°Å
+        // íŠ¹ìˆ˜ ë¬¸ì ì œê±°
         line = removeUninputtableCharacters(line);
 
         if (!line.empty()) {
@@ -36,9 +36,9 @@ std::vector<std::wstring> wrapTextToPixel(
     unsigned int fontSize,
     float maxWidth)
 {
-    std::vector<std::wstring> result;       // Ã³¸® °á°ú ´ã´Â º¤ÅÍ
+    std::vector<std::wstring> result;       // ì²˜ë¦¬ ê²°ê³¼ ë‹´ëŠ” ë²¡í„°
 
-    sf::Text measure(font);                 //font, fontSize Ãâ·Â ¹®ÀÚ¿­ÀÇ °¡·Î ³ĞÀÌ ÃøÁ¤ÇÏ±â À§ÇØ
+    sf::Text measure(font);                 //font, fontSize ì¶œë ¥ ë¬¸ìì—´ì˜ ê°€ë¡œ ë„“ì´ ì¸¡ì •í•˜ê¸° ìœ„í•´
     measure.setCharacterSize(fontSize);
 
     std::wstring current;
@@ -50,7 +50,7 @@ std::vector<std::wstring> wrapTextToPixel(
 
         if (width > maxWidth) {
             result.push_back(current);
-            current = ch; // ´ÙÀ½ ÁÙ ½ÃÀÛ
+            current = ch; // ë‹¤ìŒ ì¤„ ì‹œì‘
         }
         else {
             current += ch;
@@ -73,7 +73,7 @@ std::vector<std::vector<std::wstring>> wrapAllLinesToPixelWidth(
     }
     return result;
 }
-// °ø¹éÁ¦°Å ÇÔ¼ö
+// ê³µë°±ì œê±° í•¨ìˆ˜
 std::wstring trim(const std::wstring& str) {
     const std::wstring whitespace = L" \n\r";
 
@@ -81,21 +81,21 @@ std::wstring trim(const std::wstring& str) {
     size_t end = str.find_last_not_of(whitespace);
 
     if (start == std::wstring::npos)
-        return L""; // ÀüºÎ °ø¹éÀÌ¸é ºó ¹®ÀÚ¿­ ¹İÈ¯
+        return L""; // ì „ë¶€ ê³µë°±ì´ë©´ ë¹ˆ ë¬¸ìì—´ ë°˜í™˜
 
     return str.substr(start, end - start + 1);
 }
 
 bool isKeyboardInputChar(wchar_t ch) {
-    //// ÅÇ Çã¿ë
+    //// íƒ­ í—ˆìš©
     //if (ch == L'\t')
     //    return true;
 
-    // ASCII ÀÔ·Â °¡´É ¹®ÀÚ
+    // ASCII ì…ë ¥ ê°€ëŠ¥ ë¬¸ì
     if (ch >= 0x20 && ch <= 0x7E)
         return true;
 
-    // ¿Ï¼ºÇü ÇÑ±Û (°¡~ÆR)
+    // ì™„ì„±í˜• í•œê¸€ (ê°€~í£)
     if (ch >= 0xAC00 && ch <= 0xD7A3)
         return true;
 

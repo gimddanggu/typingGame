@@ -1,4 +1,4 @@
-#include "ResultScreen.hpp"
+ï»¿#include "ResultScreen.hpp"
 #include <sstream>
 
 bool showResultWindow(
@@ -7,10 +7,10 @@ bool showResultWindow(
     int fontSize,
     std::vector<std::vector<std::wstring>>& sentences)
 {
-    // °á°ú Ã¢ ¶ç¿ï À©µµ¿ì »ı¼º
+    // ê²°ê³¼ ì°½ ë„ìš¸ ìœˆë„ìš° ìƒì„±
     sf::RenderWindow resultWindow(sf::VideoMode({ 600, 400 }), "Final Result");
 
-    //°ÔÀÓ ÇÃ·¹ÀÌ ½Ã°£ °è»ê
+    //ê²Œì„ í”Œë ˆì´ ì‹œê°„ ê³„ì‚°
     int totalSeconds = static_cast<int>(game.result.gamePlayTime);
 
     int minutes = totalSeconds / 60;
@@ -18,40 +18,40 @@ bool showResultWindow(
 
 
 
-    // ±ò²ûÇÑ Æ÷¸äÆÃÀ» À§ÇØ wstringstream º¯È¯ ÈÄ Ãâ·Â
+    // ê¹”ë”í•œ í¬ë©§íŒ…ì„ ìœ„í•´ wstringstream ë³€í™˜ í›„ ì¶œë ¥
     std::wstringstream ss;
     ss << L"- Time(s): " << minutes << L":" << std::setw(2) << std::setfill(L'0') << seconds << L"\n";
-    ss.unsetf(std::ios::fixed); // Á¤¼ö´Â fixed ¾øÀÌ
-    ss << L"- Å¸¼ö: " << static_cast<int>(game.result.avgTpm) << L"Å¸\n";
-    ss << std::fixed << std::setprecision(2);               // ½Ç¼ö ÀÚ¸® ¼ö Á¦ÇÑ
+    ss.unsetf(std::ios::fixed); // ì •ìˆ˜ëŠ” fixed ì—†ì´
+    ss << L"- íƒ€ìˆ˜: " << static_cast<int>(game.result.avgTpm) << L"íƒ€\n";
+    ss << std::fixed << std::setprecision(2);               // ì‹¤ìˆ˜ ìë¦¬ ìˆ˜ ì œí•œ
     ss << L"- Words Per Minute(WPM): " << game.result.avgWpm << L" WPM\n";
     ss << L"- Accuracy(%): " << game.accuracy << L"%";
 
 
 
-    // °á°ú ÅØ½ºÆ®
+    // ê²°ê³¼ í…ìŠ¤íŠ¸
     sf::Text resultDisplay(font, ss.str(), 24);
     resultDisplay.setPosition({ 50, 50 });
     resultDisplay.setFillColor(sf::Color::White);
-    // Àç½ÃÀÛ ¹öÆ° 
+    // ì¬ì‹œì‘ ë²„íŠ¼ 
     sf::RectangleShape retryButton(sf::Vector2f(200, 50));
     retryButton.setPosition({ 200, 250 });
     retryButton.setFillColor(sf::Color::Green);
-    // Àç½ÃÀÛ ÅØ½ºÆ®
+    // ì¬ì‹œì‘ í…ìŠ¤íŠ¸
     sf::Text retryText(font, "Retry", 24);
     retryText.setPosition({ 250, 260 });
     retryText.setFillColor(sf::Color::White);
-    // ³ª°¡±â ¹öÆ°
+    // ë‚˜ê°€ê¸° ë²„íŠ¼
     sf::RectangleShape exitButton(sf::Vector2f(200, 50));
     exitButton.setPosition({ 200, 320 });
     exitButton.setFillColor(sf::Color::Red);
-    // ³ª°¡±â ÅØ½ºÆ®
+    // ë‚˜ê°€ê¸° í…ìŠ¤íŠ¸
     sf::Text exitText(font, "Exit", 24);
     exitText.setPosition({ 250, 330 });
     exitText.setFillColor(sf::Color::White);
 
     while (resultWindow.isOpen()) {
-        // ÀÌº¥Æ® Ã³¸®
+        // ì´ë²¤íŠ¸ ì²˜ë¦¬
         while (const std::optional<sf::Event> resultEvent = resultWindow.pollEvent()) {
             if (resultEvent->is<sf::Event::Closed>()) resultWindow.close();
 
@@ -60,17 +60,17 @@ bool showResultWindow(
                 if (retryButton.getGlobalBounds().contains(sf::Vector2f(mousePos))) {
                     resultWindow.close();
                     game.readyToShowResult = false;
-                    return true;    // °ÔÀÓÀ» Àç½ÃÀÛ ÇÒ °æ¿ì
+                    return true;    // ê²Œì„ì„ ì¬ì‹œì‘ í•  ê²½ìš°
                 }
                 else if (exitButton.getGlobalBounds().contains(sf::Vector2f(mousePos))) {
                     resultWindow.close();
                     game.readyToShowResult = false;
-                    return false;   // ¸ŞÀÎ ¸Ş´º·Î µ¹¾Æ°¥ °æ¿ì
+                    return false;   // ë©”ì¸ ë©”ë‰´ë¡œ ëŒì•„ê°ˆ ê²½ìš°
                     //window.close();
                 }
             }
         }
-        // ·»´õ¸µ
+        // ë Œë”ë§
         resultWindow.clear(sf::Color::Black);
         resultWindow.draw(resultDisplay);
         resultWindow.draw(retryButton);

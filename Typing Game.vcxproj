@@ -18,6 +18,37 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Src\DrawUI.hpp" />
+    <ClInclude Include="Src\DrawUIR.hpp" />
+    <ClInclude Include="Src\FileLoader.hpp" />
+    <ClInclude Include="Src\FileSelectList.hpp" />
+    <ClInclude Include="Src\GameState.hpp" />
+    <ClInclude Include="Src\ResultScreen.hpp" />
+    <ClInclude Include="Src\Scene.hpp" />
+    <ClInclude Include="Src\TajaMainUI.hpp" />
+    <ClInclude Include="Src\TextUtil.hpp" />
+    <ClInclude Include="Src\TypingGame.hpp" />
+    <ClInclude Include="Src\UIAlign.hpp" />
+    <ClInclude Include="Src\UserProfileSelectUI.hpp" />
+    <ClInclude Include="Src\UserProfileUI.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\DrawUI.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)Src;$(SolutionDir)SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile Include="Src\DrawUIR.cpp" />
+    <ClCompile Include="Src\FileLoader.cpp" />
+    <ClCompile Include="Src\FileSelectList.cpp" />
+    <ClCompile Include="Src\main.cpp" />
+    <ClCompile Include="Src\ResultScreen.cpp" />
+    <ClCompile Include="Src\TajaMainUI.cpp" />
+    <ClCompile Include="Src\test.cpp" />
+    <ClCompile Include="Src\TextUtil.cpp" />
+    <ClCompile Include="Src\TypingGame.cpp" />
+    <ClCompile Include="Src\UserProfileSelectUI.cpp" />
+    <ClCompile Include="Src\UserProfileUI.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -130,35 +161,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="DrawUI.cpp" />
-    <ClCompile Include="DrawUIR.cpp" />
-    <ClCompile Include="FileLoader.cpp" />
-    <ClCompile Include="FileSelectList.cpp" />
-    <ClCompile Include="GameState.hpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="ResultScreen.cpp" />
-    <ClCompile Include="TajaMainUI.cpp" />
-    <ClCompile Include="test.cpp" />
-    <ClCompile Include="TextUtil.cpp" />
-    <ClCompile Include="TypingGame.cpp" />
-    <ClCompile Include="TypingGame.hpp" />
-    <ClCompile Include="UserProfileSelectUI.cpp" />
-    <ClCompile Include="UserProfileUI.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="DrawUI.hpp" />
-    <ClInclude Include="DrawUIR.hpp" />
-    <ClInclude Include="FileLoader.hpp" />
-    <ClInclude Include="FileSelectList.hpp" />
-    <ClInclude Include="ResultScreen.hpp" />
-    <ClInclude Include="Scene.hpp" />
-    <ClInclude Include="TajaMainUI.hpp" />
-    <ClInclude Include="TextUtil.hpp" />
-    <ClInclude Include="UIAlign.hpp" />
-    <ClInclude Include="UserProfileSelectUI.hpp" />
-    <ClInclude Include="UserProfileUI.hpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

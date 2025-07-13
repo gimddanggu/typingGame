@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <functional>
 #include <SFML/Graphics.hpp>
@@ -10,7 +10,7 @@ struct MenuButton {
     std::function<void()> onClick;
 
 
-    // Text´Â ±âº» »ı¼ºÀÚ°¡ ¾øÀ¸¹Ç·Î : ÃÊ±âÈ­·Î font ¸¦ Áà¾ß ÇÑ´Ù.
+    // TextëŠ” ê¸°ë³¸ ìƒì„±ìê°€ ì—†ìœ¼ë¯€ë¡œ : ì´ˆê¸°í™”ë¡œ font ë¥¼ ì¤˜ì•¼ í•œë‹¤.
     MenuButton(const sf::Font& font) : label(font) {
 
     }
@@ -18,7 +18,7 @@ struct MenuButton {
     bool contains(const sf::Vector2f& MousePoint) const;
 
 
-    // ÅØ½ºÆ® ¹öÆ°¾È¿¡ Á¤·Ä
+    // í…ìŠ¤íŠ¸ ë²„íŠ¼ì•ˆì— ì •ë ¬
     void setBtnPos(float padding = 0.f);
 
 };
@@ -34,7 +34,7 @@ struct TajaMenuUI {
 
 void drawBtn(sf::RenderWindow& window, MenuButton& btn);
 
-// È£¹öÈ¿°ú
+// í˜¸ë²„íš¨ê³¼
 void menuHover(std::vector<MenuButton>& buttons, sf::Vector2f mousePos);
 
 void logoutHover(MenuButton& button, sf::Vector2f mousePos);

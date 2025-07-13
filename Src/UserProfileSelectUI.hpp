@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
@@ -10,20 +10,20 @@ struct ImageOption {
 	std::function<void()> onClick;
 };
 
-// ÀÌ¹ÌÁö ÆÄÀÏ ºÒ·¯¿À´Â Å½»ö±â ¿­±â
+// ì´ë¯¸ì§€ íŒŒì¼ ë¶ˆëŸ¬ì˜¤ëŠ” íƒìƒ‰ê¸° ì—´ê¸°
 std::wstring openImageFileDialog();
 
-// ÀÌ¹ÌÁö ÆÄÀÏ ¾÷µ¥ÀÌÆ®
+// ì´ë¯¸ì§€ íŒŒì¼ ì—…ë°ì´íŠ¸
 void updateProfileImage(std::wstring newPath, GameState& game, sf::Sprite& sprite);
 
-// ÀÌ¹ÌÁö ¼±ÅÃÈ­¸é ·»´õ¸µ
+// ì´ë¯¸ì§€ ì„ íƒí™”ë©´ ë Œë”ë§
 void renderSelectImage(
 	sf::RenderWindow& window,
 	GameState& game,
 	sf::Font& font,
 	std::vector<ImageOption>& imageOptions,
 	std::vector<sf::Sprite>& sprites,
-	sf::Sprite& profileSprite,							// Ãß°¡
-	sf::RectangleShape& thumbnailHoverOutline);			// Ãß°¡
+	sf::Sprite& profileSprite,							// ì¶”ê°€
+	sf::RectangleShape& thumbnailHoverOutline);			// ì¶”ê°€
 
 	

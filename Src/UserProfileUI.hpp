@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <SFML/Graphics.hpp>
 #include "GameState.hpp"
 #include <vector>
@@ -6,7 +6,7 @@
 #include <string>
 
 
-// UI �ʱ�ȭ �Լ�
+// UI 초기화 함수
 void renderProfile(sf::RenderWindow& window, GameState& game, 
 	sf::Font& font, int fontSize,
 	sf::Sprite& profileImg,
