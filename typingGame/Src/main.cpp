@@ -54,7 +54,7 @@ int main() {
     
 
     // 윈도우 생성 
-    sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "Typing Game");
+    sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), L"타자연습 게임");
     
     // 게임상태 저장  구조체
     GameState game;
